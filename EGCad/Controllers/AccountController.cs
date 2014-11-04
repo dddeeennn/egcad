@@ -432,7 +432,7 @@ namespace EGCad.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Start", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

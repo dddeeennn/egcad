@@ -1,2 +1,3 @@
-*.dll
+*.ldf
+*.mdf
 *.pdb
