@@ -1,28 +1,26 @@
 ﻿"use strict";
 
-var WLFlow;
-WLFlow = WLFlow || {};
-WLFlow.UI = WLFlow.UI || {};
+egcad.UI = egcad.UI || {};
 
 /**
 *need fix!!!
- * @class {WLFlow.UI.Notifier} Notifier about events
+ * @class {egcad.UI.Notifier} Notifier about events
  */
-WLFlow.UI.Notifier = function () {
+egcad.UI.Notifier = function () {
 	// singleton
-	if (WLFlow.UI.Notifier.__instance) return WLFlow.UI.Notifier.__instance;
-	WLFlow.UI.Notifier.__instance = this;
+    if (egcad.UI.Notifier.__instance) return egcad.UI.Notifier.__instance;
+    egcad.UI.Notifier.__instance = this;
 
-	var $container = $('<div class="wlflow-ui-notifier"></div>').appendTo('BODY').hide();
+	var $container = $('<div class="ui-notifier"></div>').appendTo('BODY').hide();
 
 	var items = [];
 
 	/**
-	 * @param {WLFlow.UI.Notifier.Item} value
+	 * @param {egcad.UI.Notifier.Item} value
 	 */
 	function addMessage(value) {
-		if (!(value instanceof WLFlow.UI.Notifier.Item)) {
-			throw new Error('WLFlow.UI.Notifier.addMessage: a message must be instance of class WLFlow.UI.Notifier.Item');
+	    if (!(value instanceof egcad.UI.Notifier.Item)) {
+	        throw new Error('egcad.UI.Notifier.addMessage: a message must be instance of class egcad.UI.Notifier.Item');
 		}
 
 		var $item = $('<div>').addClass('alert alert-info fade in alert-' + value.getMessageTypeStyle()).appendTo($container);
@@ -52,7 +50,7 @@ WLFlow.UI.Notifier = function () {
 		$item.alert();
 		$item = null;
 
-		$(value).on(WLFlow.UI.Notifier.Item.Event.DESTROY, function () {
+		$(value).on(egcad.UI.Notifier.Item.Event.DESTROY, function () {
 			removeMessage(value);
 			value = null;
 		});
@@ -62,16 +60,15 @@ WLFlow.UI.Notifier = function () {
 
 
 	/**
-	 * @param {WLFlow.UI.Notifier.Item} value
+	 * @param {egcad.UI.Notifier.Item} value
 	 */
 	function addMessageWithCloseAction(value) {
 		var actions = value.getActions();
 		actions['close'] = '✖';
-		$(value).on(WLFlow.UI.Notifier.Item.Event.ACTION, function (e, actionName) {
+		$(value).on(egcad.UI.Notifier.Item.Event.ACTION, function (e, actionName) {
 			switch (actionName) {
 				case 'close':
 					value.destroy();
-
 					break;
 			}
 		});
@@ -96,7 +93,7 @@ WLFlow.UI.Notifier = function () {
 	}
 
 	/**
-	 * @param {WLFlow.UI.Notifier.Item} value
+	 * @param {egcad.UI.Notifier.Item} value
 	 */
 	function removeMessage(value) {
 		items = $.grep(items, function (item) {
@@ -128,12 +125,12 @@ WLFlow.UI.Notifier = function () {
 };
 
 /**
- * @class {WLFlow.UI.Notifier.Item}
+ * @class {egcad.UI.Notifier.Item}
  * @param {string} text
  * @param {object} [actions]
- * @param {WLFlow.UI.Notifier.Item.Type} [messageType]
+ * @param {egcad.UI.Notifier.Item.Type} [messageType]
  */
-WLFlow.UI.Notifier.Item = function (text, actions, messageType) {
+egcad.UI.Notifier.Item = function (text, actions, messageType) {
 	var self = this;
 
 	actions = actions || {};
@@ -147,23 +144,23 @@ WLFlow.UI.Notifier.Item = function (text, actions, messageType) {
 	}
 
 	/**
-	 * @returns {WLFlow.UI.Notifier.Item.Type}
+	 * @returns {egcad.UI.Notifier.Item.Type}
 	 */
 	function getMessageType() {
-		return messageType || WLFlow.UI.Notifier.Item.Type.ERROR;
+	    return messageType || egcad.UI.Notifier.Item.Type.ERROR;
 	}
 
 	/**
 	 * @returns {WLFlow.UI.Notifier.Item.Type}
 	 */
 	function getMessageTypeStyle() {
-		return WLFlow.UI.Notifier.Item.TypeStyle[messageType || WLFlow.UI.Notifier.Item.Type.ERROR];
+	    return egcad.UI.Notifier.Item.TypeStyle[messageType || egcad.UI.Notifier.Item.Type.ERROR];
 	}
 
 	function addAction(name, title, callback) {
 		actions[name] = title;
 
-		$(self).on(WLFlow.UI.Notifier.Item.Event.ACTION, function (e, actionName) {
+		$(self).on(egcad.UI.Notifier.Item.Event.ACTION, function (e, actionName) {
 			if (name == actionName) {
 				callback();
 			}
@@ -172,13 +169,13 @@ WLFlow.UI.Notifier.Item = function (text, actions, messageType) {
 
 	function doAction(name) {
 		if (getActions().hasOwnProperty(name)) {
-			$(self).trigger(WLFlow.UI.Notifier.Item.Event.ACTION, name);
+		    $(self).trigger(egcad.UI.Notifier.Item.Event.ACTION, name);
 		}
 	}
 
 	function destroy() {
 		$(self)
-			.trigger(WLFlow.UI.Notifier.Item.Event.DESTROY, self)
+			.trigger(egcad.UI.Notifier.Item.Event.DESTROY, self)
 			.off();
 		self = null;
 	}
@@ -193,34 +190,34 @@ WLFlow.UI.Notifier.Item = function (text, actions, messageType) {
 	this.destroy = destroy;
 };
 
-WLFlow.UI.Notifier.Item.Type = {
+egcad.UI.Notifier.Item.Type = {
 	WARNING: 'warning',
 	ERROR: 'error',
 	MESSAGE: 'message'
 };
 
-WLFlow.UI.Notifier.Item.TypeStyle = {
+egcad.UI.Notifier.Item.TypeStyle = {
 	warning: 'warning',
 	error: 'danger',
 	message: 'info'
 };
 
-WLFlow.UI.Notifier.Item.Event = {
+egcad.UI.Notifier.Item.Event = {
 	ACTION: 'fireAction',
 	DESTROY: 'fireDestroy'
 };
 
-WLFlow.UI.Warning = {
+egcad.UI.Warning = {
 	/**
 	 *
-	 * @type {WLFlow.UI.Notifier.Item|null}
+	 * @type {egcad.UI.Notifier.Item|null}
 	 */
 	_currentMessage: null,
 
 	show: function (message) {
 		this.hide();
-		this.currentMessage = new WLFlow.UI.Notifier.Item(message, null, WLFlow.UI.Notifier.Item.Type.WARNING);
-		new WLFlow.UI.Notifier().addMessageWithCloseAction(this.currentMessage);
+		this.currentMessage = new egcad.UI.Notifier.Item(message, null, egcad.UI.Notifier.Item.Type.WARNING);
+		new egcad.UI.Notifier().addMessageWithCloseAction(this.currentMessage);
 	},
 
 	hide: function () {

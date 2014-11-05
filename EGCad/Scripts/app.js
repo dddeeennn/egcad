@@ -11,7 +11,7 @@ Utils.cookies = {
 	},
 
 	set: function (name, value, props) {
-		props = props || {}
+	    props = props || {};
 		var exp = props.expires;
 		if (typeof exp == "number" && exp) {
 			var d = new Date();

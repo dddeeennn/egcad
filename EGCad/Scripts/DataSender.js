@@ -70,21 +70,21 @@ egcad.Data.Sender = function () {
 	}
 
 	/**
-	 * @param {WLFlow.Data.Request.Error} error
-	 * @returns {WLFlow.UI.Notifier.Item}
+	 * @param {egcad.Data.Request.Error} error
+	 * @returns {egcad.UI.Notifier.Item}
 	 */
 	function createNotifierItem(error) {
 		var actions = {};
 
-		if (error.canRetry()) actions['tryAgain'] = 'Try again';
+		if (error.canRetry()) actions['tryAgain'] = 'Попробовать еще';
 		actions['close'] = '✖';
 
-		var item = new WLFlow.UI.Notifier.Item(error.getDescription(), actions, WLFlow.UI.Notifier.Item.Type.ERROR);
+		var item = new egcad.UI.Notifier.Item(error.getDescription(), actions, egcad.UI.Notifier.Item.Type.ERROR);
 		$(item)
-			.on(WLFlow.UI.Notifier.Item.Event.DESTROY, function (e, actionName) {
+			.on(egcad.UI.Notifier.Item.Event.DESTROY, function (e, actionName) {
 				delete notifierItems[getErrorIndex(error)];
 			})
-			.on(WLFlow.UI.Notifier.Item.Event.ACTION, function (e, actionName) {
+			.on(egcad.UI.Notifier.Item.Event.ACTION, function (e, actionName) {
 				switch (actionName) {
 					case 'close':
 						$.each(getRequestNames(error), function (index, requestName) {
@@ -106,7 +106,7 @@ egcad.Data.Sender = function () {
 
 	/**
 	 * Returns index string associated with error
-	 * @param {WLFlow.Data.Request.Error} error
+	 * @param {egcad.Data.Request.Error} error
 	 * @returns {String}
 	 */
 	function getErrorIndex(error) {

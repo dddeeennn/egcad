@@ -159,11 +159,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CalculationParametersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
+    <Compile Include="Controllers\TableParametersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -246,6 +248,8 @@
     <Content Include="Views\Parameters\Index.cshtml" />
     <Content Include="Views\Shared\_LogOnLayout.cshtml" />
     <Content Include="Views\Home\Start.cshtml" />
+    <Content Include="Views\TableParameters\Index.cshtml" />
+    <Content Include="Views\CalculationParameters\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
