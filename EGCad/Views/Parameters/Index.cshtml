@@ -1,8 +1,54 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="page-header">
+    <h2>Введите параметры</h2>
+</div>
 
+<div class="form-group">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
+        </div>
+        <span id="saveParameter" class="btn btn-default">Добавить</span>
+    </form>    
+</div>
+
+<div class="form-group">
+    <table class="table table-bordered table-condensed half">
+        <thead>
+        <th class="col-sm-5">Название параметра</th>
+        <th class="col-sm-5">Единицы измерения</th>
+        <th class="col-sm-2 glyphicon glyphicon-trash" style="text-align: center"></th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var container = $('#main');
+
+        container.find("#saveParameter").on("click", saveHandler);
+
+        function saveHandler() {
+            var parameterName = container.find('#parameterName').val();
+            var parameterUnit = container.find('#parameterUnit').val();
+
+            if ((!parameterName) || (!parameterUnit)) return;
+
+            var sender = new egcad.Data.Sender();
+            sender.postJson("saveEndPoint", "parameters/save", { name: parameterName, unit: parameterUnit }, function () {
+                container.find('table tbody')
+                    .append('<tr><td>' + parameterName + '</td><td>' + parameterUnit + '</td><td></td></tr>');
+            }, null, {});
+        };
+    });
+
+
+</script>

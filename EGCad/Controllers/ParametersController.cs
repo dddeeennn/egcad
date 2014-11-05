@@ -13,5 +13,11 @@ namespace EGCad.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult Save(string name, string unit)
+        {
+            return Json(new { name = name, unit = unit }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
