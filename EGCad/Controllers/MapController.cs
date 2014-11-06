@@ -6,12 +6,20 @@ using System.Web.Mvc;
 
 namespace EGCad.Controllers
 {
-    public class MapController : Controller
+    public class MapController : ApiController
     {
         // GET: Map
         public ActionResult Index()
         {
             return View();
+        }
+
+        //handle img
+        [HttpPost]
+        public ActionResult Load(HttpPostedFileBase map)
+        {
+            var f = map;
+            return Success();
         }
     }
 }
