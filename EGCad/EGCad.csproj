@@ -162,6 +162,7 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\CalculationParametersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageProvider.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
@@ -253,7 +254,8 @@
     <Content Include="Views\CalculationParameters\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\map\" />
+    <Folder Include="Content\map\" />
     <Folder Include="Views\Api\" />
   </ItemGroup>
   <ItemGroup>

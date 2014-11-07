@@ -21,7 +21,13 @@ namespace EGCad.Controllers
 
         public JsonResult Error(int statusCode)
         {
-            return Json(new {statusCode});
+            return Json(new { statusCode });
+        }
+
+        public JsonResult Error(int statusCode, string message)
+        {
+            var data = new { message };
+            return Json(new { statusCode, data }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Error()

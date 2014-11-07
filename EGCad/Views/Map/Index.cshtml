@@ -13,7 +13,7 @@
     <form action="map/load" id="upload" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <div class="col-sm-6">
-                <div><input type="file" name="map" id="map" title="Загрузите карту *.jpg / *.png" /></div>
+                <div><input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" /></div>
             </div>
             <div class="col-sm-6">
                 <input type="submit" id="uploadBtn" class="btn btn-primary" value="Загрузить" />
@@ -58,7 +58,7 @@
     </div>
 </div>
 <div class="form-group">
-    <canvas width="500px" height="500px" style="border: 1px solid #ccc"></canvas>
+    <canvas width="500px" height="500px" id="map-container" style="border: 1px solid #ccc"></canvas>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -75,7 +75,18 @@
                 contentType: false,
                 success: function (response) {
                     //clean form data and display img by server response url
-                    alert('code ' +response.statusCode);
+                    if (response && response.statusCode == 0) {
+                        var img = new Image(response.data.width, response.data.height);
+                        img.src = response.data.url;
+                        img.onload=function() {
+                            var canvas = $('#map-container')[0];
+                            var ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, 500, 500);
+                        };
+                    }
+                },
+                error: function () {
+                    alert('Ошибка при загрузке карты!');
                 }
             });
             e.preventDefault();
