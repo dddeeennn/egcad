@@ -7,9 +7,10 @@ namespace EGCad.Models.InputData
 	/// </summary>
 	public class Map
 	{
-		public Map(Image image, Point start, Point end)
+		public Map(Image image,string src, Point start, Point end)
 			: this()
 		{
+		    ImgSrc = src;
 			Image = image;
 			Start = start;
 			End = end;
@@ -19,6 +20,8 @@ namespace EGCad.Models.InputData
 		{
 			StartT = new Point(0, 0);
 		}
+
+        public string ImgSrc { get; set; }
 
 		public Image Image { get; set; }
 		

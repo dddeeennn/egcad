@@ -7,55 +7,63 @@ using EGCad.Services;
 
 namespace EGCad.Controllers
 {
-	public class MapController : InputBaseController
-	{
-		// GET: Map
-		public ActionResult Index()
-		{
-			return View();
-		}
+    public class MapController : InputBaseController
+    {
+        // GET: Map
+        public ActionResult Index()
+        {
+            return View();
+        }
 
-		//handle img
-		[HttpPost]
-		public ActionResult Load(HttpPostedFileBase map)
-		{
-			if (map == null || !map.InputStream.CanRead) return Error(2, "couldnt load image");
+        public ActionResult GetState()
+        {
+            return Data(0, new { Map });
+        }
 
-			var filePath = Path.Combine(Server.MapPath("~/Content/map"), Path.GetFileName(map.FileName));
+        //handle img
+        [HttpPost]
+        public ActionResult Load(HttpPostedFileBase map)
+        {
+            if (map == null || !map.InputStream.CanRead) return Error(2, "Не получается загрузить изображение ");
 
-			var img = new ImageProvider().GetCorrectImage(Image.FromStream(map.InputStream, true, true));
+            var filePath = Path.Combine(Server.MapPath("~/Content/map"), Path.GetFileName(map.FileName));
 
-			if (img == null)
-				return Error(2,
-					string.Format("Загрузите изображение корректного размера!Ширина {0}...{1}px, высота {2}...{3}px", 500, 2000,
-						500, 1000));
+            var img = new ImageProvider().GetCorrectImage(Image.FromStream(map.InputStream, true, true));
 
-			img.Save(filePath);
+            if (img == null)
+                return Error(2,
+                    string.Format("Загрузите изображение корректного размера!Ширина {0}...{1}px, высота {2}...{3}px", 500, 2000,
+                        500, 1000));
 
-			base.Map = new Map(img, new Point(), new Point());
+            img.Save(filePath);
 
-			return Data(0, new { width = img.Width, height = img.Height, url = "/Content/map/" + map.FileName });
-		}
+            var imgSrc = "/Content/map/" + map.FileName;
 
-		[HttpGet]
-		public ActionResult EndpointLength(int x)
-		{
-			base.Map.EndT = new Point(x, 0);
-			return Success();
-		}
+            base.Map = new Map(img, imgSrc, new Point(), new Point());
 
-		[HttpGet]
-		public ActionResult SavePoint(int x, int y, bool pointType)
-		{
-			if (pointType)
-			{
-				base.Map.Start = new Point(x, y);
-			}
-			else
-			{
-				base.Map.End = new Point(x, y);
-			}
-			return Success();
-		}
-	}
+            return Data(0, new { Map });
+        }
+
+        [HttpGet]
+        public ActionResult EndpointLength(double x)
+        {
+            base.Map.EndT = new Point((int)x, 0);
+            return Data(0, new { Map });
+        }
+
+        [HttpGet]
+        public ActionResult SavePoint(double x, double y, bool pointType)
+        {
+            var p = new Point((int)x, (int)y);
+            if (pointType)
+            {
+                base.Map.Start = p;
+            }
+            else
+            {
+                base.Map.End = p;
+            }
+            return Data(0, new { Map });
+        }
+    }
 }

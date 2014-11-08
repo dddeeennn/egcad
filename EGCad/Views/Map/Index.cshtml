@@ -1,223 +1,254 @@
 ﻿@{
-	ViewBag.Title = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript" src="/Scripts/tableEditor.js"></script>
 
 <div class="page-header">
-	<h2>Ввод и масштабирование карты</h2>
+    <h2>Ввод и масштабирование карты</h2>
 </div>
 
 <div class="form-horizontal">
-	<div class="form-group">
-		<div class="col-sm-12">
-			<label>Выполните следующие действия:</label>
-			<ul>
-				<li id="loadMapStep">Загрузите изображение</li>
-				<li id="specifyStartStep">Укажите на карте стартовую точку (0,0)</li>
-				<li id="specifyEndStep">Укажите на карте конечную точку (0,n)</li>
-				<li id="specifyLengthStep">Введите n  в поле и сохраните</li>
-			</ul>
-		</div>
-	</div>
-	<form action="map/load" id="upload" method="post" enctype="multipart/form-data">
-		<div class="form-group">
-			<div class="col-sm-5">
-				<span style="margin-right:10px; "><input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" /></span>
-				<input type="submit" id="uploadBtn" class="btn btn-primary" value="Загрузить" />
-			</div>
-			<div class="col-sm-7">
-				<div class="">
-					<table class="table table-bordered table-condensed " style="max-width: 500px;">
-						<thead>
-						<th class="col-sm-4"></th>
-						<th class="col-sm-4">X</th>
-						<th class="col-sm-4">Y</th>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Начальная точка</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<td>Конечная точка</td>
-								<td id="editable">
-									<div class="input-group">
-										<input id="endPoint" placeholder="100" type="number" class="form-control">
-										<span id="save" class="input-group-addon btn glyphicon glyphicon-ok"></span>
-									</div>
-								</td>
-								<td>0</td>
-							</tr>
-						</tbody>
-					</table>
-
-				</div>
-			</div>
-		</div>
-	</form>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <label>Выполните следующие действия:</label>
+            <ul>
+                <li id="loadMapStep">Загрузите изображение</li>
+                <li id="specifyStartStep">Укажите на карте стартовую точку (0,0)</li>
+                <li id="specifyEndStep">Укажите на карте конечную точку (0,n)</li>
+                <li id="specifyLengthStep">Введите n  в поле и сохраните</li>
+            </ul>
+        </div>
+    </div>
+    <form action="map/load" id="upload" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="col-sm-5">
+                <span style="margin-right:10px; "><input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" /></span>
+                <input type="submit" id="uploadBtn" class="btn btn-primary" value="Загрузить" />
+            </div>
+            <div class="col-sm-7">
+                <div class="">
+                    <table class="table table-bordered table-condensed " style="max-width: 500px;">
+                        <thead>
+                        <th class="col-sm-4"></th>
+                        <th class="col-sm-4">X</th>
+                        <th class="col-sm-4">Y</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Начальная точка</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>Конечная точка</td>
+                                <td id="editable">
+                                    <div class="input-group">
+                                        <input id="endPoint" placeholder="100" type="number" class="form-control">
+                                        <span id="save" class="input-group-addon btn glyphicon glyphicon-ok"></span>
+                                    </div>
+                                </td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="form-group">
-	<canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
-		Здесь должна быть отображена загруженная карта.
-		Для работы с приложением обновите браузер.
-		Минимальная поддерживаемая версия браузеров:
-		Internet Explorer 10+, 	Google Chrome 38+, FireFox
-	</canvas>
+    <canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
+        Здесь должна быть отображена загруженная карта.
+        Для работы с приложением обновите браузер.
+        Минимальная поддерживаемая версия браузеров:
+        Internet Explorer 10+, 	Google Chrome 38+, FireFox
+    </canvas>
 </div>
 <div class="form-group">
-	<a href="/Parameters" class="btn btn-primary">Далее</a>
+    <a href="/Parameters" class="btn btn-primary">Далее</a>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
-		var container = $('#main');
+    $(document).ready(function () {
+        var container = $('#main');
 
-		container.find('input[type=file]').bootstrapFileInput();
+        container.find('input[type=file]').bootstrapFileInput();
 
-		$('#upload').submit(function (e) {
-			$.ajax({
-				url: '/map/load',
-				type: 'POST',
-				data: new FormData(this),
-				processData: false,
-				contentType: false,
-				success: function (response) {
-					if (response && response.statusCode == 0) {
-						// clear form and initialize
+        $.ajax({
+            url: '/map/GetState',
+            type: 'GET',
+            success: function (response) {
+                if (response && response.statusCode == 0) {
+                    var map = response.data.Map;
+                    refreshStatus(map);
+                } else {
+                    alert('Ошибка при инициализации состояния! Проверьте соединение с сервером...' + response.data.message);
+                }
+            },
+            error: function () {
+                alert('Ошибка при инициализации состояния! Проверьте соединение с сервером...');
+            }
+        });
 
-						var form = container.find('#upload');
-						form.find('.file-input-name').empty('');
-						form.find('input[type="file"]').val('');
+        $('#upload').submit(function (e) {
+            $.ajax({
+                url: '/map/load',
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response && response.statusCode == 0) {
+                        // clear form and initialize
 
-						setStatus("#loadMapStep", "ok");
+                        var form = container.find('#upload');
+                        form.find('.file-input-name').empty('');
+                        form.find('input[type="file"]').val('');
 
-						var width = response.data.width;
-						var height = response.data.height;
+                        var map = response.data.Map;
 
-						var img = new Image(width, height);
-						img.src = response.data.url;
-						img.onload = function () {
-							var canvas = $('#map-container')[0];
-							canvas.width = width;
-							canvas.height = height;
+                        refreshStatus(map);
 
-							var ctx = canvas.getContext('2d');
-							ctx.drawImage(img, 0, 0, width, height);
 
-							$('#map-container').off();
-							$(canvas).on('mousedown', function (event) {
-								var x = event.clientX;
-								var y = event.clientY;
+                    }
 
-								x -= canvas.getBoundingClientRect().left;
-								y -= canvas.getBoundingClientRect().top;
+                    if (response.statusCode == 2) {
+                        setStatus("#loadMapStep", "error");
+                        alert('Ошибка при загрузке карты!' + response.data.message);
+                    }
+                },
+                error: function () {
+                    setStatus("#loadMapStep", "error");
+                    alert('Ошибка при загрузке карты!');
+                }
+            });
+            e.preventDefault();
+        });
 
-								pointHandle(x, y);
-							});
-						}
-					}
+        container.find('#editable').on('keypress', function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                saveEndPointLength();
+            }
+        });
 
-					if (response.statusCode == 2) {
-						setStatus("#loadMapStep", "error");
-						alert('Ошибка при загрузке карты!' + response.data.message);
-					}
-				},
-				error: function () {
-					setStatus("#loadMapStep", "error");
-					alert('Ошибка при загрузке карты!');
-				}
-			});
-			e.preventDefault();
-		});
+        container.find("#editable #save").on("click", saveEndPointLength);
 
-		container.find('#editable').on('keypress', function (event) {
-			if (event.which == 13) {
-				event.preventDefault();
-				saveEndPointLength();
-			}
-		});
+        function InitCanvas(src, width, height) {
+            var img = new Image(width, height);
+            img.src = src;
+            img.onload = function () {
+                var canvas = $('#map-container')[0];
+                canvas.width = width;
+                canvas.height = height;
 
-		container.find("#editable #save").on("click", saveEndPointLength);
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
 
-		function pointHandle(x, y) {
-			var modal = new Modal();
-			modal.setTitle('Сохранить точку');
-			modal.getContentElement().append('Выберите тип точки');
-			modal.setButtons([
-				{
-					label: 'Начальная',
-					cssClass: 'btn',
-					callback: function () {
-						sendPointData(x, y, true);
-						modal.hide();
-						modal.destroy();
-					}
-				},
-				{
-					label: 'Конечная',
-					cssClass: 'btn',
-					callback: function () {
-						sendPointData(x, y, false);
-						modal.hide();
-						modal.destroy();
-					}
-				},
-				{
-					label: 'Закрыть',
-					cssClass: 'btn',
-					callback: function () {
-						modal.hide();
-						modal.destroy();
-					}
-				}
-			]);
-			modal.show();
-		}
+                $('#map-container').off();
+                $(canvas).on('mousedown', function (event) {
+                    var x = event.clientX;
+                    var y = event.clientY;
 
-		/*
-		* x,y - coords,
-		* pointType=true is start point
-		* pointType=false is end point
-		*/
-		function sendPointData(x, y, pointType) {
-			var sender = new egcad.Data.Sender();
+                    x -= canvas.getBoundingClientRect().left;
+                    y -= canvas.getBoundingClientRect().top;
 
-			sender.get("savePointCoords", "map/SavePoint", { x: x, y: y, pointType: pointType },
-			function (response) {
-				if (response && response.statusCode == 0) {
-					setStatus(pointType === true ? "#specifyStartStep" : "#specifyEndStep", 'ok');
-				} else {
-					setStatus("#specifyStartStep", 'error');
-					setStatus("#specifyEndStep", 'error');
-				}
-			},
-			function () {
-				setStatus("#specifyStartStep", 'error');
-				setStatus("#specifyEndStep", 'error');
-			},
-			{});
-		}
+                    pointHandle(x, y);
+                });
+            };
+        }
 
-		function saveEndPointLength() {
-			var value = container.find('#endPoint').val();
+        function pointHandle(x, y) {
+            var modal = new Modal();
+            modal.setTitle('Сохранить точку');
+            modal.getContentElement().append('Выберите тип точки');
+            modal.setButtons([
+                {
+                    label: 'Начальная',
+                    cssClass: 'btn',
+                    callback: function () {
+                        sendPointData(x, y, true);
+                        modal.hide();
+                        modal.destroy();
+                    }
+                },
+                {
+                    label: 'Конечная',
+                    cssClass: 'btn',
+                    callback: function () {
+                        sendPointData(x, y, false);
+                        modal.hide();
+                        modal.destroy();
+                    }
+                },
+                {
+                    label: 'Закрыть',
+                    cssClass: 'btn',
+                    callback: function () {
+                        modal.hide();
+                        modal.destroy();
+                    }
+                }
+            ]);
+            modal.show();
+        }
 
-			if (!value) return;
+        /*
+        * x,y - coords,
+        * pointType=true is start point
+        * pointType=false is end point
+        */
+        function sendPointData(x, y, pointType) {
+            var sender = new egcad.Data.Sender();
 
-			var sender = new egcad.Data.Sender();
-			sender.get("saveEndPoint", "map/EndpointLength", { x: value },
-				function (response) {
-					setStatus("#specifyLengthStep", response && response.statusCode == 0 ? 'ok' : 'error');
-				},
-				function () {
-					setStatus("#specifyLengthStep", 'error');
-				},
-				{});
-		};
+            sender.get("savePointCoords", "map/SavePoint", { x: x, y: y, pointType: pointType },
+            function (response) {
+                if (response && response.statusCode == 0) {
+                    refreshStatus(response.data.Map);
+                } else {
+                    setStatus("#specifyStartStep", 'error');
+                    setStatus("#specifyEndStep", 'error');
+                }
+            },
+            function () {
+                setStatus("#specifyStartStep", 'error');
+                setStatus("#specifyEndStep", 'error');
+            },
+            {});
+        }
 
-		function setStatus(selector, clazz) {
-			container.find(selector).attr('class', clazz);
-		}
-	});
+        function saveEndPointLength() {
+            var value = container.find('#endPoint').val();
+
+            if (!value) return;
+
+            var sender = new egcad.Data.Sender();
+            sender.get("saveEndPoint", "map/EndpointLength", { x: value },
+                function (response) {
+                    if (response && response.statusCode == 0) {
+                        refreshStatus(response.data.Map);
+                    } else {
+                        setStatus("#specifyLengthStep", 'error');
+                    }
+                },
+                function () {
+                    setStatus("#specifyLengthStep", 'error');
+                },
+                {});
+        };
+
+        function refreshStatus(map) {
+            InitCanvas(map.ImgSrc, map.Image.Size.Width, map.Image.Size.Height);
+
+            container.find('#loadMapStep').attr('class', map.Image ? 'ok' : 'error');
+            container.find('#specifyStartStep').attr('class', !map.Start.IsEmpty ? 'ok' : 'error');
+            container.find('#specifyEndStep').attr('class', !map.End.IsEmpty ? 'ok' : 'error');
+            container.find('#specifyLengthStep').attr('class', !map.EndT.IsEmpty ? 'ok' : 'error');
+        }
+
+        function setStatus(selector, clazz) {
+            container.find(selector).attr('class', clazz);
+        }
+    });
 </script>
