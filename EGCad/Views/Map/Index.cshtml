@@ -75,7 +75,8 @@
                 contentType: false,
                 success: function (response) {
                     //clean form data and display img by server response url
-                    if (response && response.statusCode == 0) {
+                	if (response && response.statusCode == 0) {
+
                         var img = new Image(response.data.width, response.data.height);
                         img.src = response.data.url;
                         img.onload=function() {
