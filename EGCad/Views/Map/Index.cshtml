@@ -80,8 +80,10 @@
             type: 'GET',
             success: function (response) {
                 if (response && response.statusCode == 0) {
-                    var map = response.data.Map;
-                    refreshStatus(map);
+                    if (response.data.Map) {
+                        var map = response.data.Map;
+                        refreshStatus(map);
+                    }
                 } else {
                     alert('Ошибка при инициализации состояния! Проверьте соединение с сервером...' + response.data.message);
                 }

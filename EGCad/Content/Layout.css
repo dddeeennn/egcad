@@ -127,6 +127,10 @@ BODY.view-compact #nav {
     padding-left: 0;
 }
 
+BODY.view-compact #main {
+    margin-left: 60px;
+}
+
 #main {
     position: relative;
     margin-left: 185px;

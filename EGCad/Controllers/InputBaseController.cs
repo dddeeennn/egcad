@@ -37,7 +37,7 @@ namespace EGCad.Controllers
 		protected NormalizeType Normilize
 		{
 			get { return (NormalizeType?)Session["Normilize"] ?? NormalizeType.None; }
-			set { Session["NormalizeType"] = value; }
+            set { Session["Normilize"] = value; }
 		}
 
 		protected StatCalculationType StatCalculation

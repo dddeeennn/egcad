@@ -6,15 +6,15 @@ namespace EGCad.Models.InputData
 {
 	public class GeoData
 	{
-		public Map Map;
+		public Map Map { get; set; }
 
-		public List<Parameter> Parameters;
+        public List<Parameter> Parameters { get; set; }
 
-		public int AdditionalPointCount;
+        public int AdditionalPointCount { get; set; }
 
-		public NormalizeType Normilize;
+        public NormalizeType Normilize { get; set; }
 
-		public StatCalculationType StatCalculation;
+        public StatCalculationType StatCalculation { get; set; }
 
 		public GeoData(Map map)
 			: this()

@@ -160,9 +160,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\CalcController.cs" />
     <Compile Include="Controllers\CalculationParametersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InputBaseController.cs" />
+    <Compile Include="Models\CalculationParameterModel.cs" />
     <Compile Include="Models\InputData\GeoData.cs" />
     <Compile Include="Models\InputData\Map.cs" />
     <Compile Include="Models\InputData\Parameter.cs" />
@@ -256,6 +258,7 @@
     <Content Include="Views\Home\Start.cshtml" />
     <Content Include="Views\TableParameters\Index.cshtml" />
     <Content Include="Views\CalculationParameters\Index.cshtml" />
+    <Content Include="Views\Calc\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\map\" />
