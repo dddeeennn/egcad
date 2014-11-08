@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,9 +70,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Infrastructure\AppConfiguration.cs" />
-    <Compile Include="Infrastructure\HtmlNavigationExtensions.cs" />
+    <Compile Include="Infrastructure\MVC\HtmlNavigationExtensions.cs" />
     <Compile Include="Infrastructure\MVC\HtmlExtensions.cs" />
+    <Compile Include="Infrastructure\NormalizeType.cs" />
+    <Compile Include="Infrastructure\StatCalculationType.cs" />
+    <Compile Include="MathExt\ScaleEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

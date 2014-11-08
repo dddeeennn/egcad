@@ -33,13 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentAssert">
+      <HintPath>..\packages\FluentAssert.1.0.0.11\lib\FluentAssert.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -82,21 +89,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MathExt\ScaleEvaluatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="FluentAssert.License.txt" />
+    <Content Include="FluentAssert.Provenance.txt" />
+    <Content Include="FluentAssert.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EGCad.Common\EGCad.Common.csproj">
+      <Project>{D45404B0-D5D1-4A4E-8DEB-1E3346348227}</Project>
+      <Name>EGCad.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EGCad\EGCad.csproj">
       <Project>{EADBB5E9-2DC6-4130-A95E-1863725774F2}</Project>
       <Name>EGCad</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

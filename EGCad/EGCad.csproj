@@ -162,7 +162,11 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\CalculationParametersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ImageProvider.cs" />
+    <Compile Include="Controllers\InputBaseController.cs" />
+    <Compile Include="Models\InputData\GeoData.cs" />
+    <Compile Include="Models\InputData\Map.cs" />
+    <Compile Include="Models\InputData\Parameter.cs" />
+    <Compile Include="Services\ImageProvider.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
@@ -257,6 +261,7 @@
     <Folder Include="App_Data\map\" />
     <Folder Include="Content\map\" />
     <Folder Include="Views\Api\" />
+    <Folder Include="Views\InputBase\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace EGCad.Controllers
 {
-    public class ParametersController : Controller
+	public class ParametersController : InputBaseController
     {
         // GET: Parameters
         public ActionResult Index()

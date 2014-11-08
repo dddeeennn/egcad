@@ -150,7 +150,7 @@ egcad.Data.Sender = function () {
 		return getAjaxOptions(
 			methodType,
 			url,
-			params ? $.toJSON(params) : null,
+			params ? JSON.stringify(params) : null,
 			onSuccess,
 			onError
 		);

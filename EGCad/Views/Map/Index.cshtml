@@ -1,152 +1,223 @@
 ﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript" src="/Scripts/tableEditor.js"></script>
 
 <div class="page-header">
-    <h2>Ввод и масштабирование карты</h2>
+	<h2>Ввод и масштабирование карты</h2>
 </div>
 
 <div class="form-horizontal">
-    <form action="map/load" id="upload" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <div class="col-sm-6">
-                <div><input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" /></div>
-            </div>
-            <div class="col-sm-6">
-                <input type="submit" id="uploadBtn" class="btn btn-primary" value="Загрузить" />
-            </div>
-        </div>
-    </form>
+	<div class="form-group">
+		<div class="col-sm-12">
+			<label>Выполните следующие действия:</label>
+			<ul>
+				<li id="loadMapStep">Загрузите изображение</li>
+				<li id="specifyStartStep">Укажите на карте стартовую точку (0,0)</li>
+				<li id="specifyEndStep">Укажите на карте конечную точку (0,n)</li>
+				<li id="specifyLengthStep">Введите n  в поле и сохраните</li>
+			</ul>
+		</div>
+	</div>
+	<form action="map/load" id="upload" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="col-sm-5">
+				<span style="margin-right:10px; "><input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" /></span>
+				<input type="submit" id="uploadBtn" class="btn btn-primary" value="Загрузить" />
+			</div>
+			<div class="col-sm-7">
+				<div class="">
+					<table class="table table-bordered table-condensed " style="max-width: 500px;">
+						<thead>
+						<th class="col-sm-4"></th>
+						<th class="col-sm-4">X</th>
+						<th class="col-sm-4">Y</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Начальная точка</td>
+								<td>0</td>
+								<td>0</td>
+							</tr>
+							<tr>
+								<td>Конечная точка</td>
+								<td id="editable">
+									<div class="input-group">
+										<input id="endPoint" placeholder="100" type="number" class="form-control">
+										<span id="save" class="input-group-addon btn glyphicon glyphicon-ok"></span>
+									</div>
+								</td>
+								<td>0</td>
+							</tr>
+						</tbody>
+					</table>
 
-    <div class="form-group">
-        <table class="table table-bordered table-condensed half margined">
-            <thead>
-            <th class="col-sm-4"></th>
-            <th class="col-sm-4">X</th>
-            <th class="col-sm-4">Y</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Начальная точка</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Конечная точка</td>
-                    <td>0</td>
-                    <td id="editable">
-                        <div class="input-group">
-                            <input id="endPoint" type="number" class="form-control">
-                            <span id="save" class="input-group-addon btn glyphicon glyphicon-ok"></span>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-    <div>
-        <div>Выполните следующие действия:</div>
-        <ul>
-            <li id="specifyStart">Укажите на карте стартовую точку (0,0)</li>
-            <li id="specifyEnd">Укажите на карте конечную точку (0,n)</li>
-            <li id="specifyDim">Введите n  в поле и сохраните</li>
-        </ul>
-    </div>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
 <div class="form-group">
-    <canvas width="500px" height="500px" id="map-container" style="border: 1px solid #ccc"></canvas>
+	<canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
+		Здесь должна быть отображена загруженная карта.
+		Для работы с приложением обновите браузер.
+		Минимальная поддерживаемая версия браузеров:
+		Internet Explorer 10+, 	Google Chrome 38+, FireFox
+	</canvas>
+</div>
+<div class="form-group">
+	<a href="/Parameters" class="btn btn-primary">Далее</a>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var container = $('#main');
-        container.find('input[type=file]').bootstrapFileInput();
+	$(document).ready(function () {
+		var container = $('#main');
 
+		container.find('input[type=file]').bootstrapFileInput();
 
-        $('#upload').submit(function (e) {
-            $.ajax({
-                url: 'map/load',
-                type: 'POST',
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    //clean form data and display img by server response url
-                	if (response && response.statusCode == 0) {
+		$('#upload').submit(function (e) {
+			$.ajax({
+				url: '/map/load',
+				type: 'POST',
+				data: new FormData(this),
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					if (response && response.statusCode == 0) {
+						// clear form and initialize
 
-                        var img = new Image(response.data.width, response.data.height);
-                        img.src = response.data.url;
-                        img.onload=function() {
-                            var canvas = $('#map-container')[0];
-                            var ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, 500, 500);
-                        };
-                    }
-                },
-                error: function () {
-                    alert('Ошибка при загрузке карты!');
-                }
-            });
-            e.preventDefault();
-        });
+						var form = container.find('#upload');
+						form.find('.file-input-name').empty('');
+						form.find('input[type="file"]').val('');
 
-        container.find('#editable').on('keypress', function (event) {
-            if (event.which == 13) {
-                event.preventDefault();
-                saveHandler();
-            }
+						setStatus("#loadMapStep", "ok");
 
-        });
+						var width = response.data.width;
+						var height = response.data.height;
 
-        container.find("#editable #save").on("click", saveHandler);
+						var img = new Image(width, height);
+						img.src = response.data.url;
+						img.onload = function () {
+							var canvas = $('#map-container')[0];
+							canvas.width = width;
+							canvas.height = height;
 
-        function saveHandler() {
-            var value = container.find('#endPoint').val();
+							var ctx = canvas.getContext('2d');
+							ctx.drawImage(img, 0, 0, width, height);
 
-            if (!value) return;
+							$('#map-container').off();
+							$(canvas).on('mousedown', function (event) {
+								var x = event.clientX;
+								var y = event.clientY;
 
-            var sender = new egcad.Data.Sender();
-            sender.postJson("saveEndPoint", "map/endpoint", { y: value }, function () {
-                setStatus("#specifyDim", 'ok');
-            }, function () {
-                setStatus("#specifyDim", 'error');
-            }, {});
-        };
+								x -= canvas.getBoundingClientRect().left;
+								y -= canvas.getBoundingClientRect().top;
 
-        function setStatus(selector, clazz) {
-            container.find(selector).addClass(clazz);
-        }
-    });
+								pointHandle(x, y);
+							});
+						}
+					}
 
-    function resultTableWindow(content, key) {
-        var modal = new Modal();
-        modal.getWindowElement().addClass('modal-large-mode');
-        modal.setTitle('Результат проверки ключа ' + key);
-        modal.getContentElement().append(content);
-        modal.setButtons([
-			{
-			    label: 'Сохранить',
-			    cssClass: 'btn',
-			    callback: function () {
-			        //send ajax server request for save result
-			        modal.hide();
-			        modal.destroy();
-			    }
-			},
-			{
-			    label: 'Закрыть',
-			    cssClass: 'btn',
-			    callback: function () {
-			        //just close it
-			        modal.hide();
-			        modal.destroy();
-			    }
+					if (response.statusCode == 2) {
+						setStatus("#loadMapStep", "error");
+						alert('Ошибка при загрузке карты!' + response.data.message);
+					}
+				},
+				error: function () {
+					setStatus("#loadMapStep", "error");
+					alert('Ошибка при загрузке карты!');
+				}
+			});
+			e.preventDefault();
+		});
+
+		container.find('#editable').on('keypress', function (event) {
+			if (event.which == 13) {
+				event.preventDefault();
+				saveEndPointLength();
 			}
-        ]);
-        modal.show();
-    }
+		});
 
+		container.find("#editable #save").on("click", saveEndPointLength);
+
+		function pointHandle(x, y) {
+			var modal = new Modal();
+			modal.setTitle('Сохранить точку');
+			modal.getContentElement().append('Выберите тип точки');
+			modal.setButtons([
+				{
+					label: 'Начальная',
+					cssClass: 'btn',
+					callback: function () {
+						sendPointData(x, y, true);
+						modal.hide();
+						modal.destroy();
+					}
+				},
+				{
+					label: 'Конечная',
+					cssClass: 'btn',
+					callback: function () {
+						sendPointData(x, y, false);
+						modal.hide();
+						modal.destroy();
+					}
+				},
+				{
+					label: 'Закрыть',
+					cssClass: 'btn',
+					callback: function () {
+						modal.hide();
+						modal.destroy();
+					}
+				}
+			]);
+			modal.show();
+		}
+
+		/*
+		* x,y - coords,
+		* pointType=true is start point
+		* pointType=false is end point
+		*/
+		function sendPointData(x, y, pointType) {
+			var sender = new egcad.Data.Sender();
+
+			sender.get("savePointCoords", "map/SavePoint", { x: x, y: y, pointType: pointType },
+			function (response) {
+				if (response && response.statusCode == 0) {
+					setStatus(pointType === true ? "#specifyStartStep" : "#specifyEndStep", 'ok');
+				} else {
+					setStatus("#specifyStartStep", 'error');
+					setStatus("#specifyEndStep", 'error');
+				}
+			},
+			function () {
+				setStatus("#specifyStartStep", 'error');
+				setStatus("#specifyEndStep", 'error');
+			},
+			{});
+		}
+
+		function saveEndPointLength() {
+			var value = container.find('#endPoint').val();
+
+			if (!value) return;
+
+			var sender = new egcad.Data.Sender();
+			sender.get("saveEndPoint", "map/EndpointLength", { x: value },
+				function (response) {
+					setStatus("#specifyLengthStep", response && response.statusCode == 0 ? 'ok' : 'error');
+				},
+				function () {
+					setStatus("#specifyLengthStep", 'error');
+				},
+				{});
+		};
+
+		function setStatus(selector, clazz) {
+			container.find(selector).attr('class', clazz);
+		}
+	});
 </script>

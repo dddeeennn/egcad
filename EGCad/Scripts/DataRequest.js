@@ -90,7 +90,7 @@ egcad.Data.Request = function (options) {
 
 		error(
 			new egcad.Data.Request.Error(
-				egcad.Data.Request.Exception.getInfo(WLFlow.Data.Request.Exception.TRANSPORT_PROBLEM),
+				egcad.Data.Request.Exception.getInfo(egcad.Data.Request.Exception.TRANSPORT_PROBLEM),
 				true
 			)
 		);

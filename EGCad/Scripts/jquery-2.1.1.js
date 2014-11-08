@@ -8171,7 +8171,7 @@ jQuery.extend({
 				return;
 			}
 
-			// State is "done" now
+			// StateModel is "done" now
 			state = 2;
 
 			// Clear timeout if it exists
