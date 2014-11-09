@@ -27,6 +27,12 @@ namespace EGCad.Controllers
 			set { Session["Parameters"] = value; }
 		}
 
+	    protected List<ParameterTableEntry> Points
+	    {
+            get { return (List<ParameterTableEntry>)Session["Points"] ?? new List<ParameterTableEntry>(); }
+            set { Session["Points"] = value; }
+	    } 
+
 		protected int AdditionalPointCount
 		{
 			get { return (int?)Session["AdditionalPointCount"] ?? 0; }
