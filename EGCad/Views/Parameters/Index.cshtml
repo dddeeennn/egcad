@@ -1,54 +1,67 @@
 ﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="page-header">
-    <h2>Введите параметры</h2>
+	<h2>Введите параметры</h2>
+</div>
+<div class="form-group">
+	<form class="form-inline" role="form">
+		<div class="form-group">
+			<input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
+		</div>
+		<span id="saveParameter" class="btn btn-default">Добавить</span>
+	</form>
+</div>
+<div class="form-group">
+	<table class="table table-bordered table-condensed" style="max-width: 1000px">
+		<thead>
+		<th class="col-sm-2">Номер</th>
+		<th class="col-sm-4">Название параметра</th>
+		<th class="col-sm-4">Единицы измерения</th>
+		<th class="col-sm-2 glyphicon glyphicon-trash" style="text-align: center"></th>
+		</thead>
+		<tbody></tbody>
+	</table>
 </div>
 
-<div class="form-group">
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
-        </div>
-        <span id="saveParameter" class="btn btn-default">Добавить</span>
-    </form>    
-</div>
+<script type="text/html" id="parameterTmpl">
+	<tr>
+		<td data-content="Id"></td>
+		<td data-content="Name"></td>
+		<td data-content="Unit"></td>
+		<td style="text-align: center"><a class="btn-link glyphicon glyphicon-remove error"></a></td>
+	</tr>
+</script>
 
-<div class="form-group">
-    <table class="table table-bordered table-condensed half">
-        <thead>
-        <th class="col-sm-5">Название параметра</th>
-        <th class="col-sm-5">Единицы измерения</th>
-        <th class="col-sm-2 glyphicon glyphicon-trash" style="text-align: center"></th>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        var container = $('#main');
+	$(document).ready(function () {
+		var container = $('#main');
 
-        container.find("#saveParameter").on("click", saveHandler);
+		container.find("#saveParameter").on("click", saveHandler);
 
-        function saveHandler() {
-            var parameterName = container.find('#parameterName').val();
-            var parameterUnit = container.find('#parameterUnit').val();
+		function saveHandler() {
+			var parameterName = container.find('#parameterName');
+			var parameterUnit = container.find('#parameterUnit');
 
-            if ((!parameterName) || (!parameterUnit)) return;
+			if ((!parameterName.val()) || (!parameterUnit.val())) return;
 
-            var sender = new egcad.Data.Sender();
-            sender.postJson("saveEndPoint", "parameters/save", { name: parameterName, unit: parameterUnit }, function () {
-                container.find('table tbody')
-                    .append('<tr><td>' + parameterName + '</td><td>' + parameterUnit + '</td><td></td></tr>');
-            }, null, {});
-        };
-    });
+			var sender = new egcad.Data.Sender();
+			sender.get("saveParam", "parameters/save", { name: parameterName.val(), unit: parameterUnit.val() }, function (response) {
+				if (response && response.statusCode == 0) {
+					parameterName.val('');
+					parameterUnit.val('');
+					$('table tbody').loadTemplate($('#parameterTmpl'), response.data.items[0]);
+				} else {
+					alert('Ошибка при сохранении параметра!');
+				}
+			}, null, {});
+		};
+	});
 
 
 </script>

@@ -124,7 +124,7 @@ egcad.Data.Provider = function () {
 		 * @type {egcad.Data.Request}
 		 */
 		var request = requests[requestName];
-		if (request && request.getStatus() == WLFlow.Data.Request.Status.ERROR) {
+		if (request && request.getStatus() == egcad.Data.Request.Status.ERROR) {
 			request.exec();
 		}
 	}

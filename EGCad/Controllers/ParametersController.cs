@@ -1,19 +1,22 @@
 ﻿using System.Web.Mvc;
+using EGCad.Models.InputData;
 
 namespace EGCad.Controllers
 {
 	public class ParametersController : InputBaseController
-    {
-        // GET: Parameters
-        public ActionResult Index()
-        {
-            return View();
-        }
+	{
+		// GET: Parameters
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public JsonResult Save(string name, string unit)
-        {
-            return Json(new { name = name, unit = unit }, JsonRequestBehavior.AllowGet);
-        }
-    }
+		public JsonResult Save(string name, string unit)
+		{
+			var param = Parameters;
+			param.Add(new Parameter(Parameters.Count, name, unit));
+			Parameters = param;
+			return Data(0, new { items = Parameters.ToArray() });
+		}
+	}
 }

@@ -6,10 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>EGCad</title>
 	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
 	<link rel="stylesheet" href="/content/Layout.css" />
 	<link rel="stylesheet" href="/content/Common.css" />
 	<script type="text/javascript" src="/Scripts/jquery-2.1.1.js"></script>
-	@Scripts.Render("~/bundles/modernizr")
+	<script type="text/javascript" src="/Scripts/jquery.tmpl.js"></script>
 	<script type="text/javascript" src="/Scripts/app.js"></script>
 	<script type="text/javascript" src="/Scripts/DataProvider.js"></script>
 	<script type="text/javascript" src="/Scripts/DataRequest.js"></script>
@@ -53,7 +54,7 @@
 	</footer>
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/jquerytmpl")
 	@RenderSection("scripts", false)
 </body>
 </html>
-
