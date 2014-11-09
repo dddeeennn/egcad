@@ -1,67 +1,91 @@
 ﻿@{
-	ViewBag.Title = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="page-header">
-	<h2>Введите параметры</h2>
+    <h2>Введите параметры</h2>
 </div>
 <div class="form-group">
-	<form class="form-inline" role="form">
-		<div class="form-group">
-			<input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
-		</div>
-		<div class="form-group">
-			<input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
-		</div>
-		<span id="saveParameter" class="btn btn-default">Добавить</span>
-	</form>
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
+        </div>
+        <span id="saveParameter" class="btn btn-default">Добавить</span>
+    </form>
 </div>
 <div class="form-group">
-	<table class="table table-bordered table-condensed" style="max-width: 1000px">
-		<thead>
-		<th class="col-sm-2">Номер</th>
-		<th class="col-sm-4">Название параметра</th>
-		<th class="col-sm-4">Единицы измерения</th>
-		<th class="col-sm-2 glyphicon glyphicon-trash" style="text-align: center"></th>
-		</thead>
-		<tbody></tbody>
-	</table>
+    <table class="table table-bordered table-condensed" style="max-width: 1000px">
+        <thead>
+        <th class="col-sm-2">Номер</th>
+        <th class="col-sm-4">Название параметра</th>
+        <th class="col-sm-4">Единицы измерения</th>
+        <th class="col-sm-2 glyphicon glyphicon-trash" style="text-align: center"></th>
+        </thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <script type="text/html" id="parameterTmpl">
-	<tr>
-		<td data-content="Id"></td>
-		<td data-content="Name"></td>
-		<td data-content="Unit"></td>
-		<td style="text-align: center"><a class="btn-link glyphicon glyphicon-remove error"></a></td>
-	</tr>
+    <tr>
+        <td data-content="Id"></td>
+        <td data-content="Name"></td>
+        <td data-content="Unit"></td>
+        <td style="text-align: center"><a data-id="Id" class="remove-action btn-link glyphicon glyphicon-remove error"></a></td>
+    </tr>
 </script>
 
-
 <script type="text/javascript">
-	$(document).ready(function () {
-		var container = $('#main');
+    $(document).ready(function () {
+        var container = $('#main');
+        var sender = new egcad.Data.Sender();
 
-		container.find("#saveParameter").on("click", saveHandler);
+        container.find("#saveParameter").on("click", saveHandler);
 
-		function saveHandler() {
-			var parameterName = container.find('#parameterName');
-			var parameterUnit = container.find('#parameterUnit');
+        sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
+            if (response && response.statusCode == 0) {
+                refreshState(response.data);
+            }
+        });
 
-			if ((!parameterName.val()) || (!parameterUnit.val())) return;
+        function removeHandler(self) {
+            var id = self.attr('id');
+            sender.get("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
+                if (response && response.statusCode == 0) {
+                    self.closest('tr').empty();
+                    refreshState(response.data);
+                } else {
+                    alert('Ошибка при удалении параметра!');
+                }
+            });
+        }
 
-			var sender = new egcad.Data.Sender();
-			sender.get("saveParam", "parameters/save", { name: parameterName.val(), unit: parameterUnit.val() }, function (response) {
-				if (response && response.statusCode == 0) {
-					parameterName.val('');
-					parameterUnit.val('');
-					$('table tbody').loadTemplate($('#parameterTmpl'), response.data.items[0]);
-				} else {
-					alert('Ошибка при сохранении параметра!');
-				}
-			}, null, {});
-		};
-	});
+        function refreshState(state) {
+            $('table tbody').loadTemplate($('#parameterTmpl'), state.items)
+                                    .delegate(".remove-action", "click", function () {
+                                        removeHandler($(this));
+                                    });
+        }
+
+        function saveHandler() {
+            var parameterName = container.find('#parameterName');
+            var parameterUnit = container.find('#parameterUnit');
+
+            if ((!parameterName.val()) || (!parameterUnit.val())) return;
+
+            sender.get("saveParam", "parameters/save", { name: parameterName.val(), unit: parameterUnit.val() }, function (response) {
+                if (response && response.statusCode == 0) {
+                    parameterName.val('');
+                    parameterUnit.val('');
+                    refreshState(response.data);
+                } else {
+                    alert('Ошибка при сохранении параметра!');
+                }
+            }, null, {});
+        };
+    });
 
 
 </script>
