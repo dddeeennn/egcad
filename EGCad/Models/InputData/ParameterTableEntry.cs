@@ -14,7 +14,10 @@ namespace EGCad.Models.InputData
 
         public ParameterTableEntry(int id, int x, int y, List<Parameter> parameters )
         {
-            
+            Id = id;
+            X = x;
+            Y = y;
+            Parameters = parameters;
         }
 
         public ParameterTableEntry()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using EGCad.Models.InputData;
@@ -10,7 +11,7 @@ namespace EGCad.Controllers
         // GET: TableParameters
         public ActionResult Index()
         {
-            return View(new ParameterTableEntry());
+            return View(GetParameterTableEntries(Parameters));
         }
 
         public JsonResult GetState()
@@ -44,5 +45,9 @@ namespace EGCad.Controllers
             return GetState();
         }
 
+        private ParameterTableEntry GetParameterTableEntries(List<Parameter> parameters)
+        {
+            return new ParameterTableEntry(0, 0, 0, parameters);
+        }
     }
 }

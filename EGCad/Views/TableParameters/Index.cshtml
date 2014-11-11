@@ -6,19 +6,29 @@
 <div class="page-header">
     <h2>Введите данные о точке в таблицу</h2>
 </div>
-<table class="table table-condensed">
-    <thead>
-    <th class="col-sm-1">Номер</th>
-    <th class="col-sm-1">X</th>
-    <th class="col-sm-1">Y</th>
-    @foreach (var item in Model.Parameters)
-    {
-        <th class="col-sm-1">@item.ToString()</th>
-    }
-    <th class="col-sm-1 glyphicon glyphicon-trash" style="text-align: center"></th>
-    </thead>
-    <tbody></tbody>
-</table>
+<div class="form-group">
+    <table class="table-bordered table-condensed">
+        <thead>
+        <th class="col-sm-1">Номер</th>
+        <th class="col-sm-1">X</th>
+        <th class="col-sm-1">Y</th>
+        @foreach (var item in Model.Parameters)
+        {
+            <th class="col-sm-1">@item.ToString()</th>
+        }
+        <th class="col-sm-1 glyphicon glyphicon-trash" style="text-align: center"></th>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+<div class="form-group">
+    <button class="btn btn-default"><span class="margined">Добавить точку</span><span class="glyphicon glyphicon-plus ok"></span></button>
+</div>
+
+<div class="form-group">
+    <a href="/CalculationParameters" class="btn btn-primary pull-right">Далее</a>
+</div>
 
 <script type="text/html" id="parameterEntryTmpl">
     <tr>
