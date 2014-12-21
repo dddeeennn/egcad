@@ -1,0 +1,95 @@
+﻿@model EGCad.Models.InputData.ParameterTableEntry
+@{
+    ViewBag.Title = "Таблица параметров";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-header">
+    <h2>Введите данные о точке в таблицу</h2>
+</div>
+<div class="form-group">
+    <table class="table-bordered table-condensed">
+        <thead>
+        <th class="col-sm-1">Номер</th>
+        <th class="col-sm-1">X</th>
+        <th class="col-sm-1">Y</th>
+        @foreach (var item in Model.Parameters)
+        {
+            <th class="col-sm-1">@item.ToString()</th>
+        }
+        <th class="col-sm-1 glyphicon glyphicon-trash" style="text-align: center"></th>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+<div class="form-group">
+    <button class="btn btn-default"><span class="margined">Добавить точку</span><span class="glyphicon glyphicon-plus ok"></span></button>
+</div>
+
+<div class="form-group">
+    <a href="/CalculationParameters" class="btn btn-primary pull-right">Далее</a>
+</div>
+
+<script type="text/html" id="parameterEntryTmpl">
+    <tr>
+        <td data-content="Id"></td>
+        <td data-content="X"></td>
+        <td data-content="Y"></td>
+        @foreach (var item in Model.Parameters)
+        {
+            <td></td>
+        }
+        <td style="text-align: center"><a data-id="Id" class="remove-action btn-link glyphicon glyphicon-remove error"></a></td>
+    </tr>
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var container = $('#main');
+        var sender = new egcad.Data.Sender();
+
+        sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
+            if (response && response.statusCode == 0) {
+                refreshState(response.data);
+            }
+        });
+
+        function refreshState(state) {
+            $('table tbody').loadTemplate($('#parameterTmpl'), state.items)
+                .delegate(".remove-action", "click", function () {
+                    removeHandler($(this));
+                });
+        }
+
+        function removeHandler(self) {
+            var id = self.attr('id');
+            sender.get("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
+                if (response && response.statusCode == 0) {
+                    self.closest('tr').empty();
+                    refreshState(response.data);
+                } else {
+                    alert('Ошибка при удалении параметра!');
+                }
+            });
+        }
+
+        function saveHandler() {
+            var parameterName = container.find('#parameterName');
+            var parameterUnit = container.find('#parameterUnit');
+
+            if ((!parameterName.val()) || (!parameterUnit.val())) return;
+
+            sender.get("saveParam", "parameters/save", { name: parameterName.val(), unit: parameterUnit.val() }, function (response) {
+                if (response && response.statusCode == 0) {
+                    parameterName.val('');
+                    parameterUnit.val('');
+                    refreshState(response.data);
+                } else {
+                    alert('Ошибка при сохранении параметра!');
+                }
+            }, null, {});
+        };
+
+    });
+</script>

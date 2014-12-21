@@ -22,7 +22,6 @@
 		<div class="form-group">
 			<div class="col-sm-5">
 				<span style="margin-right:10px; "><input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" /></span>
-				<input type="submit" id="uploadBtn" class="btn btn-primary" value="Загрузить" />
 			</div>
 			<div class="col-sm-7">
 				<div class="">
@@ -72,6 +71,9 @@
 		var container = $('#main');
 
 		container.find('input[type=file]').bootstrapFileInput();
+		container.find('input[type=file]')[0].onchange = function(e) {
+			$('#upload').trigger('submit');
+		};
 
 		$.ajax({
 			url: '/map/GetState',

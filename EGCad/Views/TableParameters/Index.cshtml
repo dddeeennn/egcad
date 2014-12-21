@@ -23,11 +23,11 @@
 
 </div>
 <div class="form-group">
-    <button class="btn btn-default"><span class="margined">Добавить точку</span><span class="glyphicon glyphicon-plus ok"></span></button>
+    <button id="addRow" class="btn btn-default"><span class="margined">Добавить точку</span><span class="glyphicon glyphicon-plus ok"></span></button>
 </div>
 
 <div class="form-group">
-    <a href="/CalculationParameters" class="btn btn-primary pull-right">Далее</a>
+    <a href="@Url.Action("CalculationParameters")" class="btn btn-primary pull-right">Далее</a>
 </div>
 
 <script type="text/html" id="parameterEntryTmpl">
@@ -48,6 +48,26 @@
     $(document).ready(function () {
         var container = $('#main');
         var sender = new egcad.Data.Sender();
+
+	    var $tbody = $('table tbody');
+	    var $removeBtn = $('<td style="text-align: center"><a data-id="Id" class="remove-action btn-link glyphicon glyphicon-remove error"></a></td>');
+
+	    $('#addRow').on('click', function(e) {
+		    addRow();
+	    });
+
+	    function addRow() {
+	    	var $row = $('<tr></tr>');
+	    	$row.append('<td/>');//number
+	    	$row.append('<td/>');//x
+	    	$row.append('<td/>');//y
+
+		    for (var i = 0; i < @Model.Parameters.Count; i++) {
+			    $row.append($('<td/>'));
+		    }
+		    $row.append($removeBtn);
+	    	$tbody.append($row);
+	    }
 
         sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
             if (response && response.statusCode == 0) {
