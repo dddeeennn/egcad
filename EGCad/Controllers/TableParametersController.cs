@@ -45,9 +45,9 @@ namespace EGCad.Controllers
             return GetState();
         }
 
-        private ParameterTableEntry GetParameterTableEntries(List<Parameter> parameters)
+        private List<ParameterTableEntry> GetParameterTableEntries(List<Parameter> parameters)
         {
-            return new ParameterTableEntry(0, 0, 0, parameters);
+            return new List<ParameterTableEntry>(new[] { new ParameterTableEntry(0, 0, 0, parameters) });
         }
     }
 }

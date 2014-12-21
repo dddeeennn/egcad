@@ -1,4 +1,6 @@
-﻿@model EGCad.Models.InputData.ParameterTableEntry
+﻿@using EGCad.Common.Infrastructure.MVC
+@using EGCad.Models.InputData
+@model List<EGCad.Models.InputData.ParameterTableEntry>
 @{
     ViewBag.Title = "Таблица параметров";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +14,7 @@
         <th class="col-sm-1">Номер</th>
         <th class="col-sm-1">X</th>
         <th class="col-sm-1">Y</th>
-        @foreach (var item in Model.Parameters)
+        @foreach (var item in Model[0].Parameters)
         {
             <th class="col-sm-1">@item.ToString()</th>
         }
@@ -35,9 +37,11 @@
         <td data-content="Id"></td>
         <td data-content="X"></td>
         <td data-content="Y"></td>
-        @foreach (var item in Model.Parameters)
+        @foreach (var item in Model[0].Parameters)
         {
-            <td></td>
+            var index = 0;
+            <td id="p-@index"></td>
+            index++;
         }
         <td style="text-align: center"><a data-id="Id" class="remove-action btn-link glyphicon glyphicon-remove error"></a></td>
     </tr>
@@ -49,25 +53,24 @@
         var container = $('#main');
         var sender = new egcad.Data.Sender();
 
-	    var $tbody = $('table tbody');
-	    var $removeBtn = $('<td style="text-align: center"><a data-id="Id" class="remove-action btn-link glyphicon glyphicon-remove error"></a></td>');
+        var $tbody = $('table tbody');
 
-	    $('#addRow').on('click', function(e) {
-		    addRow();
-	    });
+        $('#addRow').on('click', function(e) {
+            @{
+                var id = Model.Last().Id++;
+                var parameters = Model.Last().Parameters;
+                Model.Add(new ParameterTableEntry(id,0,0,parameters));
+            }
+            refreshState();
+        });
 
-	    function addRow() {
-	    	var $row = $('<tr></tr>');
-	    	$row.append('<td/>');//number
-	    	$row.append('<td/>');//x
-	    	$row.append('<td/>');//y
+        function addRow(entry) {
+            $tbody.loadTemplate($('#parameterEntryTmpl'), entry)
+                                     .delegate(".remove-action", "click", function () {
+                                         removeHandler($(this));
+                                     });;
 
-		    for (var i = 0; i < @Model.Parameters.Count; i++) {
-			    $row.append($('<td/>'));
-		    }
-		    $row.append($removeBtn);
-	    	$tbody.append($row);
-	    }
+        }
 
         sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
             if (response && response.statusCode == 0) {
@@ -75,11 +78,18 @@
             }
         });
 
-        function refreshState(state) {
-            $('table tbody').loadTemplate($('#parameterTmpl'), state.items)
-                .delegate(".remove-action", "click", function () {
-                    removeHandler($(this));
-                });
+        function refreshState() {
+            $tbody.empty();
+            @foreach (var item in @Model)
+            {
+                <text>
+                      addRow(@HtmlJsonSerializer.SerializeObject(item));
+                 </text>
+            }
+
+            $tbody.delegate(".remove-action", "click", function () {
+                removeHandler($(this));
+            });
         }
 
         function removeHandler(self) {
