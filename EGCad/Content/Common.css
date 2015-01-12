@@ -26,6 +26,10 @@
     width: 50%;
 }
 
+.table tbody>tr>td {
+    vertical-align: middle;
+}
+
 .margined {
     margin: 10px;
 }
@@ -54,3 +58,8 @@ a.remove-action:hover {
     text-decoration: none;
     color: #fa8072;
 }
+
+.action:hover {
+    text-decoration: none;
+}
+
