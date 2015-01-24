@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using EGCad.Common.Extensions;
 using EGCad.Models.InputData;
 
 namespace EGCad.Controllers
@@ -15,6 +16,15 @@ namespace EGCad.Controllers
         public JsonResult GetState()
         {
             return Data(0, new { items = Parameters.ToArray() });
+        }
+
+        public JsonResult Replace(bool direction, int id)
+        {
+            var parameters = Parameters;
+            parameters.Swap(id, direction ? id-1 : id+1);
+            parameters.ForEach(p=>p.Id=parameters.IndexOf(p));
+            Parameters = parameters;
+            return GetState();
         }
 
         public JsonResult Save(string name, string unit, int? id)
