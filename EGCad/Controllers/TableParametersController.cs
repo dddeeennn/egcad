@@ -11,7 +11,23 @@ namespace EGCad.Controllers
         // GET: TableParameters
         public ActionResult Index()
         {
-            return View(GetParameterTableEntries(Parameters));
+            if (!Points.Any())
+            {
+                Points = new List<ParameterTableEntry>(new[] {new ParameterTableEntry(0, 0, 0, Parameters)});
+            }
+            else
+            {
+                foreach (var parameter in Parameters)
+                {
+                    if (Points[0].Parameters.All(x => x.Id != parameter.Id))
+                    {
+                        var points = Points;
+                        points.ForEach(p=>p.Parameters.Add(parameter));
+                        Points=points;
+                    }
+                }
+            }
+            return View(Parameters);
         }
 
         public JsonResult GetState()
@@ -19,7 +35,15 @@ namespace EGCad.Controllers
             return Data(0, new { items = Points.ToArray() });
         }
 
-        public JsonResult Save(int x, int y, params double[] values)
+        public JsonResult CreatePoint()
+        {
+            var points = Points;
+            points.Add(new ParameterTableEntry(Points.Last().Id+1, 0, 0, Parameters));
+            Points = points;
+            return GetState();
+        }
+
+        public JsonResult Save(int x, int y, int id, double[] values)
         {
             var points = Points;
 
@@ -27,7 +51,10 @@ namespace EGCad.Controllers
 
             var parameters = values.Select((value, i) => new Parameter(Parameters[i].Id, Parameters[i].Name, Parameters[i].Unit, value)).ToList();
 
-            points.Add(new ParameterTableEntry(points.Count, x, y, parameters));
+            var point = points.First(p => p.Id == id);
+            point.Parameters = parameters;
+            point.X = x;
+            point.Y = y;
             Points = points;
 
             return GetState();

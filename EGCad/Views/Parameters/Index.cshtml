@@ -19,11 +19,11 @@
 <div class="form-group">
     <table class="table table-bordered table-condensed" style="max-width: 1000px">
         <thead>
-        <th class="col-sm-1 glyphicon glyphicon-resize-vertical" style="text-align: center"></th>
+        <th class="col-sm-1 glyphicon glyphicon-resize-vertical"></th>
         <th class="col-sm-4">Название параметра</th>
         <th class="col-sm-4">Единицы измерения</th>
-        <th class="col-sm-2 glyphicon glyphicon-edit" style="text-align: center"></th>
-        <th class="col-sm-1 glyphicon glyphicon-trash" style="text-align: center"></th>
+        <th class="col-sm-2 glyphicon glyphicon-edit" ></th>
+        <th class="col-sm-1 glyphicon glyphicon-trash"></th>
         </thead>
         <tbody></tbody>
     </table>
@@ -33,18 +33,14 @@
 </div>
 <script type="text/html" id="parameterTmpl">
     <tr data-id="Id">
-        <td style="text-align: center">
+        <td>
             <a data-id="Id" class=" btn-link action replace up glyphicon glyphicon glyphicon-chevron-up success" style="padding-left: 5px"></a>
             <a data-id="Id" class=" btn-link action replace down glyphicon glyphicon glyphicon-chevron-down success" style="padding-left: 5px"></a>
         </td>
         <td data-content="Name" class="parameterName"></td>
         <td data-content="Unit" class="parameterUnit"></td>
-        <td style="text-align: center">
-            <a data-id="Id" class="action edit-action btn-link glyphicon glyphicon-edit"></a>
-        </td>
-        <td style="text-align: center">
-            <a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a>
-        </td>
+        <td><a data-id="Id" class="action edit-action btn-link glyphicon glyphicon-edit"></a></td>
+        <td><a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a></td>
     </tr>
 </script>
 <script type="text/javascript">

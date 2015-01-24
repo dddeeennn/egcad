@@ -22,11 +22,16 @@
     margin-left: 10px;
 }
 
+.table thead > tr> th,
+ .table tbody > tr> td{
+    text-align: center;
+}
+
 .table.half {
     width: 50%;
 }
 
-.table tbody>tr>td {
+.table tbody > tr > td {
     vertical-align: middle;
 }
 
@@ -62,4 +67,3 @@ a.remove-action:hover {
 .action:hover {
     text-decoration: none;
 }
-

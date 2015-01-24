@@ -1,6 +1,4 @@
-﻿@using EGCad.Common.Infrastructure.MVC
-@using EGCad.Models.InputData
-@model List<EGCad.Models.InputData.ParameterTableEntry>
+﻿@model List<EGCad.Models.InputData.Parameter>
 @{
     ViewBag.Title = "Таблица параметров";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,16 +7,18 @@
     <h2>Введите данные о точке в таблицу</h2>
 </div>
 <div class="form-group">
-    <table class="table-bordered table-condensed">
+    <table class="table table-bordered table-condensed">
         <thead>
+        <th class="col-sm-1 glyphicon glyphicon-resize-vertical"></th>
         <th class="col-sm-1">Номер</th>
         <th class="col-sm-1">X</th>
         <th class="col-sm-1">Y</th>
-        @foreach (var item in Model[0].Parameters)
+        @foreach (var item in Model)
         {
             <th class="col-sm-1">@item.ToString()</th>
         }
-        <th class="col-sm-1 glyphicon glyphicon-trash" style="text-align: center"></th>
+        <th class="col-sm-1 glyphicon glyphicon-edit"></th>
+        <th class="col-sm-1 glyphicon glyphicon-trash"></th>
         </thead>
         <tbody></tbody>
     </table>
@@ -33,64 +33,29 @@
 </div>
 
 <script type="text/html" id="parameterEntryTmpl">
-    <tr>
+    <tr data-id="Id">
+        <td>
+            <a data-id="Id" class=" btn-link action replace up glyphicon glyphicon glyphicon-chevron-up success" style="padding-left: 5px"></a>
+            <a data-id="Id" class=" btn-link action replace down glyphicon glyphicon glyphicon-chevron-down success" style="padding-left: 5px"></a>
+        </td>
         <td data-content="Id"></td>
-        <td data-content="X"></td>
-        <td data-content="Y"></td>
-        @foreach (var item in Model[0].Parameters)
-        {
-            var index = 0;
-            <td id="p-@index"></td>
-            index++;
-        }
-        <td style="text-align: center"><a data-id="Id" class="remove-action btn-link glyphicon glyphicon-remove error"></a></td>
+        <td data-content="X" class="pointX"></td>
+        <td data-content="Y" class="pointY"></td>
+        <td class="hidden" data-content="Parameters" data-format="nestedTemplateFormatter" data-format-options='{"template": "#paramTmpl"}'></td>
+        <td><a data-id="Id" class="action edit-action btn-link glyphicon glyphicon-edit"></a></td>
+        <td><a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a></td>
     </tr>
 </script>
 
+<script type="text/html" id="paramTmpl">
+    <td data-content="Value" data-id="Id" class="parameter"></td>
+</script>
 <script type="text/javascript">
 
     $(document).ready(function () {
         var container = $('#main');
         var sender = new egcad.Data.Sender();
-
         var $tbody = $('table tbody');
-
-        $('#addRow').on('click', function(e) {
-            @{
-                var id = Model.Last().Id++;
-                var parameters = Model.Last().Parameters;
-                Model.Add(new ParameterTableEntry(id,0,0,parameters));
-            }
-            refreshState();
-        });
-
-        function addRow(entry) {
-            $tbody.loadTemplate($('#parameterEntryTmpl'), entry)
-                                     .delegate(".remove-action", "click", function () {
-                                         removeHandler($(this));
-                                     });;
-
-        }
-
-        sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
-            if (response && response.statusCode == 0) {
-                refreshState(response.data);
-            }
-        });
-
-        function refreshState() {
-            $tbody.empty();
-            @foreach (var item in @Model)
-            {
-                <text>
-                      addRow(@HtmlJsonSerializer.SerializeObject(item));
-                 </text>
-            }
-
-            $tbody.delegate(".remove-action", "click", function () {
-                removeHandler($(this));
-            });
-        }
 
         function removeHandler(self) {
             var id = self.attr('id');
@@ -99,21 +64,115 @@
                     self.closest('tr').empty();
                     refreshState(response.data);
                 } else {
-                    alert('Ошибка при удалении параметра!');
+                    alert('Ошибка при удалении точки!');
                 }
             });
         }
 
-        function saveHandler() {
-            var parameterName = container.find('#parameterName');
-            var parameterUnit = container.find('#parameterUnit');
+        function editHandler(self) {
+            var curEditor = $(document).find('#editor');
 
-            if ((!parameterName.val()) || (!parameterUnit.val())) return;
+            var parent = null;
 
-            sender.get("saveParam", "parameters/save", { name: parameterName.val(), unit: parameterUnit.val() }, function (response) {
+            if (curEditor.length) {
+                parent = curEditor.closest('tr');
+                completeEdit(curEditor.find('.pointX input').val(), curEditor.find('.pointY input').val(), parent.find('a').first().attr('id'), parent);
+                container.on('editor-refresh', function () {
+                    setupEditor(null, "#" + self.closest('tr').attr('id'));
+                    container.off();
+                });
+            } else {
+                setupEditor(self.closest('tr'));
+            }
+        }
+
+        function setupEditor(parent, selector) {
+
+            if (selector) {
+                parent = $(selector, container);
+            }
+            parent.find('.pointX').html(createEditor(parent, '.pointX'));
+            parent.find('.pointY').html(createEditor(parent, '.pointY'));
+            $.each(parent.find('.parameter'), function () {
+                var self = $(this);
+                self.html(createEditor(parent, '.parameter', self));
+            });
+
+            parent.find('a.edit-action').off()
+                                        .on('click', function () {
+                                            var x = parseFloat(parent.find('.pointX input').val());
+                                            var y = parseFloat(parent.find('.pointY input').val());
+                                            var paramValues = parent.find('.parameter input').map(function() {
+                                                return parseFloat($(this).val());
+                                            }).toArray();
+                                            completeEdit(x, y, paramValues, parent.find('a').first().attr('id'), parent);
+                                            parent.attr('id', '');
+                                        }).removeClass('glyphicon-edit')
+                  .addClass('glyphicon-ok');
+            parent.attr('id', 'editor');
+        }
+
+        function createEditor(parent, selector, obj) {
+            var oldValue = "";
+            if (obj) {
+                oldValue = obj.text();
+            } else {
+                oldValue = parent.find(selector).text();
+            }
+
+            var $editor = $("<div class='form-inline'/>");
+            var textarea = $("<input type='text' class='form-control' style='margin-right:5px;min-width: 50px; width: 150px'>").val(oldValue);
+
+            $editor.append(textarea);
+            return $editor;
+        }
+
+        function completeEdit(pointX, pointY, paramValues, id, editorContainer) {
+            editorContainer.find(".pointX").html(pointX);
+            editorContainer.find(".pointY").html(pointY);
+            $.each(paramValues, function(i, v) {
+                $($tbody.find('.parameter input')[i]).closest('td.parameter').html(v);
+            });
+            saveHandler(pointX, pointY,paramValues, id);
+            editorContainer.find('a.edit-action').off()
+                                                .on('click', function () {
+                                                    editHandler($(this));
+                                                }).removeClass('glyphicon-ok')
+                                                  .addClass('glyphicon-edit');
+        }
+
+        function replaceHandler(elem) {
+            var dir = elem.hasClass('up');
+            var id = elem.attr('id');
+
+            sender.get("replaceParam", '@Url.Action("replace")', { direction: dir, id: id }, function (response) {
                 if (response && response.statusCode == 0) {
-                    parameterName.val('');
-                    parameterUnit.val('');
+                    refreshState(response.data);
+                } else {
+                    alert('Ошибка при сохранении параметра!');
+                }
+            }, null, {});
+        }
+
+        function refreshState(state) {
+            $tbody.empty();
+            $tbody.loadTemplate($('#parameterEntryTmpl'), state.items);
+
+            $tbody.find("a.edit-action").on("click", function () {
+                editHandler($(this));
+            });
+            $tbody.find('a.action.replace').on("click", function () {
+                replaceHandler($(this));
+            });
+            $tbody.find("a.remove-action").on("click", function () {
+                removeHandler($(this));
+            });
+            container.trigger('editor-refresh');
+        }
+
+        function saveHandler(pointX, pointY, paramValues, id) {
+            sender.get("SavePoint", '@Url.Action("Save")?x=' + pointX + '&' + 'y=' + pointY + '&' + 'id=' + id + '&' + prepareUrl(paramValues), {}, function (response) {
+                if (response && response.statusCode == 0) {
                     refreshState(response.data);
                 } else {
                     alert('Ошибка при сохранении параметра!');
@@ -121,5 +180,24 @@
             }, null, {});
         };
 
+        $('#addRow').on('click', function (e) {
+            sender.get("CreatePoint", '@Url.Action("CreatePoint")', {}, function (response) {
+                if (response && response.statusCode == 0) {
+                    refreshState(response.data);
+                }
+            });
+        });
+
+        function prepareUrl(array) {
+            return array.map(function(v) {
+                return '&values=' + v;
+            }).join('');
+        }
+
+        sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
+            if (response && response.statusCode == 0) {
+                refreshState(response.data);
+            }
+        });
     });
 </script>
