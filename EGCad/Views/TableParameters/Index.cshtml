@@ -7,7 +7,7 @@
     <h2>Введите данные о точке в таблицу</h2>
 </div>
 <div class="form-group">
-    <table class="table table-bordered table-condensed">
+    <table class="table table-bordered table-condensed table-striped">
         <thead>
         <th class="col-sm-1 glyphicon glyphicon-resize-vertical"></th>
         <th class="col-sm-1">Номер</th>
@@ -23,13 +23,14 @@
         <tbody></tbody>
     </table>
 
+
 </div>
 <div class="form-group">
     <button id="addRow" class="btn btn-default"><span class="margined">Добавить точку</span><span class="glyphicon glyphicon-plus ok"></span></button>
 </div>
 
 <div class="form-group">
-    <a href="@Url.Action("CalculationParameters")" class="btn btn-primary pull-right">Далее</a>
+    <a href="@Url.Action("Index","CalculationParameters")" class="btn btn-primary pull-right">Далее</a>
 </div>
 
 <script type="text/html" id="parameterEntryTmpl">
@@ -38,7 +39,7 @@
             <a data-id="Id" class=" btn-link action replace up glyphicon glyphicon glyphicon-chevron-up success" style="padding-left: 5px"></a>
             <a data-id="Id" class=" btn-link action replace down glyphicon glyphicon glyphicon-chevron-down success" style="padding-left: 5px"></a>
         </td>
-        <td data-content="Id"></td>
+        <td class="rowIndex"></td>
         <td data-content="X" class="pointX"></td>
         <td data-content="Y" class="pointY"></td>
         <td class="hidden" data-content="Parameters" data-format="nestedTemplateFormatter" data-format-options='{"template": "#paramTmpl"}'></td>
@@ -76,7 +77,12 @@
 
             if (curEditor.length) {
                 parent = curEditor.closest('tr');
-                completeEdit(curEditor.find('.pointX input').val(), curEditor.find('.pointY input').val(), parent.find('a').first().attr('id'), parent);
+                var x = parseFloat(curEditor.find('.pointX input').val());
+                var y = parseFloat(curEditor.find('.pointY input').val());
+                var paramValues = curEditor.find('.parameter input').map(function () {
+                    return parseFloat($(this).val());
+                }).toArray();
+                completeEdit(x, y, paramValues, parent.find('a').first().attr('id'), parent);
                 container.on('editor-refresh', function () {
                     setupEditor(null, "#" + self.closest('tr').attr('id'));
                     container.off();
@@ -102,7 +108,7 @@
                                         .on('click', function () {
                                             var x = parseFloat(parent.find('.pointX input').val());
                                             var y = parseFloat(parent.find('.pointY input').val());
-                                            var paramValues = parent.find('.parameter input').map(function() {
+                                            var paramValues = parent.find('.parameter input').map(function () {
                                                 return parseFloat($(this).val());
                                             }).toArray();
                                             completeEdit(x, y, paramValues, parent.find('a').first().attr('id'), parent);
@@ -130,10 +136,10 @@
         function completeEdit(pointX, pointY, paramValues, id, editorContainer) {
             editorContainer.find(".pointX").html(pointX);
             editorContainer.find(".pointY").html(pointY);
-            $.each(paramValues, function(i, v) {
+            $.each(paramValues, function (i, v) {
                 $($tbody.find('.parameter input')[i]).closest('td.parameter').html(v);
             });
-            saveHandler(pointX, pointY,paramValues, id);
+            saveHandler(pointX, pointY, paramValues, id);
             editorContainer.find('a.edit-action').off()
                                                 .on('click', function () {
                                                     editHandler($(this));
@@ -157,6 +163,11 @@
         function refreshState(state) {
             $tbody.empty();
             $tbody.loadTemplate($('#parameterEntryTmpl'), state.items);
+            $tbody.find('tr').each(function () {
+                var self = $(this);
+                var idx = self[0].rowIndex;
+                self.find('td.rowIndex').text(idx);
+            });
 
             $tbody.find("a.edit-action").on("click", function () {
                 editHandler($(this));
@@ -181,15 +192,17 @@
         };
 
         $('#addRow').on('click', function (e) {
+            $tbody.find('a.edit-action.glyphicon-ok').click();
             sender.get("CreatePoint", '@Url.Action("CreatePoint")', {}, function (response) {
                 if (response && response.statusCode == 0) {
                     refreshState(response.data);
+                    $tbody.find('tr:last-child a.edit-action').click();
                 }
             });
         });
 
         function prepareUrl(array) {
-            return array.map(function(v) {
+            return array.map(function (v) {
                 return '&values=' + v;
             }).join('');
         }
