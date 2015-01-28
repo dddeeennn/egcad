@@ -1,4 +1,4 @@
-﻿@model EGCad.Models.InputData.GeoData
+﻿@model EGCad.Core.InputData.GeoData
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,3 +8,6 @@
     <h2>Собранные данные</h2>
 </div>
 @Html.DisplayForModel()
+<div class="form-group">
+    <a href="@Url.Action("DisplayNormalizedData")" class="btn btn-primary pull-left">Показать нормализованные данные</a>
+</div>

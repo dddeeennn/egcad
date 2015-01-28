@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EGCad.Models.InputData
+namespace EGCad.Core.InputData
 {
     public class ParameterTableEntry
     {

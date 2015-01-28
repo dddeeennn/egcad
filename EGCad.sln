@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGCad.Tests", "EGCad.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGCad.Common", "EGCad.Common\EGCad.Common.csproj", "{D45404B0-D5D1-4A4E-8DEB-1E3346348227}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGCad.Core", "EGCad.Core\EGCad.Core.csproj", "{D3D86C6B-B4DA-4F00-A31F-46F019131794}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D45404B0-D5D1-4A4E-8DEB-1E3346348227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D45404B0-D5D1-4A4E-8DEB-1E3346348227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D45404B0-D5D1-4A4E-8DEB-1E3346348227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3D86C6B-B4DA-4F00-A31F-46F019131794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D86C6B-B4DA-4F00-A31F-46F019131794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D86C6B-B4DA-4F00-A31F-46F019131794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D86C6B-B4DA-4F00-A31F-46F019131794}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

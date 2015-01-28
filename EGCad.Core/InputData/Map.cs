@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Drawing;
 
-namespace EGCad.Models.InputData
+namespace EGCad.Core.InputData
 {
 	/// <summary>
 	/// input map 
 	/// </summary>
 	public class Map
 	{
-		public Map(Image image, string src, Point start, Point end)
+        public Map(Image image, string src, Point start, Point end)
 			: this()
 		{
 			ImgSrc = src;

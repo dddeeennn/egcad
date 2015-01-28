@@ -2,13 +2,15 @@
 using System.Linq;
 using EGCad.Common.Infrastructure;
 
-namespace EGCad.Models.InputData
+namespace EGCad.Core.InputData
 {
 	public class GeoData
 	{
 		public Map Map { get; set; }
 
         public List<Parameter> Parameters { get; set; }
+
+        public List<ParameterTableEntry> Points { get; set; } 
 
         public int AdditionalPointCount { get; set; }
 
@@ -22,10 +24,11 @@ namespace EGCad.Models.InputData
 			Map = map;
 		}
 
-		public GeoData(Map map, int additionalPointCount, List<Parameter> parameters, NormalizeType normalize,
+		public GeoData(Map map, int additionalPointCount, List<ParameterTableEntry> points ,List<Parameter> parameters, NormalizeType normalize,
 			StatCalculationType statCalculation)
 			: this(map)
 		{
+		    Points = points;
 			AdditionalPointCount = additionalPointCount;
 			Parameters = parameters;
 			Normilize = normalize;

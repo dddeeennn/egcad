@@ -83,6 +83,7 @@
     <Compile Include="Infrastructure\MVC\HtmlJsonSerializer.cs" />
     <Compile Include="Infrastructure\NormalizeType.cs" />
     <Compile Include="Infrastructure\StatCalculationType.cs" />
+    <Compile Include="MathExt\MathOperations.cs" />
     <Compile Include="MathExt\ScaleEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

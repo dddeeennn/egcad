@@ -161,11 +161,8 @@
     <Compile Include="Controllers\CalculationParametersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InputBaseController.cs" />
+    <Compile Include="Controllers\NormalizeController.cs" />
     <Compile Include="Models\CalculationParameterModel.cs" />
-    <Compile Include="Models\InputData\GeoData.cs" />
-    <Compile Include="Models\InputData\Map.cs" />
-    <Compile Include="Models\InputData\Parameter.cs" />
-    <Compile Include="Models\InputData\ParameterTableEntry.cs" />
     <Compile Include="Services\ImageProvider.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
@@ -260,6 +257,7 @@
     <Content Include="Views\TableParameters\Index.cshtml" />
     <Content Include="Views\CalculationParameters\Index.cshtml" />
     <Content Include="Views\Calc\Index.cshtml" />
+    <Content Include="Views\Normalize\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\map\" />
@@ -278,6 +276,10 @@
     <ProjectReference Include="..\EGCad.Common\EGCad.Common.csproj">
       <Project>{D45404B0-D5D1-4A4E-8DEB-1E3346348227}</Project>
       <Name>EGCad.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EGCad.Core\EGCad.Core.csproj">
+      <Project>{D3D86C6B-B4DA-4F00-A31F-46F019131794}</Project>
+      <Name>EGCad.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,42 @@
+﻿@model List<EGCad.Core.InputData.ParameterTableEntry>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Таблица нормализваонных значений</h2>
+<table class="table table-condensed table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-sm-1">#</th>
+            <th class="col-sm-1">Id</th>
+            <th class="col-sm-1">X</th>
+            <th class="col-sm-1">Y</th>
+            @if (Model.Any())
+            {
+                foreach (var p in Model[0].Parameters)
+                {
+                    <th class="col-sm-1">@p.ToString()</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var point in Model)
+        {
+            <tr>
+                <td>@(point.Id++)</td>
+                <td>@point.Id</td>
+                <td>@point.X</td>
+                <td>@point.Y</td>
+                @if (point.Parameters.Any())
+                {
+                    foreach (var pointParam in point.Parameters)
+                    {
+                        <td>@pointParam.Value</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

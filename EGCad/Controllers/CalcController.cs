@@ -1,4 +1,7 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
+using EGCad.Core;
+using EGCad.Core.NormalizeData;
 
 namespace EGCad.Controllers
 {
@@ -9,6 +12,15 @@ namespace EGCad.Controllers
         {
             Save();
             return View(InputModel);
+        }
+
+        public ActionResult DisplayNormalizedData()
+        {
+            var normalizer = new EukleadAveragedNormalizer();
+            var data = normalizer.Normalize(new Data(InputModel.Points));
+            TempData["normalizedData"] = data.Points;
+            return RedirectToAction("Index", "Normalize");
+
         }
     }
 }

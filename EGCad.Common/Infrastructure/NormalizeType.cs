@@ -6,8 +6,8 @@ namespace EGCad.Common.Infrastructure
 	{
         [Display(Name = "не выбрано")]
 		None = 0,
-        [Display(Name = "1")]
-		NormType1 = 1,
+        [Display(Name = "Усредненное Евклидово расстояние")]
+		EuklideanAveraged = 1,
         [Display(Name = "2")]
 		NormType2 = 2,
         [Display(Name = "3")]

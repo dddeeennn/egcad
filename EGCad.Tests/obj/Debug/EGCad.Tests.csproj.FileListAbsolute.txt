@@ -48,6 +48,7 @@ C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\FluentAssert.dll
 C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\nunit.framework.dll
 C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\FluentAssert.pdb
 C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\nunit.framework.xml
+C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.csprojResolveAssemblyReference.cache
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Tests.dll.config
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Tests.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Tests.pdb
@@ -69,6 +70,7 @@ C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.AspNet.Iden
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\System.Web.Optimization.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Owin.dll
+C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Core.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EntityFramework.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
@@ -90,11 +92,11 @@ C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.AspNet.Iden
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\System.Web.Optimization.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.xml
+C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Core.pdb
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EntityFramework.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
-C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.csprojResolveAssemblyReference.cache
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.pdb
