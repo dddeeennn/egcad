@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using EGCad.Common.Infrastructure;
 using EGCad.Common.MathExt;
 
 namespace EGCad.Core.NormalizeData
 {
-    public class EukleadAveragedNormalizer : DataNormalizerBase
+    public class ModularCenteredNormalizer : DataNormalizerBase
     {
-        public EukleadAveragedNormalizer()
-            : base(NormalizeType.EuklideanAveraged)
+        public ModularCenteredNormalizer()
+            : base(NormalizeType.ModularCentered)
         {
         }
 
@@ -19,7 +18,7 @@ namespace EGCad.Core.NormalizeData
 
         public override double GetVariationRange(double[] data)
         {
-            return Math.Sqrt(data.Select(val => val * val).Sum()) / data.Length;
+            return data.Max() - data.Min();
         }
     }
 }

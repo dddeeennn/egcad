@@ -4,15 +4,13 @@ namespace EGCad.Common.Infrastructure
 {
 	public enum NormalizeType:byte
 	{
-        [Display(Name = "не выбрано")]
-		None = 0,
         [Display(Name = "Усредненное Евклидово расстояние")]
-		EuklideanAveraged = 1,
-        [Display(Name = "2")]
-		NormType2 = 2,
-        [Display(Name = "3")]
-		NormType3 = 3,
-        [Display(Name = "4")]
-		NormType4 = 4
+		EuklideanAveraged = 0,
+        [Display(Name = "Модульное расстояние")]
+		Modular = 1,
+        [Display(Name = "Модульное центрированное расстояние")]
+		ModularCentered = 2,
+        [Display(Name = "Приведенное по максимуму расстояние")]
+		CastToMax = 3
 	}
 }

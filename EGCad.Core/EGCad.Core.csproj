@@ -49,6 +49,8 @@
     <Compile Include="NormalizeData\DataNormalizerBase.cs" />
     <Compile Include="NormalizeData\EukleadAveragedNormalizer.cs" />
     <Compile Include="NormalizeData\IDataNormalizer.cs" />
+    <Compile Include="NormalizeData\ModularCenteredNormalizer.cs" />
+    <Compile Include="NormalizeData\ModularNormalizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data.cs" />
   </ItemGroup>
