@@ -1,6 +1,6 @@
 ﻿using EGCad.Common.Infrastructure;
 
-namespace EGCad.Core.NormalizeData
+namespace EGCad.Core.Normalize
 {
     public interface IDataNormalizer
     {

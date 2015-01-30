@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EGCad.Common.Infrastructure;
-using EGCad.Core.InputData;
+using EGCad.Core.Input;
 
 namespace EGCad.Core
 {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using EGCad.Common.Infrastructure;
-using EGCad.Core.InputData;
+using EGCad.Core.Input;
 
-namespace EGCad.Core.NormalizeData
+namespace EGCad.Core.Normalize
 {
     public abstract class DataNormalizerBase : IDataNormalizer
     {

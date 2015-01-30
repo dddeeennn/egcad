@@ -2,7 +2,7 @@
 using EGCad.Common.Infrastructure;
 using EGCad.Common.MathExt;
 
-namespace EGCad.Core.NormalizeData
+namespace EGCad.Core.Normalize
 {
     public class ModularCenteredNormalizer : DataNormalizerBase
     {

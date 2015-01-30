@@ -2,7 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using EGCad.Core.InputData;
+using EGCad.Core.Input;
 using EGCad.Services;
 
 namespace EGCad.Controllers

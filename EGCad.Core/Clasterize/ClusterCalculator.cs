@@ -1,4 +1,4 @@
-﻿namespace EGCad.Core
+﻿namespace EGCad.Core.Clasterize
 {
     public class ClusterCalculator
     {

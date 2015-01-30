@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using EGCad.Common.Infrastructure;
 
-namespace EGCad.Core.NormalizeData
+namespace EGCad.Core.Normalize
 {
     public class ModularNormalizer : DataNormalizerBase
     {

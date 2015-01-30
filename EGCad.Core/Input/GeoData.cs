@@ -2,7 +2,7 @@
 using System.Linq;
 using EGCad.Common.Infrastructure;
 
-namespace EGCad.Core.InputData
+namespace EGCad.Core.Input
 {
 	public class GeoData
 	{

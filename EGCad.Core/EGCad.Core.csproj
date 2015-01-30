@@ -41,16 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalculationSettings.cs" />
-    <Compile Include="ClusterCalculator.cs" />
-    <Compile Include="InputData\GeoData.cs" />
-    <Compile Include="InputData\Map.cs" />
-    <Compile Include="InputData\Parameter.cs" />
-    <Compile Include="InputData\ParameterTableEntry.cs" />
-    <Compile Include="NormalizeData\DataNormalizerBase.cs" />
-    <Compile Include="NormalizeData\EukleadAveragedNormalizer.cs" />
-    <Compile Include="NormalizeData\IDataNormalizer.cs" />
-    <Compile Include="NormalizeData\ModularCenteredNormalizer.cs" />
-    <Compile Include="NormalizeData\ModularNormalizer.cs" />
+    <Compile Include="Clasterize\ClusterCalculator.cs" />
+    <Compile Include="Input\GeoData.cs" />
+    <Compile Include="Input\Map.cs" />
+    <Compile Include="Input\Parameter.cs" />
+    <Compile Include="Input\ParameterTableEntry.cs" />
+    <Compile Include="Normalize\DataNormalizerBase.cs" />
+    <Compile Include="Normalize\EukleadAveragedNormalizer.cs" />
+    <Compile Include="Normalize\IDataNormalizer.cs" />
+    <Compile Include="Normalize\ModularCenteredNormalizer.cs" />
+    <Compile Include="Normalize\ModularNormalizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data.cs" />
   </ItemGroup>
@@ -60,6 +60,7 @@
       <Name>EGCad.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

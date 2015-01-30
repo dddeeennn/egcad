@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using EGCad.Common.Extensions;
-using EGCad.Core.InputData;
+using EGCad.Core.Input;
 
 namespace EGCad.Controllers
 {

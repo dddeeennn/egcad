@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EGCad.Core.InputData;
+using EGCad.Core.Input;
 
 namespace EGCad.Core
 {

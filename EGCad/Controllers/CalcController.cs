@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using EGCad.Core;
-using EGCad.Core.NormalizeData;
+using EGCad.Core.Normalize;
 
 namespace EGCad.Controllers
 {
