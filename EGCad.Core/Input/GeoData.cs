@@ -38,8 +38,8 @@ namespace EGCad.Core.Input
 		public GeoData()
 		{
 			Parameters = new List<Parameter>();
-			Normilize = NormalizeType.None;
-			StatCalculation = StatCalculationType.None;
+			Normilize = NormalizeType.EuklideanAveraged;
+			StatCalculation = StatCalculationType.Euclead;
 		}
 
 		public bool IsValid
@@ -47,9 +47,7 @@ namespace EGCad.Core.Input
 			get
 			{
 				return !(Map == null ||
-						!Parameters.Any() ||
-						StatCalculation == StatCalculationType.None ||
-						Normilize == NormalizeType.None);
+						!Parameters.Any());
 			}
 		}
 	}

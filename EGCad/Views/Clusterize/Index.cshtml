@@ -1,0 +1,24 @@
+﻿@model EGCad.Core.Clasterize.ClusterNode[]
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Результаты кластеризации</h2>
+<table class="table table-condensed table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="col-sm-1">Кластер</th>
+            <th class="col-sm-1">Статистическое расстояние</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cluster in Model)
+        {
+            <tr>
+                <td>@string.Join(" , ", cluster.JoinedClasters.Select(idx => "" + idx))</td>
+                <td>@cluster.StatDistance</td>
+            </tr>
+        }
+    </tbody>
+</table>

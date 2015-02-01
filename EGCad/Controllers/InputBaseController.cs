@@ -93,13 +93,13 @@ namespace EGCad.Controllers
 
         protected NormalizeType Normilize
         {
-            get { return (NormalizeType?)Session["Normilize"] ?? NormalizeType.None; }
+            get { return (NormalizeType?)Session["Normilize"] ?? NormalizeType.EuklideanAveraged; }
             set { Session["Normilize"] = value; }
         }
 
         protected StatCalculationType StatCalculation
         {
-            get { return (StatCalculationType?)Session["StatCalculationType"] ?? StatCalculationType.None; }
+            get { return (StatCalculationType?)Session["StatCalculationType"] ?? StatCalculationType.Euclead; }
             set { Session["StatCalculationType"] = value; }
         }
 

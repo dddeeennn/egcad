@@ -20,5 +20,17 @@ namespace EGCad.Common.Extensions
             list[secondIndex] = tmp;
         }
 
+        public static string ToStr(this int[] array)
+        {
+            return string.Join(",", array);
+        }
+
+        public static int[] Concat(this int[] first, params int[] second)
+        {
+            var result = new int[first.Length + second.Length];
+            first.CopyTo(result, 0);
+            second.CopyTo(result, first.Length);
+            return result;
+        }
     }
 }

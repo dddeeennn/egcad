@@ -159,6 +159,7 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\CalcController.cs" />
     <Compile Include="Controllers\CalculationParametersController.cs" />
+    <Compile Include="Controllers\ClusterizeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InputBaseController.cs" />
     <Compile Include="Controllers\NormalizeController.cs" />
@@ -258,6 +259,7 @@
     <Content Include="Views\CalculationParameters\Index.cshtml" />
     <Content Include="Views\Calc\Index.cshtml" />
     <Content Include="Views\Normalize\Index.cshtml" />
+    <Content Include="Views\Clusterize\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\map\" />
