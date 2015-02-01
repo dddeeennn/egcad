@@ -43,8 +43,10 @@
     <Compile Include="CalculationSettings.cs" />
     <Compile Include="Clasterize\ClusterCalculator.cs" />
     <Compile Include="Clasterize\ClusterNode.cs" />
+    <Compile Include="Clasterize\ClusterTree.cs" />
     <Compile Include="Clasterize\EukleadDistanceProvider.cs" />
     <Compile Include="Clasterize\IStatDistanceProvider.cs" />
+    <Compile Include="Clasterize\NodeModel.cs" />
     <Compile Include="Clasterize\QuadEukleadDistanceProvider.cs" />
     <Compile Include="Clasterize\StatDistanceCell.cs" />
     <Compile Include="Clasterize\StatDistanceProviderFactory.cs" />

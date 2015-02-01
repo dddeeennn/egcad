@@ -67,3 +67,21 @@ a.remove-action:hover {
 .action:hover {
     text-decoration: none;
 }
+
+.node circle {           
+   fill: #fff;           
+   stroke: steelblue;           
+   stroke-width: 1.5px;   
+}   
+.node {           
+   font: 16px sans-serif;   
+}   
+.link {           
+   fill: none;           
+   stroke: #666;          
+   stroke-width: 1.5px;   
+}   
+
+line {           
+   stroke: black;   
+}

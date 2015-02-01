@@ -7,7 +7,7 @@ namespace EGCad.Common.Infrastructure.MVC
 {
     public static class HtmlJsonSerializer
     {
-        public static IHtmlString SerializeObject(object value)
+        public static IHtmlString SerializeObject(this object value)
         {
             using (var stringWriter = new StringWriter())
             using (var jsonWriter = new JsonTextWriter(stringWriter))

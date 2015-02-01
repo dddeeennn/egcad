@@ -8,7 +8,7 @@ namespace EGCad.Controllers
         // GET: Clusterize
         public ActionResult Index()
         {
-            return View((ClusterNode[])TempData["clusterizedData"] ?? new ClusterNode[0]);
+            return View((ClusterTree)TempData["clusterizedData"] ?? new ClusterTree());
         }
     }
 }
