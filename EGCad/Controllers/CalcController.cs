@@ -29,7 +29,7 @@ namespace EGCad.Controllers
         {
             var normalizer = new EukleadAveragedNormalizer();
             var clusterizer = new ClusterCalculator(StatCalculationType.Euclead);
-            var data = clusterizer.Clusterize(normalizer.Normalize(new Data(InputModel.Points.Take(23).ToList())));
+            var data = clusterizer.Clusterize(normalizer.Normalize(new Data(InputModel.Points.Take(29).ToList())));
             TempData["clusterizedData"] = data;
             return RedirectToAction("Index", "Clusterize");
 
