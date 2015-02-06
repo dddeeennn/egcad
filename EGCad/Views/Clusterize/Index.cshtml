@@ -1,112 +1,117 @@
 ﻿@using EGCad.Common.Infrastructure.MVC
 @model EGCad.Core.Clasterize.ClusterTree
 @{
-	ViewBag.Title = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Результаты кластеризации</h2>
 <div id="dendrogramm"></div>
+
 <script type="text/javascript">
-	var json = @Model.SerializeObject();
-	var width = 1300;
-	var height = 900;
-	var cluster = d3.layout.cluster()
+    var json = @Model.SerializeObject();
+    var width = 1000 ;
+    var height = 800;
+    var cluster = d3.layout.cluster()
 	   .size([height-100, width - 200]);
 
-	var diagonal = d3.svg.diagonal()
+    var diagonal = d3.svg.diagonal()
 	   .projection(function (d) { return [x(d.y), d.x]; });
 
-	var svg = d3.select("#dendrogramm").append("svg")
+    var svg = d3.select("#dendrogramm").append("svg")
 	   .attr("width", width)
 	   .attr("height", height)
 	   .append("g")
 	   .attr("transform", "translate(100,30)");
 
-	var xs = [];
-	var ys = [];
+    var xs = [];
+    var ys = [];
 
-	function getXYfromJSONTree(node) {
-		xs.push(node.x);
-		ys.push(node.statDistance);
-		if (typeof node.children != 'undefined') {
-			for (j in node.children) {
-				getXYfromJSONTree(node.children[j]);
-			}
-		}
-	}
+    function getXYfromJSONTree(node) {
+        xs.push(node.x);
+        ys.push(node.statDistance);
+        if (typeof node.children != 'undefined') {
+            for (j in node.children) {
+                getXYfromJSONTree(node.children[j]);
+            }
+        }
+    }
 
-	var ymax = Number.MIN_VALUE;
-	var ymin = Number.MAX_VALUE;
+    var ymax = Number.MIN_VALUE;
+    var ymin = Number.MAX_VALUE;
 
-	getXYfromJSONTree(json);
+    getXYfromJSONTree(json);
 
-	var nodes = cluster.nodes(json);
-	var links = cluster.links(nodes);
+    var nodes = cluster.nodes(json);
+    var links = cluster.links(nodes);
 
-	nodes.forEach(function (d, i) {
-		if (typeof xs[i] != 'undefined') {
-			d.x = xs[i];
-		}
-		if (typeof ys[i] != 'undefined') {
-			d.y = ys[i];
-		}
-	});
+    nodes.forEach(function (d, i) {
+        if (typeof xs[i] != 'undefined') {
+            d.x = xs[i];
+        }
+        if (typeof ys[i] != 'undefined') {
+            d.y = ys[i];
+        }
+    });
 
-	nodes.forEach(function (d) {
-		if (d.y > ymax)
-			ymax = d.y;
-		if (d.y < ymin)
-			ymin = d.y;
-	});
+    nodes.forEach(function (d) {
+        if (d.y > ymax)
+            ymax = d.y;
+        if (d.y < ymin)
+            ymin = d.y;
+    });
 
-	var x = d3.scale.linear().domain([ymin, ymax]).range([0, width - 200]);
-	var xinv = d3.scale.linear().domain([ymax, ymin]).range([0, width - 200]);
+    var x = d3.scale.linear().domain([ymin, ymax]).range([0, width - 200]);
+    var xinv = d3.scale.linear().domain([ymax, ymin]).range([0, width - 200]);
 
-	var link = svg.selectAll(".link")
+    var link = svg.selectAll(".link")
 	   .data(links)
 	   .enter().append("path")
 	   .attr("class", function (d) {
-	   	return d.source.name=='root'?"hidden link":"link";
+	       return d.source.name=='root'?"hidden link":"link";
 	   })
-	   .attr("d", diagonal);
+	   .attr("d", elbow);
 
-	var node = svg.selectAll(".node")
+    var node = svg.selectAll(".node")
 	   .data(nodes)
 	   .enter().append("g")
 	   .attr('class', function(d) {
-	   	return d.name == 'root' ? "node hidden" : "node";
+	       return d.name == 'root' ? "node hidden" : "node";
 	   })
 	   .attr("transform", function (d) {
-	   	return "translate(" + x(d.y) + "," + d.x + ")";
+	       return "translate(" + x(d.y) + "," + d.x + ")";
 	   });
 
-	node.append("circle")
-	   .attr("r", 4.5);
 
-	node.append("text")
+    node.append("circle")
+	   .attr("r", 4.5)
+        .append("svg:title").text(function(d) {
+            return d.statDistance;
+        });
+
+    node.append("text")
 	   .attr("dx", function (d) { return d.children ? 8 : -8; })
 	   .attr("dy", 3)
 	   .style("text-anchor", function (d) { return d.children ? "start" : "end"; })
 	   .text(function (d) { return d.name; });
-	
-	var g = d3.select("svg").append("g")
+
+    var g = d3.select("svg").append("g")
 	   .attr("transform", "translate(100,20)");
-	g.append("line")
+    g.append("line")
 	   .attr("x1", x(ymin))
 	   .attr("y1", 0)
 	   .attr("x2", x(ymax))
 	   .attr("y2", 0);
-	g.selectAll(".ticks")
-	   .data(x.ticks(5))
+    g.selectAll(".ticks")
+	   .data(x.ticks(20))
 	   .enter().append("line")
 	   .attr("class", "ticks")
 	   .attr("x1", function (d) { return x(d); })
 	   .attr("y1", -5)
 	   .attr("x2", function (d) { return x(d); })
 	   .attr("y2", 5);
-	g.selectAll(".label")
-	   .data(x.ticks(5))
+    g.selectAll(".label")
+	   .data(x.ticks(20))
 	   .enter().append("text")
 	   .attr("class", "label")
 	   .text(String)
@@ -114,22 +119,124 @@
 	   .attr("y", -5)
 	   .attr("text-anchor", "middle");
 
+    function elbow(d, i) {
+        return "M" + x(d.source.statDistance) + "," + d.source.x
+            + "V" + d.target.x + "H" + x(d.target.statDistance);
+    }
+
 </script>
 
-@*<table class="table table-condensed table-bordered table-striped">
-		<thead>
-			<tr>
-				<th class="col-sm-1">Кластер</th>
-				<th class="col-sm-1">Статистическое расстояние</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var cluster in Model)
-			{
-				<tr>
-					<td>@string.Join(" , ", cluster.JoinedClasters.Select(idx => "" + idx))</td>
-					<td>@cluster.StatDistance</td>
-				</tr>
-			}
-		</tbody>
-	</table>*@
+@*
+    
+    curve path line
+
+    var json = @Model.SerializeObject();
+        var width = 1000 ;
+        var height = 800;
+        var cluster = d3.layout.cluster()
+           .size([height-100, width - 200]);
+
+        var diagonal = d3.svg.diagonal()
+           .projection(function (d) { return [x(d.y), d.x]; });
+
+        var svg = d3.select("#dendrogramm").append("svg")
+           .attr("width", width)
+           .attr("height", height)
+           .append("g")
+           .attr("transform", "translate(100,30)");
+
+        var xs = [];
+        var ys = [];
+
+        function getXYfromJSONTree(node) {
+            xs.push(node.x);
+            ys.push(node.statDistance);
+            if (typeof node.children != 'undefined') {
+                for (j in node.children) {
+                    getXYfromJSONTree(node.children[j]);
+                }
+            }
+        }
+
+        var ymax = Number.MIN_VALUE;
+        var ymin = Number.MAX_VALUE;
+
+        getXYfromJSONTree(json);
+
+        var nodes = cluster.nodes(json);
+        var links = cluster.links(nodes);
+
+        nodes.forEach(function (d, i) {
+            if (typeof xs[i] != 'undefined') {
+                d.x = xs[i];
+            }
+            if (typeof ys[i] != 'undefined') {
+                d.y = ys[i];
+            }
+        });
+
+        nodes.forEach(function (d) {
+            if (d.y > ymax)
+                ymax = d.y;
+            if (d.y < ymin)
+                ymin = d.y;
+        });
+
+        var x = d3.scale.linear().domain([ymin, ymax]).range([0, width - 200]);
+        var xinv = d3.scale.linear().domain([ymax, ymin]).range([0, width - 200]);
+
+        var link = svg.selectAll(".link")
+           .data(links)
+           .enter().append("path")
+           .attr("class", function (d) {
+               return d.source.name=='root'?"hidden link":"link";
+           })
+           .attr("d", diagonal);
+
+        var node = svg.selectAll(".node")
+           .data(nodes)
+           .enter().append("g")
+           .attr('class', function(d) {
+               return d.name == 'root' ? "node hidden" : "node";
+           })
+           .attr("transform", function (d) {
+               return "translate(" + x(d.y) + "," + d.x + ")";
+           });
+
+
+        node.append("circle")
+           .attr("r", 4.5)
+            .append("svg:title").text(function(d) {
+                return d.statDistance;
+            });
+
+        node.append("text")
+           .attr("dx", function (d) { return d.children ? 8 : -8; })
+           .attr("dy", 3)
+           .style("text-anchor", function (d) { return d.children ? "start" : "end"; })
+           .text(function (d) { return d.name; });
+
+        var g = d3.select("svg").append("g")
+           .attr("transform", "translate(100,20)");
+        g.append("line")
+           .attr("x1", x(ymin))
+           .attr("y1", 0)
+           .attr("x2", x(ymax))
+           .attr("y2", 0);
+        g.selectAll(".ticks")
+           .data(x.ticks(20))
+           .enter().append("line")
+           .attr("class", "ticks")
+           .attr("x1", function (d) { return x(d); })
+           .attr("y1", -5)
+           .attr("x2", function (d) { return x(d); })
+           .attr("y2", 5);
+        g.selectAll(".label")
+           .data(x.ticks(20))
+           .enter().append("text")
+           .attr("class", "label")
+           .text(String)
+           .attr("x", function (d) { return x(d); })
+           .attr("y", -5)
+           .attr("text-anchor", "middle");
+*@
