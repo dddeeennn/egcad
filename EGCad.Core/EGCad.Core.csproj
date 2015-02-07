@@ -65,6 +65,10 @@
     <Compile Include="Normalize\NormalizeDataRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="VairiabilityCalc\EngineerGeoParameterDistributionProvider.cs" />
+    <Compile Include="VairiabilityCalc\VariabilityCalculator.cs" />
+    <Compile Include="VairiabilityCalc\VariabilityFuncItem.cs" />
+    <Compile Include="VairiabilityCalc\VariabilityFuncModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EGCad.Common\EGCad.Common.csproj">

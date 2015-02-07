@@ -1,0 +1,56 @@
+﻿@using EGCad.Common.Infrastructure.MVC
+@model EGCad.Core.VairiabilityCalc.VariabilityFuncModel
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="container"></div>
+@if (Model != null)
+{
+	<script type="text/javascript">
+		$(function () {
+			chart1 = new Highcharts.Chart({
+				chart: {
+					type: 'line',
+					renderTo: 'container'
+				},
+				title: {
+					text: 'Обобщенная функция изменчивости',
+					x: -20 //center
+				},
+				xAxis: {
+					categories: @Model.Values.Select(v=>v.R).SerializeObject(),
+					title: {
+						text:"Расстояние от фронта намыва, м"
+					},
+					min:0
+				},
+				yAxis: {
+					plotLines: [{
+						value: 0,
+						width: 1,
+						color: '#fff'
+					}],
+					title: {
+						enable:false,
+						text:""
+					},
+					max:1,
+					min:0
+				},
+				series: [{
+					name: 'Обощенная функция изменчивости',
+					data: @Model.Values.Select(val=>val.VariabilityValue).SerializeObject()
+					}]
+			});
+		});
+	</script>
+}
+	@*<div class="form-horizontal col-sm-12">
+			<div class="form-group">
+				<div>F = @f</div>
+			</div>
+			<div class="form-group">
+				<div>k = @k.ToStr(" ; ")</div>
+			</div>
+		</div>*@
