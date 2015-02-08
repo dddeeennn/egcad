@@ -11,7 +11,6 @@ C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\System.Web.WebPages.De
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\EGCad.Common.pdb
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\System.Web.Mvc.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\System.Web.WebPages.xml
-C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\Newtonsoft.Json.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\System.Web.Razor.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Core\bin\Debug\System.Web.WebPages.Deployment.xml

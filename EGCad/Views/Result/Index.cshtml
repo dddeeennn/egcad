@@ -1,0 +1,89 @@
+﻿@using EGCad.Common.Infrastructure.MVC
+@model EGCad.Models.ResultModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Результаты расчета</h2>
+<div class="form-horizontal">
+    <div class="form-group col-sm-12">
+        <div><label>Масштаб карты  </label><span id="scaleLabel" style="margin-left: 10px"> - </span>  м.</div>
+        <canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
+            Здесь должна быть отображена загруженная карта.
+            Для работы с приложением обновите браузер.
+            Минимальная поддерживаемая версия браузеров:
+            Internet Explorer 10+, 	Google Chrome 38+, FireFox
+        </canvas>
+    </div>
+</div>
+
+<script>
+   
+    var canvas = $('#map-container');
+    var ctx = canvas[0].getContext('2d');
+
+    var map = @Model.Map.SerializeObject();
+    var points =  @Model.Points.SerializeObject();
+
+    var x = d3.scale.linear().domain([0, map.widthT]).range([0, map.width ]);
+    var y = d3.scale.linear().domain([0, map.heightT]).range([0, map.height ]);
+
+    initCanvas(map);
+
+    canvas.on('imgLoaded', function() {
+        drawPoints(points);
+    });
+
+    function drawPoints(points) {
+        $.each(points,function(item, value) {
+            drawPoint(ctx, x(value.x), y(value.y), 3, "#000");
+        });
+    }
+
+    function initCanvas(map) {
+        var width = map.width;
+        var height = map.height;
+
+        var img = new Image(width, height);
+        img.src = map.imgSrc;
+        img.onload = function () {
+            canvas[0].width = width;
+            canvas[0].height = height;
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            if (map.scaleKoef > 0) drawScale(canvas[0], ctx, map.scaleKoef, 10, 20);
+
+            canvas.trigger("imgLoaded");
+        };
+    }
+
+    function drawPoint(context, centerX, centerY, radius, color) {
+        context.beginPath();
+        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+        context.fillStyle = color;
+        context.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = '#003300';
+        context.stroke();
+    }
+
+    function drawScale(canvas, ctx, scale, tileCount, thickness) {
+        var tileLength = Math.ceil(canvas.width / tileCount);
+
+        $('#scaleLabel').html(Math.round(scale * tileLength));
+
+        for (var i = 0; i < tileCount; i++) {
+            if (i % 2 == 0) {
+                ctx.fillRect(tileLength * i, 0, tileLength, thickness);
+            } else {
+                ctx.rect(tileLength * i, 0, tileLength, thickness - 1);
+                ctx.stroke();
+            }
+        }
+    }
+
+</script>
+

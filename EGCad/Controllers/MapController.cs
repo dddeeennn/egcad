@@ -20,7 +20,7 @@ namespace EGCad.Controllers
             return Data(0, new { Map });
         }
 
-        //handle img
+        //handle img load
         [HttpPost]
         public ActionResult Load(HttpPostedFileBase map)
         {
@@ -39,7 +39,7 @@ namespace EGCad.Controllers
 
             var imgSrc = "/Content/map/" + map.FileName;
 
-            base.Map = new Map(img, imgSrc, new Point(), new Point());
+            Map = new Map(img, imgSrc, new Point(), new Point());
 
             return Data(0, new { Map });
         }
@@ -47,7 +47,7 @@ namespace EGCad.Controllers
         [HttpGet]
         public ActionResult EndpointLength(double x)
         {
-            base.Map.EndT = new Point((int)x, 0);
+            Map.EndT = new Point((int)x, 0);
             return Data(0, new { Map });
         }
 
@@ -57,11 +57,11 @@ namespace EGCad.Controllers
             var p = new Point((int)x, (int)y);
             if (pointType)
             {
-                base.Map.Start = p;
+                Map.Start = p;
             }
             else
             {
-                base.Map.End = p;
+                Map.End = p;
             }
             return Data(0, new { Map });
         }
