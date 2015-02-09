@@ -11,12 +11,12 @@ namespace EGCad.Core.Normalize
         {
         }
 
-        public override double GetZeroLevelFactor(double[] data)
+        protected override double GetZeroLevelFactor(double[] data)
         {
             return data.ArithmeticalMean();
         }
 
-        public override double GetVariationRange(double[] data)
+        protected override double GetVariationRange(double[] data)
         {
             return data.Max() - data.Min();
         }

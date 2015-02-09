@@ -1,4 +1,5 @@
-﻿using EGCad.Core.Input;
+﻿using System.Collections.Generic;
+using EGCad.Core.Input;
 
 namespace EGCad.Models
 {
@@ -6,7 +7,9 @@ namespace EGCad.Models
     {
         public Map Map { get; set; }
 
-        public ParameterTableEntry[] Points { get; set; }
+        public IEnumerable<ParameterTableEntry> Points { get; set; }
+
+        public IEnumerable<ParameterTableEntry> NewPoints { get; set; }
 
         public ResultModel()
         {
@@ -14,10 +17,11 @@ namespace EGCad.Models
             Map = new Map();
         }
 
-        public ResultModel(Map map, params ParameterTableEntry[] points)
+        public ResultModel(Map map, IEnumerable<ParameterTableEntry> points, IEnumerable<ParameterTableEntry> newPoints)
         {
             Map = map;
             Points = points;
+            NewPoints = newPoints;
         }
     }
 }

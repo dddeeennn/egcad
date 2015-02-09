@@ -4,7 +4,9 @@ namespace EGCad.Core.VairiabilityCalc
 {
     public class VariabilityFuncItem
     {
-        private double _x0, _y0;
+        private readonly double _x0;
+        private readonly double _y0;
+        public int PointId { get; private set; }
 
         public double X { get; private set; }
 
@@ -17,12 +19,13 @@ namespace EGCad.Core.VairiabilityCalc
 
         public double VariabilityValue { get; set; }
 
-        public VariabilityFuncItem(double x0, double y0, double x, double y, double variabilityValue)
+        public VariabilityFuncItem(double x0, double y0, double x, double y,int pointId, double variabilityValue)
         {
             X = x;
             Y = y;
             VariabilityValue = variabilityValue;
             _y0 = y0;
+            PointId = pointId;
             _x0 = x0;
         }
     }

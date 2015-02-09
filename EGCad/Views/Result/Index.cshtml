@@ -26,6 +26,7 @@
 
     var map = @Model.Map.SerializeObject();
     var points =  @Model.Points.SerializeObject();
+    var newPoints = @Model.NewPoints.SerializeObject();
 
     var x = d3.scale.linear().domain([0, map.widthT]).range([0, map.width ]);
     var y = d3.scale.linear().domain([0, map.heightT]).range([0, map.height ]);
@@ -33,12 +34,13 @@
     initCanvas(map);
 
     canvas.on('imgLoaded', function() {
-        drawPoints(points);
+        drawPoints(points,"#000");
+        drawPoints(newPoints, "#f99");
     });
 
-    function drawPoints(points) {
+    function drawPoints(points, color) {
         $.each(points,function(item, value) {
-            drawPoint(ctx, x(value.x), y(value.y), 3, "#000");
+            drawPoint(ctx, x(value.x), y(value.y), 3, color);
         });
     }
 

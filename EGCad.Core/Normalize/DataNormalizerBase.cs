@@ -55,8 +55,8 @@ namespace EGCad.Core.Normalize
             return sourceColumns;
         }
 
-        public abstract double GetZeroLevelFactor(double[] data);//натуральное значение нулевого уровня j-фактора 
+        protected abstract double GetZeroLevelFactor(double[] data);//натуральное значение нулевого уровня j-фактора 
 
-        public abstract double GetVariationRange(double[] data);//интервал варьирования j-фактором
+        protected abstract double GetVariationRange(double[] data);//интервал варьирования j-фактором
     }
 }

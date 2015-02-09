@@ -4,7 +4,9 @@ using System.Web.Mvc;
 using EGCad.Common.Infrastructure;
 using EGCad.Core;
 using EGCad.Core.Clasterize;
+using EGCad.Core.Input;
 using EGCad.Core.Normalize;
+using EGCad.Core.PointPosition;
 using EGCad.Core.VairiabilityCalc;
 using EGCad.Models;
 
@@ -32,7 +34,7 @@ namespace EGCad.Controllers
         {
             var normalizer = new EukleadAveragedNormalizer();
             var clusterizer = new ClusterCalculator(StatCalculationType.Euclead);
-            var data = clusterizer.Clusterize(normalizer.Normalize(new Data(InputModel.Points.Take(29).ToList())));
+            var data = clusterizer.Clusterize(normalizer.Normalize(new Data(InputModel.Points.ToList())));
             TempData["clusterizedData"] = data;
             return RedirectToAction("Index", "Clusterize");
         }
@@ -40,22 +42,26 @@ namespace EGCad.Controllers
         public ActionResult DisplayVariabilityFunctionData()
         {
             var variabilityFuncCalc = new VariabilityCalculator();
-            var data = variabilityFuncCalc.GetVariabilityFunction(new Data(InputModel.Points));
-            TempData["variabilityFuncData"] = new VariabilityFuncModel(data.Select(val => val / data.Max()).ToArray().
-                Select((val, idx) =>
-                    new VariabilityFuncItem(InputModel.Points[0].X, InputModel.Points[0].Y,
-                        InputModel.Points[idx].X, InputModel.Points[idx].Y, val)).ToArray());
+            var pointProvider = new PointProvider(StatCalculationType.Euclead);
 
+            var old = variabilityFuncCalc.GetVariabilityFunction(new Data(InputModel.Points));
+            var newPoints = pointProvider.AllocationPoint(new Data(InputModel.Points));
+
+            TempData["variabilityFuncData"] = new VariabilityFuncModel(old, newPoints);
             return RedirectToAction("Index", "VariabilityFunction");
 
         }
 
         public ActionResult DisplayResult()
         {
-            TempData["resultData"] = new ResultModel(InputModel.Map, InputModel.Points.ToArray());
+            var pointProvider = new PointProvider(StatCalculationType.Euclead);
+
+            var points = pointProvider.AllocationPoint(new Data(InputModel.Points)).Select(
+                v => new ParameterTableEntry(v.PointId, v.X, v.Y, InputModel.Parameters)).ToArray();
+
+            TempData["resultData"] = new ResultModel(InputModel.Map, InputModel.Points, points);
 
             return RedirectToAction("Index", "Result");
-
         }
 
     }

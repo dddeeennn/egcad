@@ -8,11 +8,11 @@ namespace EGCad.Core.Input
 
         public int Id { get; set; }
 
-        public int X { get; set; }
+        public double X { get; set; }
 
-        public int Y { get; set; }
+        public double Y { get; set; }
 
-        public ParameterTableEntry(int id, int x, int y, List<Parameter> parameters )
+        public ParameterTableEntry(int id, double x, double y, List<Parameter> parameters )
         {
             Id = id;
             X = x;
