@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EGCad.Core.VairiabilityCalc
+namespace EGCad.Common.Model.VariabilityFunction
 {
     public class VariabilityFuncItem
     {

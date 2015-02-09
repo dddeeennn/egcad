@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using EGCad.Common.Extensions;
+using EGCad.Common.Model.Data;
+using EGCad.Common.Model.VariabilityFunction;
 
 namespace EGCad.Core.VairiabilityCalc
 {

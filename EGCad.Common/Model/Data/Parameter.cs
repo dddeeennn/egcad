@@ -1,4 +1,4 @@
-﻿namespace EGCad.Core.Input
+﻿namespace EGCad.Common.Model.Data
 {
     /// <summary>
     /// proovide input parameter

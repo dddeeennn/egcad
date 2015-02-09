@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace EGCad.Core.Clasterize
+namespace EGCad.Common.Model.Clusterize
 {
     public class StatDistanceTable
     {

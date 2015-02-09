@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EGCad.Common.Infrastructure;
-using EGCad.Core.Input;
+﻿using EGCad.Common.Infrastructure;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Core
 {
@@ -16,11 +11,21 @@ namespace EGCad.Core
 
         public StatCalculationType StatCalculation { get; private set; }
 
-        public CalculationSettings(GeoData settings)
+        public int ClusterCount { get; private set; }
+
+        internal CalculationSettings(GeoData settings)
+            : this(settings.AdditionalPointCount, settings.Normilize, settings.StatCalculation,
+            settings.ClusterCount)
         {
-            AdditionalPointCount = settings.AdditionalPointCount;
-            Normilize = settings.Normilize;
-            StatCalculation = settings.StatCalculation;
+        }
+
+        public CalculationSettings(int additionalPointCount, NormalizeType normalizeType,
+            StatCalculationType statCalculationType, int clusterCount)
+        {
+            AdditionalPointCount = additionalPointCount;
+            Normilize = normalizeType;
+            StatCalculation = statCalculationType;
+            ClusterCount = clusterCount;
         }
     }
 }

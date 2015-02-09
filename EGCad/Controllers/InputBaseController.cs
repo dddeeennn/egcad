@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using EGCad.Common.Infrastructure;
-using EGCad.Core.Input;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Controllers
 {

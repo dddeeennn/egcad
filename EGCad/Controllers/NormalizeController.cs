@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using EGCad.Core.Input;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Controllers
 {
@@ -9,7 +9,7 @@ namespace EGCad.Controllers
         // GET: Normalize
         public ActionResult Index()
         {
-            return View((List<ParameterTableEntry>)TempData["normalizedData"] ?? new List<ParameterTableEntry>());
+            return View(TempData["normalizedData"] ?? new ParameterTableEntry[0]);
         }
     }
 }

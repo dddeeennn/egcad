@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EGCad.Common.Infrastructure;
+using EGCad.Common.Model.Clusterize;
+using EGCad.Common.Model.Data;
+using EGCad.Common.Model.VariabilityFunction;
 using EGCad.Core.Clasterize;
-using EGCad.Core.Input;
 using EGCad.Core.Normalize;
 using EGCad.Core.VairiabilityCalc;
 
@@ -13,14 +12,14 @@ namespace EGCad.Core.PointPosition
 {
     public class PointProvider
     {
-        readonly VariabilityCalculator _variabilityCalculator = new VariabilityCalculator();
-        readonly DataNormalizerBase _normalizer = new EukleadAveragedNormalizer();
-
+        private readonly IDataNormalizer _normalizer;
         private readonly ClusterCalculator _clusterCalculator;
+        private readonly VariabilityCalculator _variabilityCalculator = new VariabilityCalculator();
 
-        public PointProvider(StatCalculationType statCalculation)
+        public PointProvider(CalculationSettings settings)
         {
-            _clusterCalculator = new ClusterCalculator(statCalculation);
+            _normalizer = NormalizerFactory.Create(settings);
+            _clusterCalculator = new ClusterCalculator(settings);
         }
 
         public VariabilityFuncItem[] AllocationPoint(Data sourceData)
@@ -35,14 +34,14 @@ namespace EGCad.Core.PointPosition
 
             var interClasterPoints = GetInterclasterPoint(clusterizedData.Children.ToArray(), variabilityFunc, sourceData);
 
-            result.AddRange(interClasterPoints.Select(p =>
+            result.AddRange(interClasterPoints.Select((p,index) =>
             {
                 var x = (p.Item1.X + p.Item2.X) / 2;
                 var y = (p.Item1.Y + p.Item2.Y) / 2;
                 var variabilityValue = (variabilityFunc.First(v1 => v1.PointId == p.Item1.Id).VariabilityValue +
                                        variabilityFunc.First(v2 => v2.PointId == p.Item2.Id).VariabilityValue)/2;
                 return new VariabilityFuncItem(sourceData.Points[0].X,
-                    sourceData.Points[0].Y, x, y, sourceData.Points.Count + 1, variabilityValue);
+                    sourceData.Points[0].Y, x, y, sourceData.Points.Count() + index, variabilityValue);
             }).ToArray());
 
             return result.ToArray();

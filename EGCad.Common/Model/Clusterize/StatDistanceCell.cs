@@ -1,4 +1,4 @@
-﻿namespace EGCad.Core.Clasterize
+﻿namespace EGCad.Common.Model.Clusterize
 {
     public class StatDistanceCell
     {

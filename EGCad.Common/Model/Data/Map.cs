@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace EGCad.Core.Input
+namespace EGCad.Common.Model.Data
 {
     /// <summary>
     /// input map 

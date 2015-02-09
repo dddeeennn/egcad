@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using EGCad.Common.Extensions;
-using EGCad.Core.Input;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Controllers
 {

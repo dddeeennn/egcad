@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using EGCad.Common.Infrastructure;
+using EGCad.Common.Model.Data;
+using EGCad.Common.Model.VariabilityFunction;
 using EGCad.Core;
 using EGCad.Core.Clasterize;
-using EGCad.Core.Input;
 using EGCad.Core.Normalize;
 using EGCad.Core.PointPosition;
 using EGCad.Core.VairiabilityCalc;
@@ -24,7 +24,7 @@ namespace EGCad.Controllers
         public ActionResult DisplayNormalizedData()
         {
             var normalizer = new EukleadAveragedNormalizer();
-            var data = normalizer.Normalize(new Data(InputModel.Points));
+            var data = normalizer.Normalize(new Data(InputModel.Points.ToArray()));
             TempData["normalizedData"] = data.Points;
             return RedirectToAction("Index", "Normalize");
 
@@ -32,9 +32,12 @@ namespace EGCad.Controllers
 
         public ActionResult DisplayClusterizedData()
         {
+            var settings = new CalculationSettings(2, NormalizeType.EuklideanAveraged, StatCalculationType.Euclead, 3);
+
             var normalizer = new EukleadAveragedNormalizer();
-            var clusterizer = new ClusterCalculator(StatCalculationType.Euclead);
-            var data = clusterizer.Clusterize(normalizer.Normalize(new Data(InputModel.Points.ToList())));
+            var clusterizer = new ClusterCalculator(settings);
+
+            var data = clusterizer.Clusterize(normalizer.Normalize(new Data(InputModel.Points.ToArray())));
             TempData["clusterizedData"] = data;
             return RedirectToAction("Index", "Clusterize");
         }
@@ -42,24 +45,27 @@ namespace EGCad.Controllers
         public ActionResult DisplayVariabilityFunctionData()
         {
             var variabilityFuncCalc = new VariabilityCalculator();
-            var pointProvider = new PointProvider(StatCalculationType.Euclead);
+            var settings = new CalculationSettings(2, NormalizeType.EuklideanAveraged, StatCalculationType.Euclead, 3);
 
-            var old = variabilityFuncCalc.GetVariabilityFunction(new Data(InputModel.Points));
-            var newPoints = pointProvider.AllocationPoint(new Data(InputModel.Points));
+            var pointProvider = new PointProvider(settings);
 
-            TempData["variabilityFuncData"] = new VariabilityFuncModel(old, newPoints);
+            var old = variabilityFuncCalc.GetVariabilityFunction(new Data(InputModel.Points.ToArray()));
+            var newPoints = pointProvider.AllocationPoint(new Data(InputModel.Points.ToArray()));
+
+            TempData["variabilityFuncData"] = new VariabilityFunction(old, newPoints);
             return RedirectToAction("Index", "VariabilityFunction");
 
         }
 
         public ActionResult DisplayResult()
         {
-            var pointProvider = new PointProvider(StatCalculationType.Euclead);
+            var settings = new CalculationSettings(2, NormalizeType.EuklideanAveraged, StatCalculationType.Euclead, 3);
 
-            var points = pointProvider.AllocationPoint(new Data(InputModel.Points)).Select(
-                v => new ParameterTableEntry(v.PointId, v.X, v.Y, InputModel.Parameters)).ToArray();
+            var networkBuilder = new EGNetworkBuilder(settings);
 
-            TempData["resultData"] = new ResultModel(InputModel.Map, InputModel.Points, points);
+            var points = networkBuilder.Calculate(new Data(InputModel.Points.ToArray()));
+
+            TempData["resultData"] = new ResultModel(InputModel.Map, points);
 
             return RedirectToAction("Index", "Result");
         }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace EGCad.Core.Input
+namespace EGCad.Common.Model.Data
 {
     public class ParameterTableEntry
     {
+        public static int Counter;
+
         public List<Parameter> Parameters { get; set; }
 
         public int Id { get; set; }
@@ -12,7 +14,7 @@ namespace EGCad.Core.Input
 
         public double Y { get; set; }
 
-        public ParameterTableEntry(int id, double x, double y, List<Parameter> parameters )
+        public ParameterTableEntry(int id, double x, double y, List<Parameter> parameters)
         {
             Id = id;
             X = x;

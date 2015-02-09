@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EGCad.Core.Clasterize
+namespace EGCad.Common.Model.Clusterize
 {
 	public class NodeModel
 	{

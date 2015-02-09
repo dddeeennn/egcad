@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using EGCad.Common.Model.Clusterize;
 using EGCad.Core.Clasterize;
 
 namespace EGCad.Controllers

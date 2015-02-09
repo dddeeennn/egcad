@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using EGCad.Models;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Controllers
 {
@@ -8,11 +8,11 @@ namespace EGCad.Controllers
         // GET: CalculationParameters
         public ActionResult Index()
         {
-            return View(new CalculationParameterModel());
+            return View(new CalculationParameter());
         }
 
         [HttpPost]
-        public ActionResult Index(CalculationParameterModel model)
+        public ActionResult Index(CalculationParameter model)
         {
             AdditionalPointCount = model.AdditionalPointCount;
             Normilize = model.Normilize;

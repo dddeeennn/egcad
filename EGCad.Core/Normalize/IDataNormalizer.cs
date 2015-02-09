@@ -1,4 +1,5 @@
 ﻿using EGCad.Common.Infrastructure;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Core.Normalize
 {

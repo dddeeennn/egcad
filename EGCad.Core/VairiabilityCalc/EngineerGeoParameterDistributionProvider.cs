@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using EGCad.Common.Extensions;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Core.VairiabilityCalc
 {
@@ -9,7 +10,7 @@ namespace EGCad.Core.VairiabilityCalc
 		public double[,] Get(Data sourceData)
 		{
 			var rowLength = sourceData.Points[0].Parameters.Count;
-			var columnLength = sourceData.Points.Count;
+			var columnLength = sourceData.Points.Length;
 
 			var result = new double[columnLength, rowLength];
 

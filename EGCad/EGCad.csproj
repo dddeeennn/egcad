@@ -165,7 +165,6 @@
     <Compile Include="Controllers\NormalizeController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\VariabilityFunctionController.cs" />
-    <Compile Include="Models\CalculationParameterModel.cs" />
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Services\ImageProvider.cs" />
     <Compile Include="Controllers\ManageController.cs" />

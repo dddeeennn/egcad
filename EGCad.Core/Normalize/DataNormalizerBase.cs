@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using EGCad.Common.Extensions;
 using EGCad.Common.Infrastructure;
-using EGCad.Core.Input;
+using EGCad.Common.Model.Data;
 
 namespace EGCad.Core.Normalize
 {
@@ -19,9 +19,9 @@ namespace EGCad.Core.Normalize
         {
             var result = new List<ParameterTableEntry>();
 
-            if (!sourceData.Points.Any()) return new Data(result);
+            if (!sourceData.Points.Any()) return new Data(result.ToArray());
 
-            var sourceColumns = GetPreprocessedColumns(sourceData);
+            var dataTable = sourceData.TableData();
 
             foreach (var point in sourceData.Points)
             {
@@ -30,29 +30,14 @@ namespace EGCad.Core.Normalize
                 for (var i = 0; i < point.Parameters.Count; i++)
                 {
                     var p = point.Parameters[i];
-                    var z = GetZeroLevelFactor(sourceColumns[i]);
-                    var v = GetVariationRange(sourceColumns[i]);
+                    var z = GetZeroLevelFactor(dataTable[i]); //pass column in method
+                    var v = GetVariationRange(dataTable[i]); //pass column in method
                     p.Value = (p.Value - z) / v;
                     normalizedParameters.Add(p);
                 }
                 result.Add(new ParameterTableEntry(point.Id, point.X, point.Y, normalizedParameters));
             }
-            return new Data(result);
-        }
-
-        private static double[][] GetPreprocessedColumns(Data sourceData)
-        {
-            var paramCount = sourceData.Points[0].Parameters.Count;
-
-            var sourceColumns = new Double[paramCount][];
-
-            for (var i = 0; i < paramCount; i++)
-            {
-                sourceColumns[i] = sourceData.Points.SelectMany(po => po.Parameters)
-                    .Where(param => param.Id == sourceData.Points[0].Parameters[i].Id)
-                    .Select(par => par.Value).ToArray();
-            }
-            return sourceColumns;
+            return new Data(result.ToArray());
         }
 
         protected abstract double GetZeroLevelFactor(double[] data);//натуральное значение нулевого уровня j-фактора 

@@ -48,6 +48,57 @@ C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\FluentAssert.dll
 C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\nunit.framework.dll
 C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\FluentAssert.pdb
 C:\Users\Chudinov_D\Documents\egcad\EGCad.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Tests.dll.config
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Tests.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Tests.pdb
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Common.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\FluentAssert.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\nunit.framework.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Helpers.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Mvc.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Razor.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Optimization.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Owin.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Core.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EntityFramework.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Common.pdb
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.pdb
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Helpers.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Mvc.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Razor.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Optimization.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Core.pdb
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EntityFramework.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\obj\Debug\EGCad.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\obj\Debug\EGCad.Tests.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\obj\Debug\EGCad.Tests.pdb
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.csprojResolveAssemblyReference.cache
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Tests.dll.config
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\EGCad.Tests.dll
@@ -100,54 +151,3 @@ C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Host.S
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Tests\obj\Debug\EGCad.Tests.pdb
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Tests.dll.config
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Tests.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Tests.pdb
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Common.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\FluentAssert.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\nunit.framework.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Helpers.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Mvc.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Razor.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Deployment.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Razor.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Core.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Optimization.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Owin.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Core.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EntityFramework.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Common.pdb
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.pdb
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\nunit.framework.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Helpers.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Mvc.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Razor.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.WebPages.Razor.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Core.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\System.Web.Optimization.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EGCad.Core.pdb
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\EntityFramework.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\obj\Debug\EGCad.Tests.csprojResolveAssemblyReference.cache
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\obj\Debug\EGCad.Tests.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Tests\obj\Debug\EGCad.Tests.pdb

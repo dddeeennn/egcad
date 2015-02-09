@@ -1,4 +1,4 @@
-﻿@model List<EGCad.Core.Input.ParameterTableEntry>
+﻿@model EGCad.Common.Model.Data.ParameterTableEntry[]
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -33,7 +33,7 @@
                 {
                     foreach (var pointParam in point.Parameters)
                     {
-                        <td>@pointParam.Value</td>
+                        <td>@Math.Round(pointParam.Value,2)</td>
                     }
                 }
             </tr>

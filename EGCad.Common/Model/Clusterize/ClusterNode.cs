@@ -1,7 +1,7 @@
 ﻿using System;
 using EGCad.Common.Extensions;
 
-namespace EGCad.Core.Clasterize
+namespace EGCad.Common.Model.Clusterize
 {
 	public class ClusterNode : IComparable<ClusterNode>
 	{

@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Infrastructure\AppConfiguration.cs" />
     <Compile Include="Infrastructure\MVC\HtmlNavigationExtensions.cs" />
@@ -85,6 +86,24 @@
     <Compile Include="Infrastructure\StatCalculationType.cs" />
     <Compile Include="MathExt\MathOperations.cs" />
     <Compile Include="MathExt\ScaleEvaluator.cs" />
+    <Compile Include="Model\Clusterize\ClusterNode.cs" />
+    <Compile Include="Model\Clusterize\ClusterTree.cs" />
+    <Compile Include="Model\Clusterize\NodeModel.cs" />
+    <Compile Include="Model\Clusterize\StatDistanceCell.cs" />
+    <Compile Include="Model\Clusterize\StatDistanceRow.cs" />
+    <Compile Include="Model\Clusterize\StatDistanceTable.cs" />
+    <Compile Include="Model\Data\CalculationParameter.cs" />
+    <Compile Include="Model\Data\Data.cs" />
+    <Compile Include="Model\Data\EGNetwork.cs" />
+    <Compile Include="Model\Data\EGNetworkPoint.cs" />
+    <Compile Include="Model\Data\GeoData.cs" />
+    <Compile Include="Model\Data\Map.cs" />
+    <Compile Include="Model\Data\Parameter.cs" />
+    <Compile Include="Model\Data\ParameterTableEntry.cs" />
+    <Compile Include="Model\Normalize\NormalizeData.cs" />
+    <Compile Include="Model\Normalize\NormalizeDataRow.cs" />
+    <Compile Include="Model\VariabilityFunction\VariabilityFuncItem.cs" />
+    <Compile Include="Model\VariabilityFunction\VariabilityFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

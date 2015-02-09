@@ -1,4 +1,4 @@
-﻿namespace EGCad.Core.Normalize
+﻿namespace EGCad.Common.Model.Normalize
 {
     public class NormalizeDataRow
     {

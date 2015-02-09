@@ -2,7 +2,7 @@
 using System.Linq;
 using EGCad.Common.Infrastructure;
 
-namespace EGCad.Core.Input
+namespace EGCad.Common.Model.Data
 {
 	public class GeoData
 	{
@@ -13,6 +13,8 @@ namespace EGCad.Core.Input
         public List<ParameterTableEntry> Points { get; set; } 
 
         public int AdditionalPointCount { get; set; }
+
+        public int ClusterCount { get; set; }
 
         public NormalizeType Normilize { get; set; }
 

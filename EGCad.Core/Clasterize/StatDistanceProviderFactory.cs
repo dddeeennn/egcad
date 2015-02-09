@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
-using EGCad.Common.Infrastructure;
+﻿using System.Linq;
 
 namespace EGCad.Core.Clasterize
 {
     public class StatDistanceProviderFactory
     {
-        private static readonly Dictionary<StatCalculationType, IStatDistanceProvider> Providers = new Dictionary<StatCalculationType, IStatDistanceProvider>()
+        private static readonly IStatDistanceProvider[] StatDistanceProviders =
         {
-            {StatCalculationType.Euclead, new EukleadDistanceProvider()},
-            {StatCalculationType.QuadEuclead, new QuadEukleadDistanceProvider()},
-
+              new EukleadDistanceProvider(),
+              new QuadEukleadDistanceProvider()
         };
 
-        public static IStatDistanceProvider Create(StatCalculationType type)
+        public static IStatDistanceProvider Create(CalculationSettings settings)
         {
-            return Providers.ContainsKey(type) ? Providers[type] : Providers[StatCalculationType.Euclead];
+            return StatDistanceProviders.First(n => n.Type == settings.StatCalculation);
         }
     }
 }
