@@ -3,6 +3,7 @@ using System.Linq;
 using EGCad.Common.Extensions;
 using EGCad.Common.Infrastructure;
 using EGCad.Common.Model.Data;
+using EGCad.Common.Model.Normalize;
 
 namespace EGCad.Core.Normalize
 {
@@ -15,11 +16,11 @@ namespace EGCad.Core.Normalize
             Type = type;
         }
 
-        public Data Normalize(Data sourceData)
+        public NormalizeData Normalize(Data sourceData)
         {
             var result = new List<ParameterTableEntry>();
 
-            if (!sourceData.Points.Any()) return new Data(result.ToArray());
+            if (!sourceData.Points.Any()) return new NormalizeData(new NormalizeDataRow[0]);
 
             var dataTable = sourceData.TableData();
 
@@ -37,7 +38,14 @@ namespace EGCad.Core.Normalize
                 }
                 result.Add(new ParameterTableEntry(point.Id, point.X, point.Y, normalizedParameters));
             }
-            return new Data(result.ToArray());
+
+            var rows =
+               result.Select(
+                   point =>
+                       new NormalizeDataRow(new[] { point.Id },
+                                            point.Parameters.Select(param => param.Value).ToArray()))
+                   .ToArray();
+            return new NormalizeData(rows);
         }
 
         protected abstract double GetZeroLevelFactor(double[] data);//натуральное значение нулевого уровня j-фактора 

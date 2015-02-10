@@ -48,6 +48,7 @@
     <Compile Include="Clasterize\QuadEukleadDistanceProvider.cs" />
     <Compile Include="Clasterize\StatDistanceProviderBase.cs" />
     <Compile Include="Clasterize\StatDistanceProviderFactory.cs" />
+    <Compile Include="Clasterize\StatDistanceTableProvider.cs" />
     <Compile Include="EGNetworkBuilder.cs" />
     <Compile Include="Normalize\DataNormalizerBase.cs" />
     <Compile Include="Normalize\EukleadAveragedNormalizer.cs" />

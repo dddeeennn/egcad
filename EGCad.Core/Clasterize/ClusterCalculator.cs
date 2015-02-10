@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using EGCad.Common.Extensions;
 using EGCad.Common.Model.Clusterize;
 using EGCad.Common.Model.Data;
 using EGCad.Common.Model.Normalize;
+using EGCad.Core.Normalize;
 
 namespace EGCad.Core.Clasterize
 {
     public class ClusterCalculator
     {
-        private readonly CalculationSettings _settings;
-
-        private Data _data;
+        private readonly IDataNormalizer _normalizer;
+        private readonly StatDistanceTableProvider _statDistanceTableProvider;
 
         public ClusterCalculator(CalculationSettings settings)
         {
-            _settings = settings;
+            _normalizer = NormalizerFactory.Create(settings);
+            _statDistanceTableProvider = new StatDistanceTableProvider(settings);
         }
 
-        public ClusterTree Clusterize(Data data)
+        public ClusterTree Clusterize(Data sourceData)
         {
-            _data = data;
+            var normalizedData = _normalizer.Normalize(sourceData);
+            return Clusterize(normalizedData);
+        }
 
+        public ClusterTree Clusterize(NormalizeData normalizedData)
+        {
             var result = new List<ClusterNode>();
-            var normalizedData = GetNormalizedData(data);
-            var statDistanceTable = GetStatDistanceTable(normalizedData);
+            var statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
 
             result.AddRange(normalizedData.Rows.Select(row => new ClusterNode(row.RowIdx, 0)));
 
@@ -37,17 +40,14 @@ namespace EGCad.Core.Clasterize
             return new ClusterTree(result);
         }
 
-        private NormalizeData GetNormalizedData(Data data)
-        {
-            var rows =
-                data.Points.Select(
-                    point =>
-                        new NormalizeDataRow(new[] { point.Id },
-                                             point.Parameters.Select(param => param.Value).ToArray()))
-                    .ToArray();
-            return new NormalizeData(rows);
-        }
-
+        /// <summary>
+        /// 1. Find cell of statistic distance table   
+        /// 2. Remove rows that row's index and column's  index equal cell coords
+        /// 3. Join removed rows and insert in statistic table 
+        /// </summary>
+        /// <param name="normalizedData"></param>
+        /// <param name="statDistanceTable"></param>
+        /// <param name="result"></param>
         private void ClusterizeIterate(ref NormalizeData normalizedData, ref StatDistanceTable statDistanceTable, List<ClusterNode> result)
         {
             var min = statDistanceTable.Min();
@@ -60,11 +60,8 @@ namespace EGCad.Core.Clasterize
 
             result.Add(new ClusterNode(min.I.Concat(min.J), min.Value, new[] { leftLeaf, rightLeaf }));
 
-            var row1Idx = normalizedData.Rows.First(r => r.RowIdx.ToStr() == min.I.ToStr()).RowIdx;
-            var row2Idx = normalizedData.Rows.First(r => r.RowIdx.ToStr() == min.J.ToStr()).RowIdx;
-
-            normalizedData = JoinCluster(normalizedData, row1Idx, row2Idx);
-            statDistanceTable = GetStatDistanceTable(normalizedData);
+            normalizedData = JoinCluster(normalizedData,  normalizedData.RowIdx(min.I), normalizedData.RowIdx(min.J));
+            statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
         }
 
         /// <summary>
@@ -76,55 +73,25 @@ namespace EGCad.Core.Clasterize
         private NormalizeData JoinCluster(NormalizeData normalizeData, int[] oldIdx, int[] newIdx)
         {
             var idxs = oldIdx.Concat(newIdx);
-            var rows = _data.Points.Where(point => idxs.Contains(point.Id)).ToArray();
+            var row1 = normalizeData.Rows.First(x => x.RowIdx.ToStr() == oldIdx.ToStr());
+            var row2 = normalizeData.Rows.First(x => x.RowIdx.ToStr() == newIdx.ToStr());
 
-            var values = new double[rows[0].Parameters.Count()];
+            var valueCount = row1.Values.Length;
+            var values = new double[valueCount];
 
-            for (var i = 0; i < rows[0].Parameters.Count(); i++)
+            for (var i = 0; i < valueCount; i++)
             {
-                var val = 0d;
-                Array.ForEach(rows, row => val += row.Parameters[i].Value);
-                values[i] = val / rows.Length;
+                values[i] = (row1.Values[i] + row2.Values[i]) / 2;
             }
 
             var newRow = new NormalizeDataRow(idxs, values);
+
             var rowList = normalizeData.Rows.ToList();
-            rowList.Remove(normalizeData.Rows.First(x => x.RowIdx.ToStr() == oldIdx.ToStr()));
-            rowList.Remove(normalizeData.Rows.First(x => x.RowIdx.ToStr() == newIdx.ToStr()));
+            rowList.Remove(row1);
+            rowList.Remove(row2);
             rowList.Add(newRow);
+
             return new NormalizeData(rowList.ToArray());
-        }
-
-        private StatDistanceTable GetStatDistanceTable(NormalizeData normalizedData)
-        {
-            var rows = GetStatDistanceRows(normalizedData);
-            return new StatDistanceTable(rows);
-        }
-
-        private StatDistanceRow[] GetStatDistanceRows(NormalizeData normalizeData)
-        {
-            var result = new List<StatDistanceRow>();
-
-            for (var i = 0; i < normalizeData.Rows.Length; i++)
-            {
-                var row =
-                    new StatDistanceRow(
-                        normalizeData.Rows.Where((t, j) => j > i).Select(t =>
-                                GetStatDistanceCell(normalizeData, normalizeData.Rows[i].RowIdx, t.RowIdx))
-                                                                 .ToArray());
-                result.Add(row);
-            }
-
-            return result.ToArray();
-        }
-
-        private StatDistanceCell GetStatDistanceCell(NormalizeData data, int[] i, int[] j)
-        {
-            var statDistanceProvider = StatDistanceProviderFactory.Create(_settings);
-
-            var row1Values = data.Rows.First(x => x.RowIdx.ToStr() == i.ToStr()).Values;
-            var row2Values = data.Rows.First(x => x.RowIdx.ToStr() == j.ToStr()).Values;
-            return new StatDistanceCell(i, j, statDistanceProvider.GetStatDistance(row1Values, row2Values));
         }
     }
 }

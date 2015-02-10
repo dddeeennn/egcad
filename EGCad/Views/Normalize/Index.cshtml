@@ -1,4 +1,5 @@
-﻿@model EGCad.Common.Model.Data.ParameterTableEntry[]
+﻿@using EGCad.Common.Extensions
+@model EGCad.Common.Model.Normalize.NormalizeData
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,32 +9,26 @@
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
-            <th class="col-sm-1">#</th>
             <th class="col-sm-1">Id</th>
-            <th class="col-sm-1">X</th>
-            <th class="col-sm-1">Y</th>
-            @if (Model.Any())
+            @if (Model.Rows.Any())
             {
-                foreach (var p in Model[0].Parameters)
+                foreach (var v in Model.Rows[0].Values)
                 {
-                    <th class="col-sm-1">@p.ToString()</th>
+                    <th class="col-sm-1"></th>
                 }
             }
         </tr>
     </thead>
     <tbody>
-        @foreach (var point in Model)
+        @foreach (var row in Model.Rows)
         {
             <tr>
-                <td>@(point.Id+1)</td>
-                <td>@point.Id</td>
-                <td>@point.X</td>
-                <td>@point.Y</td>
-                @if (point.Parameters.Any())
+                <td>@row.RowIdx.ToStr()</td>
+                @if (row.Values.Any())
                 {
-                    foreach (var pointParam in point.Parameters)
+                    foreach (var value in row.Values)
                     {
-                        <td>@Math.Round(pointParam.Value,2)</td>
+                        <td>@Math.Round(value,2)</td>
                     }
                 }
             </tr>

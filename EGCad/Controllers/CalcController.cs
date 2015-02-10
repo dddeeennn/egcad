@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using EGCad.Common.Infrastructure;
 using EGCad.Common.Model.Data;
 using EGCad.Common.Model.VariabilityFunction;
@@ -25,7 +24,7 @@ namespace EGCad.Controllers
         {
             var normalizer = new EukleadAveragedNormalizer();
             var data = normalizer.Normalize(new Data(InputModel.Points.ToArray()));
-            TempData["normalizedData"] = data.Points;
+            TempData["normalizedData"] = data;
             return RedirectToAction("Index", "Normalize");
 
         }
