@@ -115,7 +115,7 @@
             var oldValue = parent.find(selector).text();
 
             var $editor = $("<div class='form-inline'/>");
-            var textarea = $("<input type='text' class='form-control' style='margin-right:5px;min-width: 50px; width: 150px'>").val(oldValue);
+            var textarea = $("<input type='text' class='form-control' style='padding:5px;min-width: 50px; width: 100%;height:20px;'>").val(oldValue);
 
             $editor.append(textarea);
             return $editor;
