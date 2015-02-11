@@ -7,7 +7,7 @@
 </div>
 <div class="form-horizontal">
     <div class="form-group">
-        <div class="col-sm-12">
+        <div class="col-sm-9">
             <label>Выполните следующие действия:</label>
             <ul>
                 <li id="loadMapStep">Загрузите изображение</li>
@@ -15,6 +15,9 @@
                 <li id="specifyEndStep">Укажите на карте конечную точку (обозначена красным) </li>
                 <li id="specifyLengthStep">Введите n  в поле и сохраните</li>
             </ul>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Index","Parameters")" id="nextStep" class="btn btn-default inactive pull-right">Далее</a>
         </div>
     </div>
     <form action="map/load" id="upload" method="post" enctype="multipart/form-data">
@@ -43,7 +46,7 @@
 </div>
 <div class="form-group">
     <div><label>Масштаб карты  </label><span id="scaleLabel" style="margin-left: 10px"> - </span>  м.</div>
-    <canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
+    <canvas width="400px" height="200px" id="map-container">
         Здесь должна быть отображена загруженная карта.
         Для работы с приложением обновите браузер.
         Минимальная поддерживаемая версия браузеров:
@@ -51,7 +54,7 @@
     </canvas>
 </div>
 <div class="form-group">
-    <a href="@Url.Action("Index","Parameters")" class="btn btn-primary pull-right">Далее</a>
+
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -65,28 +68,17 @@
                          var map = response.data.Map;
                          refreshStatus(map);
                      }
-                 } else {
-                     alert('Ошибка при инициализации состояния! Проверьте соединение с сервером...' + response.data.message);
                  }
-             },
-             function () {
-                 alert('Ошибка при инициализации состояния! Проверьте соединение с сервером...');
-             },
-            {});
+             });
 
         container.find('input[type=file]').bootstrapFileInput();
-        container.find('input[type=file]')[0].onchange = function(e) {
+        container.find('input[type=file]')[0].onchange = function (e) {
             $('#upload').trigger('submit');
         };
 
         $('#upload').submit(function (e) {
-            $.ajax({
-                url: '/map/load',
-                type: 'POST',
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (response) {
+            sender.post("UploadMap", '@Url.Action("Load","Map")', {},
+                function (response) {
                     if (response && response.statusCode == 0) {
                         // clear form and initialize
 
@@ -104,11 +96,13 @@
                         alert('Ошибка при загрузке карты!' + response.data.message);
                     }
                 },
-                error: function (request, status, error) {
+                function (request, status, error) {
                     setStatus("#loadMapStep", "error");
-                    alert('Ошибка при загрузке карты!');
-                }
-            });
+                }, {
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                });
             e.preventDefault();
         });
 
@@ -135,7 +129,7 @@
                 canvas.height = height;
 
                 var ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
+                ctx.drawImage(img, 0, 20, width, height);
 
                 $('#map-container').off();
                 $(canvas).on('mousedown', function (event) {
@@ -151,11 +145,11 @@
                 if (map.ScaleKoef > 0) drawScale(canvas, ctx, map.ScaleKoef, 10, 20);
 
                 if (!map.Start.IsEmpty) {
-                    drawPoint(ctx, map.Start.X, map.Start.Y, 5, 'green'); //start
+                    drawPoint(ctx, map.Start.X, map.Start.Y, 4, '#afa', '#0f0'); //start
                 }
 
                 if (!map.End.IsEmpty) {
-                    drawPoint(ctx, map.End.X, map.End.Y, 5, 'red'); //end
+                    drawPoint(ctx, map.End.X, map.End.Y, 4, '#faa', '#f00'); //end
                 }
             };
         }
@@ -236,13 +230,13 @@
                 {});
         };
 
-        function drawPoint(context, centerX, centerY, radius, color) {
+        function drawPoint(context, centerX, centerY, radius, color, strokeColor) {
             context.beginPath();
             context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
             context.fillStyle = color;
             context.fill();
             context.lineWidth = 1;
-            context.strokeStyle = '#003300';
+            context.strokeStyle = strokeColor;
             context.stroke();
         }
 
@@ -263,8 +257,14 @@
 
         function refreshStatus(map) {
             initCanvas(map);
-
             $('#endPoint').val(map.EndT.X);
+            var $btn = container.find('#nextStep');
+
+            if (map.IsValid) {
+                $btn.removeClass('btn-default inactive').addClass('btn-success');
+            } else {
+                $btn.removeClass('btn-success').addClass('btn-default inactive');
+            }
 
             container.find('#loadMapStep').attr('class', map.Image ? 'ok' : 'error');
             container.find('#specifyStartStep').attr('class', !map.Start.IsEmpty ? 'ok' : 'error');

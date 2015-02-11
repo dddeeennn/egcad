@@ -84,6 +84,11 @@ namespace EGCad.Common.Model.Data
             get { return GetScaleKoef(); }
         }
 
+        public bool IsValid
+        {
+            get { return Image != null && !Start.IsEmpty && !End.IsEmpty&&!EndT.IsEmpty; }
+        }
+
         public double GetScaleKoef()
         {
             if (Start.IsEmpty || End.IsEmpty || EndT.IsEmpty) return 0;

@@ -171,7 +171,7 @@ egcad.Data.Request.Exception = {
 		var message;
 		switch (exceptionType) {
 			case egcad.Data.Request.Exception.TRANSPORT_PROBLEM:
-				message = 'Transport error. Failed to retrieve data from the server';
+				message = 'Ошибка при передаче данных. Проверьте соединение с сервером';
 				break;
 
 			case egcad.Data.Request.Exception.INCORRECT_RESULT:
