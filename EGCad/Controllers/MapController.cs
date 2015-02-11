@@ -39,16 +39,25 @@ namespace EGCad.Controllers
 
             var imgSrc = "/Content/map/" + map.FileName;
 
-            Map = new Map(img, imgSrc, new Point(), new Point());
+            if (Map == null)
+            {
+                Map = new Map(img, imgSrc, new Point(), new Point());
+            }
+            else
+            {
+                Map.Image = img;
+                Map.ImgSrc = imgSrc;
+            }
 
-            return Data(0, new { Map });
+            return GetState();
         }
 
         [HttpGet]
         public ActionResult EndpointLength(double x)
         {
+            if (Map == null) Map = new Map();
             Map.EndT = new Point((int)x, 0);
-            return Data(0, new { Map });
+            return GetState();
         }
 
         [HttpGet]
@@ -63,7 +72,7 @@ namespace EGCad.Controllers
             {
                 Map.End = p;
             }
-            return Data(0, new { Map });
+            return GetState();
         }
     }
 }

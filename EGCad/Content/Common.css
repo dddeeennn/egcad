@@ -85,3 +85,7 @@ a.remove-action:hover {
 line {           
    stroke: black;   
 }
+
+.bold {
+    font-weight: bold;
+}

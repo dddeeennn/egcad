@@ -28,7 +28,6 @@ namespace EGCad.Core
 
         public EGNetwork Calculate(Data sourceData)
         {
-
             var points = _variabilityCalculator.GetVariabilityFunction(sourceData)
                                                .Select(v => new EGNetworkPoint(sourceData.Parameters, v, false)).ToList();
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using EGCad.Common.Model.Clusterize;
 using EGCad.Common.Model.Data;
 using EGCad.Common.Model.Normalize;
 
@@ -20,6 +22,26 @@ namespace EGCad.Common.Extensions
                     .Select(par => par.Value).ToArray();
             }
             return sourceColumns;
+        }
+
+        public static double[,] ValueArray(this Data sourceData, int rowLength, int columnLength)
+        {
+            var result = new double[columnLength, rowLength];
+
+            for (var i = 0; i < columnLength; i++)
+            {
+                for (var j = 0; j < rowLength; j++)
+                {
+                    result[i, j] = sourceData.Points[i].Parameters[j].Value;
+                }
+            }
+
+            return result;
+        }
+
+        public static ClusterNode Get(this IEnumerable<ClusterNode> clusters, int pointId)
+        {
+            return clusters.First(c => c.JoinedClasters.Contains(pointId));
         }
 
         public static double[] RowValues(this NormalizeData data, int[] rowIdx)

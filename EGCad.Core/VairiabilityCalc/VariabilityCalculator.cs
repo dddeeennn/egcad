@@ -17,7 +17,7 @@ namespace EGCad.Core.VairiabilityCalc
         /// <returns>vector of variability function values. If source data is empty returns null.</returns>
         public VariabilityFuncItem[] GetVariabilityFunction(Data sourceData)
         {
-            if (!sourceData.Points.Any()) return null;
+            if (!sourceData.Points.Any()) return new VariabilityFuncItem[0];
 
             var parameterDistrFunction = _egParameterDistributionProvider.Get(sourceData);
 
@@ -26,7 +26,7 @@ namespace EGCad.Core.VairiabilityCalc
             var variabilityValues = GenerizeFunction(variabilityDataTable);
 
             return variabilityValues.Select(val => val / variabilityValues.Max()).ToArray()
-                .Select((val, idx) =>
+                                    .Select((val, idx) =>
                         new VariabilityFuncItem(sourceData.Points[0].X, sourceData.Points[0].Y,
                         sourceData.Points[idx].X, sourceData.Points[idx].Y, sourceData.Points[idx].Id, val)).ToArray();
         }

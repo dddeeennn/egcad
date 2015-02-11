@@ -10,11 +10,13 @@ namespace EGCad.Core.Clasterize
 {
     public class ClusterCalculator
     {
+        private readonly CalculationSettings _settings;
         private readonly IDataNormalizer _normalizer;
         private readonly StatDistanceTableProvider _statDistanceTableProvider;
 
         public ClusterCalculator(CalculationSettings settings)
         {
+            _settings = settings;
             _normalizer = NormalizerFactory.Create(settings);
             _statDistanceTableProvider = new StatDistanceTableProvider(settings);
         }
@@ -32,7 +34,7 @@ namespace EGCad.Core.Clasterize
 
             result.AddRange(normalizedData.Rows.Select(row => new ClusterNode(row.RowIdx, 0)));
 
-            while (normalizedData.Rows.Count() > 3)
+            while (normalizedData.Rows.Count() > _settings.ClusterCount)
             {
                 ClusterizeIterate(ref normalizedData, ref statDistanceTable, result);
             }
