@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>EGCad</title>
 	@Styles.Render("~/Content/css")
-	@Scripts.Render("~/bundles/modernizr")
 	<link rel="stylesheet" href="/content/Layout.css" />
 	<link rel="stylesheet" href="/content/Common.css" />
 	<script type="text/javascript" src="/Scripts/jquery-2.1.1.js"></script>
@@ -17,8 +16,7 @@
 	<script type="text/javascript" src="/Scripts/DataRequest.js"></script>
 	<script type="text/javascript" src="/Scripts/DataSender.js"></script>
 	<script type="text/javascript" src="/Scripts/UINotifier.js"></script>
-	
-    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script type="text/javascript" src="/Scripts/jquery-ui-1.10.2.js"></script>
     <script type="text/javascript" src="/Scripts/highcharts/highcharts.js"></script>
 
 </head>
@@ -57,7 +55,6 @@
 		<hr />
 		<p>&copy; EGCad @DateTime.Now.Year</p>
 	</footer>
-	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@Scripts.Render("~/bundles/jquerytmpl")
 	@RenderSection("scripts", false)

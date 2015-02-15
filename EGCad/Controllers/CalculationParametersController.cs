@@ -17,6 +17,7 @@ namespace EGCad.Controllers
             AdditionalPointCount = model.AdditionalPointCount;
             Normilize = model.Normilize;
             StatCalculation = model.StatCalculation;
+	        ClusterCount = model.ClusterCount;
             return RedirectToAction("Index", "Calc");
         }
     }

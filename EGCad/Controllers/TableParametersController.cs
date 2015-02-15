@@ -44,16 +44,23 @@ namespace EGCad.Controllers
 		public JsonResult CreatePoint()
 		{
 			var points = Points;
-			points.Add(new ParameterTableEntry(Points.Last().Id + 1, 0, 0, Parameters));
+			points.Add(new ParameterTableEntry(Points.Count + 1, 0, 0, Parameters));
 			Points = points;
 			return GetState();
 		}
 
-		public JsonResult Replace(bool direction, int id)
+		public JsonResult Swap(int[] ids)
 		{
 			var points = Points;
-			points.Swap(id, direction ? id - 1 : id + 1);
-			points.ForEach(p => p.Id = points.IndexOf(p));
+
+			for (var i = 0; i < ids.Length; i++)
+			{
+				if (ids[i] == points[i].Id) continue;
+
+				var secondIndex = points.FindIndex(x => x.Id == ids[i]);
+				points.Swap(i, secondIndex);
+			}
+
 			Points = points;
 			return GetState();
 		}
@@ -61,19 +68,20 @@ namespace EGCad.Controllers
 		public JsonResult Save(int x, int y, int id, double[] values)
 		{
 			var points = Points;
-		    if (Parameters.Any())
-		    {
-		        if (Parameters.Count != values.Count())
-		            throw new ArgumentException("Number of values not equal parameters count!");
-		    }
-		    var parameters = values.Select((value, i) => new Parameter(Parameters[i].Id, Parameters[i].Name, Parameters[i].Unit, value)).ToList();
+			if (Parameters.Any())
+			{
+				if (Parameters.Count != values.Count())
+					throw new ArgumentException("Number of values not equal parameters count!");
+			}
+
+			var parameters = values.Select((value, i) => new Parameter(Parameters[i].Id, Parameters[i].Name, Parameters[i].Unit, value)).ToList();
 
 			var point = points.First(p => p.Id == id);
 			point.Parameters = parameters;
 			point.X = x;
 			point.Y = y;
-			Points = points;
 
+			Points = points;
 			return GetState();
 		}
 
@@ -87,11 +95,6 @@ namespace EGCad.Controllers
 			Points = points;
 
 			return GetState();
-		}
-
-		private List<ParameterTableEntry> GetParameterTableEntries(List<Parameter> parameters)
-		{
-			return new List<ParameterTableEntry>(new[] { new ParameterTableEntry(0, 0, 0, parameters) });
 		}
 	}
 }

@@ -5,55 +5,66 @@ using EGCad.Common.Model.Data;
 
 namespace EGCad.Controllers
 {
-    public class ParametersController : InputBaseController
-    {
-        // GET: Parameters
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class ParametersController : InputBaseController
+	{
+		// GET: Parameters
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-        public JsonResult GetState()
-        {
-            return Data(0, new { items = Parameters.ToArray() });
-        }
+		public JsonResult GetState()
+		{
+			return Data(0, new { items = Parameters.ToArray() });
+		}
 
-        public JsonResult Replace(bool direction, int id)
-        {
-            var parameters = Parameters;
-            parameters.Swap(id, direction ? id-1 : id+1);
-            parameters.ForEach(p=>p.Id=parameters.IndexOf(p));
-            Parameters = parameters;
-            return GetState();
-        }
+		public JsonResult Add(string name, string unit)
+		{
+			var parameters = Parameters;
+			parameters.Add(new Parameter(Parameters.Count, name, unit));
+			Parameters = parameters;
+			return GetState();
+		}
 
-        public JsonResult Save(string name, string unit, int? id)
-        {
-            if (id.HasValue)
-            {
-                var param = Parameters[id.Value];
-                param.Name = name;
-                param.Unit = unit;
-            }
-            else
-            {
-                var param = Parameters;
-                param.Add(new Parameter(Parameters.Count, name, unit));
-                Parameters = param;
-            }
-            return GetState();
-        }
+		public JsonResult Swap(int[] ids)
+		{
+			var parameters = Parameters;
 
-        public JsonResult Remove(int id)
-        {
-            var param = Parameters;
+			for (var i = 0; i < ids.Length; i++)
+			{
+				if (ids[i] == parameters[i].Id) continue;
 
-            param.Remove(param.FirstOrDefault(x => x.Id == id));
-            param.ForEach(x => x.Id = param.IndexOf(x));
+				var secondIndex = parameters.FindIndex(x => x.Id == ids[i]);
+				parameters.Swap(i, secondIndex);
+			}
 
-            Parameters = param;
+			Parameters = parameters;
+			return GetState();
+		}
 
-            return GetState();
-        }
-    }
+		public JsonResult Save(string name, string unit, int id)
+		{
+			var parameters = Parameters;
+
+			var paramToEdit = Parameters.First(p => p.Id == id);
+			paramToEdit.Name = name;
+			paramToEdit.Unit = unit;
+
+			Parameters = parameters;
+
+			return GetState();
+		}
+
+		public JsonResult Remove(int id)
+		{
+			var param = Parameters;
+
+			param.Remove(param.FirstOrDefault(x => x.Id == id));
+			param.ForEach(x => x.Id = param.IndexOf(x));
+
+			Parameters = param;
+
+			return GetState();
+		}
+	}
 }

@@ -1,197 +1,213 @@
 ﻿@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="page-header">
-    <h2>Введите параметры</h2>
+	<h2>Введите параметры</h2>
 </div>
 <div class="form-group">
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
-        </div>
-        <span id="saveParameter" class="btn btn-default">Добавить</span>
-    </form>
+	<form class="form-inline" role="form">
+		<div class="form-group">
+			<input type="text" class="form-control" id="parameterName" placeholder="Название параметра">
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" id="parameterUnit" placeholder="Единицы измерения">
+		</div>
+		<span id="saveParameter" class="btn btn-default">Добавить</span>
+	</form>
 </div>
 <div class="form-group">
-    <table class="table table-bordered table-condensed table-striped" id="sortable" style="max-width: 1000px">
-        <thead>
-        <th class="col-sm-1 glyphicon glyphicon-resize-vertical"></th>
-        <th class="col-sm-1">#</th>
-        <th class="col-sm-4">Название параметра</th>
-        <th class="col-sm-4">Единицы измерения</th>
-        <th class="col-sm-2 glyphicon glyphicon-edit"></th>
-        <th class="col-sm-1 glyphicon glyphicon-trash"></th>
-        </thead>
-        <tbody></tbody>
-    </table>
+	<table class="table table-bordered table-condensed table-striped" id="sortable" style="max-width: 1000px">
+		<thead>
+		<th class="col-sm-1">#</th>
+		<th class="col-sm-4">Название параметра</th>
+		<th class="col-sm-4">Единицы измерения</th>
+		<th class="col-sm-2 glyphicon glyphicon-edit"></th>
+		<th class="col-sm-1 glyphicon glyphicon-trash"></th>
+		</thead>
+		<tbody></tbody>
+	</table>
 </div>
 <div class="form-group">
-    <a href="@Url.Action("Index","TableParameters")" class="btn btn-primary pull-right">Далее</a>
+	<a href="@Url.Action("Index","TableParameters")" id="nextStep" class="btn btn-success pull-right">Далее</a>
 </div>
 
 <script type="text/html" id="parameterTmpl">
-    <tr data-id="Id">
-        <td>
-            <a data-id="Id" class=" btn-link action replace up glyphicon glyphicon glyphicon-chevron-up success" style="padding-left: 5px"></a>
-            <a data-id="Id" class=" btn-link action replace down glyphicon glyphicon glyphicon-chevron-down success" style="padding-left: 5px"></a>
-        </td>
-        <td class="index"></td>
-        <td data-content="Name" class="parameterName"></td>
-        <td data-content="Unit" class="parameterUnit"></td>
-        <td><a data-id="Id" class="action edit-action btn-link glyphicon glyphicon-edit"></a></td>
-        <td><a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a></td>
-    </tr>
+	<tr data-id="Id">
+		<td class="index"></td>
+		<td data-content="Name" class="parameterName"></td>
+		<td data-content="Unit" class="parameterUnit"></td>
+		<td><a data-id="Id" class="action edit-action btn-link glyphicon glyphicon-edit"></a></td>
+		<td><a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a></td>
+	</tr>
 </script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        var container = $('#main');
-        var sender = new egcad.Data.Sender();
+	$(document).ready(function () {
+		var container = $('#main');
+		var sender = new egcad.Data.Sender();
+		var $tbody = $('table tbody');
 
-        container.find("#saveParameter").on("click", function () {
+		container.find("#saveParameter").on("click", function () {
 
-            var parameterName = container.find('#parameterName');
-            var parameterUnit = container.find('#parameterUnit');
+			var parameterName = container.find('#parameterName');
+			var parameterUnit = container.find('#parameterUnit');
 
-            if ((!parameterName.val()) || (!parameterUnit.val())) return;
-            saveHandler(parameterName.val(), parameterUnit.val());
+			if (!parameterName.val()) return;
+			addHandler(parameterName.val(), parameterUnit.val());
 
-            parameterName.val('');
-            parameterUnit.val('');
-        });
+			parameterName.val('');
+			parameterUnit.val('');
+		});
 
-        sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
-            if (response && response.statusCode == 0) {
-                refreshState(response.data);
-            }
-        });
+		sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
+			if (response && response.statusCode == 0) {
+				refreshState(response.data);
+			}
+		});
 
-        function removeHandler(self) {
-            var id = self.attr('id');
-            sender.get("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
-                if (response && response.statusCode == 0) {
-                    self.closest('tr').empty();
-                    refreshState(response.data);
-                } else {
-                    alert('Ошибка при удалении параметра!');
-                }
-            });
-        }
+		function removeHandler(self) {
+			var id = self.attr('id');
+			sender.get("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
+				if (response && response.statusCode == 0) {
+					self.closest('tr').empty();
+					refreshState(response.data);
+				} else {
+					alert('Ошибка при удалении параметра!');
+				}
+			});
+		}
 
-        function editHandler(self) {
-            var curEditor = $(document).find('#editor');
+		function editHandler(self) {
+			var curEditor = $(document).find('#editor');
 
-            var parent = null;
+			var parent = null;
 
-            if (curEditor.length) {
-                parent = curEditor.closest('tr');
-                completeEdit(curEditor.find('.parameterName input').val(), curEditor.find('.parameterUnit input').val(), parent.find('a').first().attr('id'), parent);
-                container.on('editor-refresh', function () {
-                    setupEditor(null, "#" + self.closest('tr').attr('id'));
-                    container.off();
-                });
-            } else {
-                setupEditor(self.closest('tr'));
-            }
-        }
+			if (curEditor.length) {
+				parent = curEditor.closest('tr');
+				completeEdit(curEditor.find('.parameterName input').val(), curEditor.find('.parameterUnit input').val(), parent.find('a').first().attr('id'), parent);
+				container.on('editor-refresh', function () {
+					setupEditor(null, "#" + self.closest('tr').attr('id'));
+					container.off();
+				});
+			} else {
+				setupEditor(self.closest('tr'));
+			}
+		}
 
-        function setupEditor(parent, selector) {
+		function setupEditor(parent, selector) {
 
-            if (selector) {
-                parent = $(selector, container);
-            }
-            parent.find('.parameterName').html(createEditor(parent, '.parameterName'));
-            parent.find('.parameterUnit').html(createEditor(parent, '.parameterUnit'));
-            parent.find('a.edit-action').off()
-                                        .on('click', function () {
-                                            completeEdit(parent.find('.parameterName input').val(), parent.find('.parameterUnit input').val(), parent.find('a').first().attr('id'), parent);
-                                            parent.attr('id', '');
-                                        }).removeClass('glyphicon-edit')
-                  .addClass('glyphicon-ok');
-            parent.attr('id', 'editor');
-        }
+			if (selector) {
+				parent = $(selector, container);
+			}
+			$tbody.addClass('editor-mode');
+			parent.find('.parameterName').html(createEditor(parent, '.parameterName'));
+			parent.find('.parameterUnit').html(createEditor(parent, '.parameterUnit'));
+			parent.find('a.edit-action').off()
+				.on('click', function () {
+					completeEdit(parent.find('.parameterName input').val(), parent.find('.parameterUnit input').val(), parent.find('a').first().attr('id'), parent);
+					parent.attr('id', '');
+				}).removeClass('glyphicon-edit')
+				.addClass('glyphicon-ok');
+			parent.attr('id', 'editor');
+		}
 
-        function createEditor(parent, selector) {
-            var oldValue = parent.find(selector).text();
+		function createEditor(parent, selector) {
+			var oldValue = parent.find(selector).text();
 
-            var $editor = $("<div class='form-inline'/>");
-            var textarea = $("<input type='text' class='form-control' style='padding:5px;min-width: 50px; width: 100%;height:20px;'>").val(oldValue);
+			var $editor = $("<div class='form-inline'/>");
+			var textarea = $("<input type='text' class='form-control' style='padding:5px;min-width: 50px; width: 100%;height:20px;'>").val(oldValue);
 
-            $editor.append(textarea);
-            return $editor;
-        }
+			$editor.append(textarea);
+			return $editor;
+		}
 
-        function completeEdit(parameterName, parameterUnit, id, editorContainer) {
-            editorContainer.find(".parameterName").html(parameterName);
-            editorContainer.find(".parameterUnit").html(parameterUnit);
-            saveHandler(parameterName, parameterUnit, id);
-            editorContainer.find('a.edit-action').off()
-                                                .on('click', function () {
-                                                    editHandler($(this));
-                                                }).removeClass('glyphicon-ok')
-                                                  .addClass('glyphicon-edit');
-        }
+		function completeEdit(parameterName, parameterUnit, id, editorContainer) {
+			$tbody.removeClass('editor-mode');
+			editorContainer.find(".parameterName").html(parameterName);
+			editorContainer.find(".parameterUnit").html(parameterUnit);
+			saveHandler(parameterName, parameterUnit, id);
+			editorContainer.find('a.edit-action').off()
+				.on('click', function () {
+					editHandler($(this));
+				}).removeClass('glyphicon-ok')
+				.addClass('glyphicon-edit');
+		}
 
-        function replaceHandler(elem) {
-            var dir = elem.hasClass('up');
-            var id = elem.attr('id');
+		function refreshState(state) {
+			$tbody.removeClass('editor-mode');
+			$tbody.loadTemplate($('#parameterTmpl'), state.items);
+			$tbody.find("a.remove-action").on("click", function () {
+				removeHandler($(this));
+			});
+			$tbody.find('tr').each(function () {
+				var self = $(this);
+				var idx = self[0].rowIndex;
+				self.find('td.index').text(idx);
+			});
+			$tbody.find("a.edit-action").on("click", function () {
+				editHandler($(this));
+			});
+			container.trigger('editor-refresh');
+			$(document).trigger('mouseup');
+		}
 
-            sender.get("replaceParam", '@Url.Action("replace")', { direction: dir, id: id }, function (response) {
-                if (response && response.statusCode == 0) {
-                    refreshState(response.data);
-                } else {
-                    alert('Ошибка при сохранении параметра!');
-                }
-            }, null, {});
-        }
+		function saveHandler(parameterName, parameterUnit, id) {
+			sender.get("saveParam", '@Url.Action("Save")', { name: parameterName, unit: parameterUnit, id: id }, function (response) {
+				if (response && response.statusCode == 0) {
+					refreshState(response.data);
+				} else {
+					alert('Ошибка при сохранении параметра!');
+				}
+			}, null, {});
+		};
 
-        function refreshState(state) {
-            var $tbody = $('table tbody').loadTemplate($('#parameterTmpl'), state.items);
-            $tbody.find("a.remove-action").on("click", function () {
-                removeHandler($(this));
-            });
-            $tbody.find("a.edit-action").on("click", function () {
-                editHandler($(this));
-            });
-            $tbody.find('a.action.replace').on("click", function () {
-                replaceHandler($(this));
-            });
-            container.trigger('editor-refresh');
-        }
+		function swapHandler(ids) {
+			sender.get("swap", '@Url.Action("Swap")?ids='+ids.shift()+prepareUrl(ids),{}, function (response) {
+				if (response && response.statusCode == 0) {
+					refreshState(response.data);
+				} else {
+					alert('Ошибка при сохранении параметра!');
+				}
+			}, null, { });
+		};
 
-        function saveHandler(parameterName, parameterUnit, id) {
-            sender.get("saveParam", '@Url.Action("Save")', { name: parameterName, unit: parameterUnit, id: id }, function (response) {
-                if (response && response.statusCode == 0) {
-                    refreshState(response.data);
-                } else {
-                    alert('Ошибка при сохранении параметра!');
-                }
-            }, null, {});
-        };
+		function prepareUrl(array) {
+			return array.map(function (v) {
+				return '&ids=' + v;
+			}).join('');
+		}
 
-        var fixHelperModified = function (e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
-            $helper.children().each(function (index) {
-                $(this).width($originals.eq(index).width())
-            });
-            return $helper;
-        },
-    updateIndex = function (e, ui) {
-        $('td.index', ui.item.parent()).each(function (i) {
-            $(this).html(i + 1);
-        });
-    };
+		function addHandler(parameterName, parameterUnit) {
+			sender.get("addParam", '@Url.Action("Add")', { name: parameterName, unit: parameterUnit }, function (response) {
+				if (response && response.statusCode == 0) {
+					refreshState(response.data);
+				} else {
+					alert('Ошибка при сохранении параметра!');
+				}
+			}, null, {});
+		}
 
-        $("#sortable tbody").sortable({
-            helper: fixHelperModified,
-            stop: updateIndex
-        }).disableSelection();
+		var fixHelperModified = function (e, tr) {
+			var $originals = tr.children();
+			var $helper = tr.clone();
+			$helper.children().each(function (index) {
+				$(this).width($originals.eq(index).width());
+			});
+			return $helper;
+		};
+		var updateIndex = function (e, ui) {
+			var ids = $tbody.find('tr').map(function () {
+				return $(this).attr('id');
+			}).toArray();
+			swapHandler(ids);
+		};
 
-    });
+		$("#sortable tbody").sortable({
+			helper: fixHelperModified,
+			stop: updateIndex,
+			cancel: '.editor-mode'
+		}).disableSelection();
+	});
 
 </script>

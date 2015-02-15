@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Model.AdditionalPointCount = (int?)Session["AdditionalPointCount"] ?? 0;
+	Model.ClusterCount = (int?)Session["ClusterCount"] ?? 0;
     Model.Normilize = (NormalizeType?)Session["Normilize"] ?? NormalizeType.EuklideanAveraged;
     Model.StatCalculation = (StatCalculationType?)Session["StatCalculationType"] ?? StatCalculationType.Euclead;
 }
