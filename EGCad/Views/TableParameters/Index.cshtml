@@ -27,7 +27,7 @@
 	<button id="addRow" class="btn btn-default"><span class="margined">Добавить точку</span><span class="glyphicon glyphicon-plus ok"></span></button>
 </div>
 <div class="form-group">
-	<a href="@Url.Action("Index","CalculationParameters")" id="nextStep" class="btn btn-success pull-right">Далее</a>
+	<a href="@Url.Action("Index","CalculationParameters")" id="nextStep" class="btn btn-default inactive pull-right">Далее</a>
 </div>
 <script type="text/html" id="parameterEntryTmpl">
 	<tr data-id="Id">
@@ -48,6 +48,7 @@
 		var container = $('#main');
 		var sender = new egcad.Data.Sender();
 		var $tbody = $('table tbody');
+		var $nextStep = $('#nextStep');
 
 		function removeHandler(self) {
 			var id = self.attr('id');
@@ -175,6 +176,7 @@
 				self.find('td.index').text(idx);
 			});
 			container.trigger('editor-refresh');
+			validate();
 		}
 
 		function saveHandler(pointX, pointY, paramValues, id) {
@@ -240,6 +242,14 @@
 			}).toArray();
 			swapHandler(ids);
 		};
+
+		function validate() {
+			if ($tbody.find('tr').length < 1) {
+				$nextStep.addClass('btn-default inactive').removeClass('btn-success');
+			} else {
+				$nextStep.addClass('btn-success').removeClass('inactive btn-default');
+			}
+		}
 
 		$("#sortable tbody").sortable({
 			helper: fixHelperModified,

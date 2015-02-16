@@ -43,16 +43,20 @@
     top: 0;
 }
 
+.btn.glyphicon-ok:hover {
+	color: green;
+}
+
 .glyphicon-ok {
-    color: green;
+    color: #5cb85c;
 }
 
 .ok {
-    color: green;
+    color: #5cb85c;
 }
 
 .error {
-    color: red;
+    color: #f66;
 }
 
 .page-header {
@@ -94,7 +98,7 @@ line {
 
 canvas {
     border: 1px solid #141414;
-    box-shadow: 2px 6px 59px -13px rgba(0,0,0,0.32);
+    box-shadow: 2px 3px 9px 3px rgba(0,0,0,0.12);
 }
 
 .btn.inactive {
@@ -106,3 +110,4 @@ canvas {
     .btn.inactive:hover {
         cursor: default;
     }
+

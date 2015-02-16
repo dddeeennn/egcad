@@ -1,4 +1,6 @@
-﻿namespace EGCad.Common.Model.Data
+﻿using System;
+
+namespace EGCad.Common.Model.Data
 {
 	/// <summary>
 	/// proovide input parameter
@@ -8,7 +10,14 @@
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string Unit { get; set; }
-		public double Value { get; set; }
+
+		private double _value;
+
+		public double Value
+		{
+			get { return double.IsNaN(_value) ? 0 : _value; }
+			set { _value = value; }
+		}
 
 		public Parameter(int id, string name, string unit)
 		{

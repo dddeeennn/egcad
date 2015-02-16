@@ -29,7 +29,7 @@
 	</table>
 </div>
 <div class="form-group">
-	<a href="@Url.Action("Index","TableParameters")" id="nextStep" class="btn btn-success pull-right">Далее</a>
+	<a href="@Url.Action("Index","TableParameters")" id="nextStep" class="btn btn-default inactive pull-right">Далее</a>
 </div>
 
 <script type="text/html" id="parameterTmpl">
@@ -47,6 +47,7 @@
 		var container = $('#main');
 		var sender = new egcad.Data.Sender();
 		var $tbody = $('table tbody');
+		var $nextStep = $('#nextStep');
 
 		container.find("#saveParameter").on("click", function () {
 
@@ -149,7 +150,7 @@
 				editHandler($(this));
 			});
 			container.trigger('editor-refresh');
-			$(document).trigger('mouseup');
+			validate();
 		}
 
 		function saveHandler(parameterName, parameterUnit, id) {
@@ -163,13 +164,13 @@
 		};
 
 		function swapHandler(ids) {
-			sender.get("swap", '@Url.Action("Swap")?ids='+ids.shift()+prepareUrl(ids),{}, function (response) {
+			sender.get("swap", '@Url.Action("Swap")?ids=' + ids.shift() + prepareUrl(ids), {}, function (response) {
 				if (response && response.statusCode == 0) {
 					refreshState(response.data);
 				} else {
 					alert('Ошибка при сохранении параметра!');
 				}
-			}, null, { });
+			}, null, {});
 		};
 
 		function prepareUrl(array) {
@@ -202,6 +203,14 @@
 			}).toArray();
 			swapHandler(ids);
 		};
+
+		function validate() {
+			if ($tbody.find('tr').length<1) {
+				$nextStep.addClass('btn-default inactive').removeClass('btn-success');
+			} else {
+				$nextStep.addClass('btn-success').removeClass('inactive btn-default');
+			}
+		}
 
 		$("#sortable tbody").sortable({
 			helper: fixHelperModified,

@@ -1,6 +1,7 @@
 ﻿body {
 	padding-top: 50px;
 	padding-bottom: 20px;
+	color: #676a6c;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -10,7 +11,7 @@
 }
 
 .display-label {
-    font-weight: 800;
+	font-weight: 800;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -24,7 +25,7 @@
 input,
 select,
 textarea {
-	max-width: 280px;
+	max-width: 300px;
 }
 
 footer {
@@ -44,3 +45,28 @@ footer {
 	footer hr {
 		margin-bottom: 0;
 	}
+
+.navbar-inverse {
+	background: #181818;
+}
+
+	.navbar-inverse .navbar-brand {
+		color: #fff;
+	}
+
+	.navbar-inverse ul#nav.navbar-nav li {
+		color: #bfbfbf;
+	}
+
+	.page-header {
+		border-bottom: none;
+	}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+ i {
+	margin-right: 5px;
+}
