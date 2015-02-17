@@ -12,21 +12,31 @@
 <div class="page-header">
 	<h2>Собранные данные</h2>
 </div>
-<div class="form-horizontal">
-	<div class="">
-		<span><i class="fa fa-check @mapState"></i></span><label title="Введите карту на" class="form-control-static ">Карта</label>
+<div class="form-horizontal margined">
+	<div class="form-group">
+		<div class="">
+			<span><i class="fa fa-check @mapState"></i></span><label title="Введите карту на" class="form-control-static ">Карта</label>
+		</div>
+		<div class="">
+			<span><i class="fa fa-check @addPointState"></i></span><label class="form-control-static ">Количество дополнительных точек:</label><span>@Model.AdditionalPointCount</span>
+		</div>
+		<div class="">
+			<span><i class="fa fa-check @clusterState"></i></span><label class="form-control-static ">Количество кластеров :</label><span>@Model.ClusterCount</span>
+		</div>
+		<div class="">
+			<span><i class="fa fa-check @paramsState"></i></span><label class="form-control-static ">Введено параметров:</label><span>@Model.Parameters.Count</span>
+		</div>
+		<div class="">
+			<span><i class="fa fa-check @pointsState"></i></span><label class="form-control-static ">Введено точек:</label><span>@Model.Points.Count</span>
+		</div>
 	</div>
-	<div class="">
-		<span><i class="fa fa-check @addPointState"></i></span><label class="form-control-static ">Количество дополнительных точек:</label><span>@Model.AdditionalPointCount</span>
-	</div>
-	<div class="">
-		<span><i class="fa fa-check @clusterState"></i></span><label class="form-control-static ">Количество кластеров :</label><span>@Model.ClusterCount</span>
-	</div>
-	<div class="">
-		<span><i class="fa fa-check @paramsState"></i></span><label class="form-control-static ">Введено параметров:</label><span>@Model.Parameters.Count</span>
-	</div>
-	<div class="">
-		<span><i class="fa fa-check @pointsState"></i></span><label class="form-control-static ">Введено точек:</label><span>@Model.Points.Count</span>
+	<div class="form-group">
+		<div class="col-sm-4">
+			<div class="progress ">
+				<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="form-group">
@@ -40,7 +50,17 @@
 	</div>
 </div>
 <script type="text/javascript">
-	if ($('.error', '#main').length<1) {
+	var $progressBar = $('.progress-bar');
+	var $completeState = ($('.fa.fa-check.ok').length / 5) * 100;
+
+	if ($completeState > 99) {
+		$progressBar.addClass('progress-bar-success').removeClass('progress-bar-danger');
+	} else {
+		$progressBar.addClass('progress-bar-danger').removeClass('progress-bar-success');
+	}
+	$progressBar.width(Math.round($completeState) + '%');
+
+	if ($('.error', '#main').length < 1) {
 		$('a.btn').addClass('btn-success').removeClass('inactive btn-default');
 	} else {
 		$('a.btn').addClass('inactive btn-default').removeClass('btn-success');
