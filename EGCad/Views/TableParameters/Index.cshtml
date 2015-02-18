@@ -88,16 +88,6 @@
 			return parseFloat($container.find(selector).val());
 		}
 
-		function getText($container, selector) {
-			return parseFloat($container.find(selector).text());
-		}
-
-		function getTextValues($container, selector) {
-			return $container.find(selector).map(function () {
-				return parseFloat($(this).text());
-			}).toArray();
-		}
-
 		function getValues($container, selector) {
 			return $container.find(selector).map(function () {
 				return parseFloat($(this).val());
@@ -167,6 +157,9 @@
 			$tbody.find("a.edit-action").on("click", function () {
 				editHandler($(this));
 			});
+		    $tbody.find('tr').on('dblclick', function() {
+		        editHandler($(this).find('a.edit-action'));
+		    });
 			$tbody.find("a.remove-action").on("click", function () {
 				removeHandler($(this));
 			});

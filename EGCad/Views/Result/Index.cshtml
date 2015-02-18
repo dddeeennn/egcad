@@ -74,7 +74,9 @@
     function drawScale(canvas, ctx, scale, tileCount, thickness) {
         var tileLength = Math.ceil(canvas.width / tileCount);
 
-        $('#scaleLabel').html(Math.round(scale * tileLength));
+        var scaleText = Math.round(scale * tileLength);
+
+        $('#scaleLabel').html(scaleText);
 
         for (var i = 0; i < tileCount; i++) {
             if (i % 2 == 0) {
@@ -84,6 +86,8 @@
                 ctx.stroke();
             }
         }
+
+
     }
 
 </script>

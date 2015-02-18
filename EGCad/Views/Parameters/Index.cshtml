@@ -141,6 +141,9 @@
 			$tbody.find("a.remove-action").on("click", function () {
 				removeHandler($(this));
 			});
+			$tbody.find('tr').on('dblclick', function () {
+			    editHandler($(this).find('a.edit-action'));
+			});
 			$tbody.find('tr').each(function () {
 				var self = $(this);
 				var idx = self[0].rowIndex;
