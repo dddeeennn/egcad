@@ -36,7 +36,7 @@ namespace EGCad.Core.Normalize
                     p.Value = (p.Value - z) / v;
                     normalizedParameters.Add(p);
                 }
-                result.Add(new ParameterTableEntry(point.Id, point.X, point.Y, normalizedParameters));
+                result.Add(new ParameterTableEntry(point.Id, point.X,normalizedParameters));
             }
 
             var rows =

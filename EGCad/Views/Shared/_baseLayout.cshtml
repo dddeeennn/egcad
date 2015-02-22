@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>EGCad</title>
 	@Styles.Render("~/Content/css")
-	@Scripts.Render("~/bundles/modernizr")
 	<link rel="stylesheet" href="/content/Layout.css" />
 	<link rel="stylesheet" href="/content/Common.css" />
+	<link rel="stylesheet" href="/content/font-awesome.css" />
 	<script type="text/javascript" src="/Scripts/jquery-2.1.1.js"></script>
 	<script type="text/javascript" src="/Scripts/jquery.tmpl.js"></script>
 	<script type="text/javascript" src="/Scripts/d3.js"></script>
@@ -17,10 +17,8 @@
 	<script type="text/javascript" src="/Scripts/DataRequest.js"></script>
 	<script type="text/javascript" src="/Scripts/DataSender.js"></script>
 	<script type="text/javascript" src="/Scripts/UINotifier.js"></script>
-	
-    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-    <script type="text/javascript" src="/Scripts/highcharts/highcharts.js"></script>
-
+	<script type="text/javascript" src="/Scripts/jquery-ui-1.10.2.js"></script>
+	<script type="text/javascript" src="/Scripts/highcharts/highcharts.js"></script>
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -33,31 +31,24 @@
 				</button>
 				<a class="navbar-brand">
 					<span>EGCad</span>
-					<sup>
-						<span>v. @Html.GetVersion()</span>
-					</sup>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					@if (@User.Identity.IsAuthenticated)
-					{
-						<li>@Html.ActionLink("Расчет сгущения опробации сети", "Index", "Map")</li>
-						@*<li>@Html.ActionLink("О проекте", "About", "Home")</li>*@
-					}
+					<li>@Html.ActionLink("Расчет сгущения опробации сети", "Index", "Map")</li>
+					@*<li>@Html.ActionLink("О проекте", "About", "Home")</li>*@
 				</ul>
-				@Html.Partial("_LoginPartial")
+				@if (User.Identity.IsAuthenticated)
+				{
+					@Html.Partial("_LoginPartial")
+				}
 			</div>
+
 		</div>
 	</div>
 	<div class="body-content">
 		@RenderBody()
 	</div>
-	<footer>
-		<hr />
-		<p>&copy; EGCad @DateTime.Now.Year</p>
-	</footer>
-	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@Scripts.Render("~/bundles/jquerytmpl")
 	@RenderSection("scripts", false)

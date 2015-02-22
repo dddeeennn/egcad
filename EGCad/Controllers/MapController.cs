@@ -17,6 +17,7 @@ namespace EGCad.Controllers
 
         public ActionResult GetState()
         {
+
             return Data(0, new { Map });
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using EGCad.Common.Infrastructure;
+using EGCad.Common.Extensions;
 
 namespace EGCad.Common.Model.Data
 {
@@ -8,17 +9,22 @@ namespace EGCad.Common.Model.Data
 	{
 		public Map Map { get; set; }
 
-        public List<Parameter> Parameters { get; set; }
+		public List<Parameter> Parameters { get; set; }
 
-        public List<ParameterTableEntry> Points { get; set; } 
+		public List<ParameterTableEntry> Points { get; set; }
 
-        public int AdditionalPointCount { get; set; }
+		public ParameterTableEntry[] PointsToCalc
+		{
+			get { return ObjectExtensions.DeepCopy(Points.ToArray()); }
+		}
 
-        public int ClusterCount { get; set; }
+		public int AdditionalPointCount { get; set; }
 
-        public NormalizeType Normilize { get; set; }
+		public int ClusterCount { get; set; }
 
-        public StatCalculationType StatCalculation { get; set; }
+		public NormalizeType Normilize { get; set; }
+
+		public StatCalculationType StatCalculation { get; set; }
 
 		public GeoData(Map map)
 			: this()
@@ -26,11 +32,12 @@ namespace EGCad.Common.Model.Data
 			Map = map;
 		}
 
-		public GeoData(Map map, int additionalPointCount, List<ParameterTableEntry> points ,List<Parameter> parameters, NormalizeType normalize,
-			StatCalculationType statCalculation)
+		public GeoData(Map map, int additionalPointCount, List<ParameterTableEntry> points, List<Parameter> parameters, NormalizeType normalize,
+			StatCalculationType statCalculation, int clusterCount)
 			: this(map)
 		{
-		    Points = points;
+			ClusterCount = clusterCount;
+			Points = points;
 			AdditionalPointCount = additionalPointCount;
 			Parameters = parameters;
 			Normilize = normalize;

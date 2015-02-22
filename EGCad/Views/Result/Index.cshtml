@@ -25,10 +25,7 @@
     var ctx = canvas[0].getContext('2d');
 
     var map = @Model.Map.SerializeObject();
-    var points =  @Model.Network.Points.SerializeObject();
-
-    var x = d3.scale.linear().domain([0, map.widthT]).range([0, map.width ]);
-    var y = d3.scale.linear().domain([0, map.heightT]).range([0, map.height ]);
+    var points =  @Model.Points.SerializeObject();
 
     initCanvas(map);
 
@@ -38,8 +35,8 @@
 
     function drawPoints(points) {
         $.each(points,function(index, value) {
-            var color = value.isNew ? "#f99" : "000";
-            drawPoint(ctx, x(value.parameters.x), y(value.parameters.y), 3, color);
+            var color = value.isNew ? "#f99" : "#000";
+            drawPoint(ctx, value.x, value.y, 4, color);
         });
     }
 
@@ -74,7 +71,9 @@
     function drawScale(canvas, ctx, scale, tileCount, thickness) {
         var tileLength = Math.ceil(canvas.width / tileCount);
 
-        $('#scaleLabel').html(Math.round(scale * tileLength));
+        var scaleText = Math.round(scale * tileLength);
+
+        $('#scaleLabel').html(scaleText);
 
         for (var i = 0; i < tileCount; i++) {
             if (i % 2 == 0) {
@@ -84,6 +83,8 @@
                 ctx.stroke();
             }
         }
+
+
     }
 
 </script>

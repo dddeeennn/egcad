@@ -1,33 +1,43 @@
-﻿namespace EGCad.Common.Model.Data
+﻿using System;
+
+namespace EGCad.Common.Model.Data
 {
-    /// <summary>
-    /// proovide input parameter
-    /// </summary>
-    public class Parameter
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Unit { get; set; }
-        public double Value { get; set; }
+	/// <summary>
+	/// proovide input parameter
+	/// </summary>
+	[Serializable]
+	public class Parameter
+	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public string Unit { get; set; }
 
-        public Parameter(int id, string name, string unit)
-        {
-            Id = id;
-            Name = name;
-            Unit = unit;
-        }
+		private double _value;
 
-        public Parameter(int id, string name, string unit, double value)
-            : this(id, name, unit)
-        {
-            Value = value;
-        }
+		public double Value
+		{
+			get { return double.IsNaN(_value) ? 0 : _value; }
+			set { _value = value; }
+		}
 
-        public Parameter() { }
+		public Parameter(int id, string name, string unit)
+		{
+			Id = id;
+			Name = name;
+			Unit = unit;
+		}
 
-        public override string ToString()
-        {
-            return string.Format("{0}, {1}", Name, Unit);
-        }
-    }
+		public Parameter(int id, string name, string unit, double value)
+			: this(id, name, unit)
+		{
+			Value = value;
+		}
+
+		public Parameter() { }
+
+		public override string ToString()
+		{
+			return Unit.Equals("") ? Name : string.Format("{0}, {1}", Name, Unit);
+		}
+	}
 }

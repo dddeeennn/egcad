@@ -78,6 +78,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DataExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\AppConfiguration.cs" />
     <Compile Include="Infrastructure\MVC\HtmlNavigationExtensions.cs" />
     <Compile Include="Infrastructure\MVC\HtmlExtensions.cs" />

@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     Model.AdditionalPointCount = (int?)Session["AdditionalPointCount"] ?? 0;
+	Model.ClusterCount = (int?)Session["ClusterCount"] ?? 0;
     Model.Normilize = (NormalizeType?)Session["Normilize"] ?? NormalizeType.EuklideanAveraged;
     Model.StatCalculation = (StatCalculationType?)Session["StatCalculationType"] ?? StatCalculationType.Euclead;
 }
@@ -14,27 +15,57 @@
 
 @using (Html.BeginForm())
 {
-
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-4"><label class="form-control-static ">Количество дополнительных точек:</label></div>
-            <div class="col-sm-8"><input type="number" id="AdditionalPointCount" name="AdditionalPointCount" class="form-control" placeholder="2" value="@Model.AdditionalPointCount"/></div>
+            <div class="col-sm-8"><input type="number" id="AdditionalPointCount" name="AdditionalPointCount" title="значение должно быть больше 0" class="form-control" placeholder="Введите число доп точек ( > 0 )" value="@Model.AdditionalPointCount" /></div>
         </div>
-        
         <div class="form-group">
             <div class="col-sm-4"><label class="form-control-static ">Количество кластеров:</label></div>
-            <div class="col-sm-8"><input type="number" id="ClusterCount" name="ClusterCount" class="form-control" placeholder="3" value="@Model.ClusterCount" /></div>
+            <div class="col-sm-8"><input type="number" id="ClusterCount" name="ClusterCount" class="form-control" title="значение должно быть больше 0" placeholder="Введите число кластеров ( > 0 )" value="@Model.ClusterCount" /></div>
         </div>
-
         <div class="form-group">
             <div class="col-sm-4"><label class="form-control-static ">Cпособ нормирования:</label></div>
-            <div class="col-sm-8">@Html.EnumDropDownListFor(x => x.Normilize)</div>
+            <div class="col-sm-8">@Html.EnumDropDownListFor(x => x.Normilize,new{@class="form-control"})</div>
         </div>
-
         <div class="form-group">
             <div class="col-sm-4"><label class="form-control-static ">Способ расчета статистического расстояния:</label></div>
-            <div class="col-sm-8">@Html.EnumDropDownListFor(x => x.StatCalculation)</div>
+            <div class="col-sm-8">@Html.EnumDropDownListFor(x => x.StatCalculation, new { @class = "form-control" })</div>
         </div>
-        <input type="submit" class="btn btn-primary pull-right" value="Сохранить" />
+        <input type="submit" class="btn btn-default inactive pull-right" id="nextStep" value="Далее" />
     </div>
 }
+
+<script type="text/javascript">
+	var $nextStep = $('#nextStep');
+	var $additionalPoint = $('#AdditionalPointCount');
+	var $clusterControl = $('#ClusterCount');
+
+	validate($additionalPoint.parent());
+	validate($clusterControl.parent());
+
+	$additionalPoint.on('input', function() {
+		validate($additionalPoint.parent());
+	});
+
+	$clusterControl.on('input', function () {
+		validate($clusterControl.parent());
+	});
+
+	function validate($container) {
+		if ($container.find('input').val() < 1) {
+			$container.addClass('has-error');
+		} else {
+			$container.removeClass('has-error');
+		}
+		toggleInactive();
+	}
+
+	function toggleInactive() {
+		if ($('.has-error', '#main').length) {
+			$nextStep.addClass('btn-default inactive').removeClass('btn-success');
+		} else {
+			$nextStep.addClass('btn-success').removeClass('inactive btn-default');
+		}
+	}
+</script>

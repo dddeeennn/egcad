@@ -3,7 +3,6 @@ C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Cor
 C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\EGCad.Common.dll
 C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\System.Web.Mvc.dll
 C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\System.Web.WebPages.dll
-C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\System.Web.Razor.dll
 C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\System.Web.WebPages.Razor.dll
 C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-master\EGCad.Core\bin\Debug\System.Web.WebPages.Deployment.dll

@@ -27,8 +27,8 @@ namespace EGCad.Core.VairiabilityCalc
 
             return variabilityValues.Select(val => val / variabilityValues.Max()).ToArray()
                                     .Select((val, idx) =>
-                        new VariabilityFuncItem(sourceData.Points[0].X, sourceData.Points[0].Y,
-                        sourceData.Points[idx].X, sourceData.Points[idx].Y, sourceData.Points[idx].Id, val)).ToArray();
+                        new VariabilityFuncItem(sourceData.Points[0].X,
+                        sourceData.Points[idx].X, sourceData.Points[idx].Id, val)).ToArray();
         }
 
         private double[,] GetVariabilityDataTable(double[,] sourceData)

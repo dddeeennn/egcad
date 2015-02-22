@@ -1,108 +1,120 @@
 ﻿.file-input-wrapper {
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    z-index: 1;
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+	z-index: 1;
 }
 
-    .file-input-wrapper input[type=file],
-    .file-input-wrapper input[type=file]:focus,
-    .file-input-wrapper input[type=file]:hover {
-        position: absolute;
-        top: 0;
-        left: 0;
-        cursor: pointer;
-        opacity: 0;
-        filter: alpha(opacity=0);
-        z-index: 99;
-        outline: 0;
-    }
+	.file-input-wrapper input[type=file],
+	.file-input-wrapper input[type=file]:focus,
+	.file-input-wrapper input[type=file]:hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+		z-index: 99;
+		outline: 0;
+	}
 
 .file-input-name {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .table thead > tr > th,
 .table tbody > tr > td {
-    text-align: center;
+	text-align: center;
 }
 
 .table.half {
-    width: 50%;
+	width: 50%;
 }
 
 .table tbody > tr > td {
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .margined {
-    margin: 10px;
+	margin: 10px;
 }
 
 .input-group-addon.glyphicon {
-    top: 0;
+	top: 0;
+}
+
+.btn.glyphicon-ok:hover {
+	color: green;
 }
 
 .glyphicon-ok {
-    color: green;
+	color: #5cb85c;
 }
 
 .ok {
-    color: green;
+	color: #5cb85c;
 }
 
 .error {
-    color: red;
+	color: #f66;
 }
 
 .page-header {
-    margin: 20px 0 10px;
+	margin: 20px 0 10px;
 }
 
 a.remove-action:hover {
-    text-decoration: none;
-    color: #fa8072;
+	text-decoration: none;
+	color: #fa8072;
 }
 
 .action:hover {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .node circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px;
+	fill: #fff;
+	stroke: steelblue;
+	stroke-width: 1.5px;
 }
 
 .node {
-    font: 16px sans-serif;
+	font: 16px sans-serif;
 }
 
 .link {
-    fill: none;
-    stroke: #666;
-    stroke-width: 1.5px;
+	fill: none;
+	stroke: #666;
+	stroke-width: 1.5px;
 }
 
 line {
-    stroke: black;
+	stroke: black;
 }
 
 .bold {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 canvas {
-    border: 1px solid #141414;
-    box-shadow: 2px 6px 59px -13px rgba(0,0,0,0.32);
+	border: 1px solid #141414;
+	box-shadow: 2px 3px 9px 3px rgba(0,0,0,0.12);
+}
+
+canvas#tip {
+	background-color: white;
+	border: 1px solid blue;
+	position: absolute;
+	left: -200px;
+	top: 100px;
 }
 
 .btn.inactive {
-    opacity: 0.6;
-    pointer-events: none;
-    user-select: none;
+	opacity: 0.6;
+	pointer-events: none;
+	user-select: none;
 }
 
-    .btn.inactive:hover {
-        cursor: default;
-    }
+	.btn.inactive:hover {
+		cursor: default;
+	}

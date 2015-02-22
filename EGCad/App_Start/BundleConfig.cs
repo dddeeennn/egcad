@@ -8,8 +8,11 @@ namespace EGCad
 		// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
-			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-						"~/Scripts/jquery-{version}.js"));
+			//bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+			//			"~/Scripts/jquery-{version}.js"));
+
+			bundles.Add(new ScriptBundle("~/bundles/jqueryUI").Include(
+			"~/Scripts/jquery-ui-1.10.2.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 						"~/Scripts/jquery.validate*"));
@@ -26,7 +29,6 @@ namespace EGCad
 						"~/Scripts/modernizr-*"));
 
 
-
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 					  "~/Scripts/bootstrap.js",
 					  "~/Scripts/respond.js"));
@@ -37,7 +39,7 @@ namespace EGCad
 
 			// Set EnableOptimizations to false for debugging. For more information,
 			// visit http://go.microsoft.com/fwlink/?LinkId=301862
-			BundleTable.EnableOptimizations = true;
+			BundleTable.EnableOptimizations = false;
 		}
 	}
 }
