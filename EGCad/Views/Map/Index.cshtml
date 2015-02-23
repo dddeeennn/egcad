@@ -64,7 +64,7 @@
             Здесь должна быть отображена загруженная карта.
             Для работы с приложением обновите браузер.
             Минимальная поддерживаемая версия браузеров:
-            Internet Explorer 10+, 	Google Chrome 38+, FireFox
+            Internet Explorer 10+, 	Google Chrome 38+
         </canvas>
     </div>
 </div>
@@ -157,7 +157,10 @@
                     x -= canvas.getBoundingClientRect().left;
                     y -= canvas.getBoundingClientRect().top;
 
-                    pointHandle(x, y);
+                    if (x > imgOffset && x < (canvas.width - imgOffset) &&
+                    (y > imgOffset && y < (canvas.height - imgOffset))) {
+                        pointHandle(x, y);
+                    }
                 });
 
                 $(canvas).mousemove(function (e) { handleMouseMove(e, $(this)[0]); });
