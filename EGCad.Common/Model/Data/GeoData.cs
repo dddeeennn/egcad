@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EGCad.Common.Infrastructure;
 using EGCad.Common.Extensions;
 
 namespace EGCad.Common.Model.Data
 {
+	[Serializable]
 	public class GeoData
 	{
 		public Map Map { get; set; }

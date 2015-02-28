@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EGCad.Common.Infrastructure
 {
+	[Serializable]
 	public enum StatCalculationType : byte
 	{
         [Display(Name = "Евклидово расстояние")]
