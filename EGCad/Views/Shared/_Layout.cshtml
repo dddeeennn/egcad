@@ -3,24 +3,69 @@
 }
 
 <div id="nav">
-	<a class="btn btn-navbar">
-		<span class="sr-only">Left menu</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-	</a>
+    <a class="btn btn-navbar">
+        <span class="sr-only">Left menu</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
 
-	<div class="btn-sticker-mode">
-		<a href="#" title="pin ON/OFF"><span class="glyphicon"></span></a>
-	</div>
+    <div class="btn-sticker-mode">
+        <a href="#" title="pin ON/OFF"><span class="glyphicon"></span></a>
+    </div>
 	
-	@{ Html.RenderAction("Menu", "Navigation"); }
+    @{ Html.RenderAction("Menu", "Navigation"); }
+</div>
+
+
+<div id="action-panel">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 38.862 38.862" style="enable-background:new 0 0 38.862 38.862;" xml:space="preserve">
+<g>
+    <rect x="19.432" y="0.358" style="fill:#fff;" width="4.926" height="8.91" />
+    <path style="fill:#fff;" d="M4.298,0.358C1.924,0.358,0,2.282,0,4.656v33.848h34.564c2.374,0,4.298-1.925,4.298-4.298V0.358   H28.476v10.924H6.269V0.358H4.298z M8.418,17.864h21.759v12.625c0,1.187-0.962,2.149-2.149,2.149H6.269V20.013   C6.269,18.826,7.231,17.864,8.418,17.864z" />
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+
 </div>
 
 <script type="text/javascript">
-	new DynamicSideBar($("#nav"));
+    new DynamicSideBar($("#nav"));
 </script>
 <div id="main">
-	@RenderBody()
+    @RenderBody()
 </div>
-
+<script type="text/javascript">
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

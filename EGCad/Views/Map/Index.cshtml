@@ -157,10 +157,8 @@
                     x -= canvas.getBoundingClientRect().left;
                     y -= canvas.getBoundingClientRect().top;
 
-                    if (x > imgOffset && x < (canvas.width - imgOffset) &&
-                    (y > imgOffset && y < (canvas.height - imgOffset))) {
-                        pointHandle(x, y);
-                    }
+                    if (x.isBetween(imgOffset, canvas.width - imgOffset) &&
+                        y.isBetween(imgOffset, canvas.height - imgOffset)) pointHandle(x, y);
                 });
 
                 $(canvas).mousemove(function (e) { handleMouseMove(e, $(this)[0]); });
@@ -196,7 +194,7 @@
         function handleMouseMove(e, canvas) {
 
             var x = e.clientX - canvas.getBoundingClientRect().left,
-				y = e.clientY - canvas.getBoundingClientRect().top;
+                y = e.clientY - canvas.getBoundingClientRect().top;
 
             //   console.log(x + ', ' + y);
 
@@ -239,56 +237,56 @@
             modal.setTitle('Сохранить точку');
             modal.getContentElement().append('Выберите тип точки');
             modal.setButtons([
-				{
-				    label: 'Начальная',
-				    cssClass: 'btn',
-				    callback: function () {
-				        sendPointData(x, y, true);
-				        modal.hide();
-				        modal.destroy();
-				    }
-				},
-				{
-				    label: 'Конечная',
-				    cssClass: 'btn',
-				    callback: function () {
-				        sendPointData(x, y, false);
-				        modal.hide();
-				        modal.destroy();
-				    }
-				},
-				{
-				    label: 'Закрыть',
-				    cssClass: 'btn',
-				    callback: function () {
-				        modal.hide();
-				        modal.destroy();
-				    }
-				}
+                {
+                    label: 'Начальная',
+                    cssClass: 'btn',
+                    callback: function () {
+                        sendPointData(x, y, true);
+                        modal.hide();
+                        modal.destroy();
+                    }
+                },
+                {
+                    label: 'Конечная',
+                    cssClass: 'btn',
+                    callback: function () {
+                        sendPointData(x, y, false);
+                        modal.hide();
+                        modal.destroy();
+                    }
+                },
+                {
+                    label: 'Закрыть',
+                    cssClass: 'btn',
+                    callback: function () {
+                        modal.hide();
+                        modal.destroy();
+                    }
+                }
             ]);
             modal.show();
         }
 
         /*
-		* x,y - coords,
-		* pointType=true is start point
-		* pointType=false is end point
-		*/
+        * x,y - coords,
+        * pointType=true is start point
+        * pointType=false is end point
+        */
         function sendPointData(x, y, pointType) {
             sender.get("savePointCoords", '@Url.Action("SavePoint")', { x: x, y: y, pointType: pointType },
-				function (response) {
-				    if (response && response.statusCode == 0) {
-				        refreshStatus(response.data.Map);
-				    } else {
-				        setStatus("#specifyStartStep", 'error');
-				        setStatus("#specifyEndStep", 'error');
-				    }
-				},
-				function () {
-				    setStatus("#specifyStartStep", 'error');
-				    setStatus("#specifyEndStep", 'error');
-				},
-				{});
+                function (response) {
+                    if (response && response.statusCode == 0) {
+                        refreshStatus(response.data.Map);
+                    } else {
+                        setStatus("#specifyStartStep", 'error');
+                        setStatus("#specifyEndStep", 'error');
+                    }
+                },
+                function () {
+                    setStatus("#specifyStartStep", 'error');
+                    setStatus("#specifyEndStep", 'error');
+                },
+                {});
         }
 
         function saveEndPointLength() {
@@ -297,17 +295,17 @@
             if (!value) return;
 
             sender.get("saveEndPoint", '@Url.Action("EndpointLength")', { x: value },
-				function (response) {
-				    if (response && response.statusCode == 0) {
-				        refreshStatus(response.data.Map);
-				    } else {
-				        setStatus("#specifyLengthStep", 'error');
-				    }
-				},
-				function () {
-				    setStatus("#specifyLengthStep", 'error');
-				},
-				{});
+                function (response) {
+                    if (response && response.statusCode == 0) {
+                        refreshStatus(response.data.Map);
+                    } else {
+                        setStatus("#specifyLengthStep", 'error');
+                    }
+                },
+                function () {
+                    setStatus("#specifyLengthStep", 'error');
+                },
+                {});
         };
 
         function drawPoint(context, centerX, centerY, color, strokeColor) {

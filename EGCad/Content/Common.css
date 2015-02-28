@@ -117,3 +117,52 @@ canvas#tip {
 	.btn.inactive:hover {
 		cursor: default;
 	}
+
+#action-panel {
+    /*position: fixed;
+        background: #dfdfdf;
+        border:1px solid #ccc;
+        opacity: 0.3;
+        width: 100px;
+        height: 30px;
+        top: 80px;
+        right: 50px;
+        z-index: 1025;*/
+    position: fixed;
+    background: #47a447;
+    border: 1px solid #ccc;
+    padding: 5px 5px 1px;
+    top: 80px;
+
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    right: 0px;
+    z-index: 1025;
+    cursor: pointer;
+    -moz-transition: background 0.5s 0 linear;
+    -o-transition: background 0.5s 0 linear;
+    -webkit-transition: background 0.5s 0 linear;
+    transition: background 0.5s 0 linear;
+}
+
+#action-panel:hover {
+    background: #398439;
+}
+#action-panel:hover svg rect,
+#action-panel:hover svg path {
+    fill: #acacac;     
+}
+#action-panel svg{ position: relative;
+    width: 25px;
+    height: 25px;
+}
+#action-panel:before{
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    width: 23px;
+    height: 1px;
+    background: #fff;
+
+}
