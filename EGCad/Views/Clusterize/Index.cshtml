@@ -4,12 +4,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Результаты кластеризации</h2>
 <div id="dendrogramm"></div>
-
 <script type="text/javascript">
     var json = @Model.SerializeObject();
+
     var width = 1000 ;
     var height = 800;
     var cluster = d3.layout.cluster()
@@ -64,7 +63,7 @@
     var x = d3.scale.linear().domain([ymin, ymax]).range([0, width - 200]);
     var xinv = d3.scale.linear().domain([ymax, ymin]).range([0, width - 200]);
 
-    var link = svg.selectAll(".link")
+    var link = svg.selectAll("#dendrogramm .link")
 	   .data(links)
 	   .enter().append("path")
 	   .attr("class", function (d) {
@@ -72,7 +71,7 @@
 	   })
 	   .attr("d", elbow);
 
-    var node = svg.selectAll(".node")
+    var node = svg.selectAll("#dendrogramm .node")
 	   .data(nodes)
 	   .enter().append("g")
 	   .attr('class', function(d) {
@@ -93,16 +92,16 @@
 	   .attr("dx", function (d) { return d.children ? 8 : -8; })
 	   .attr("dy", 3)
 	   .style("text-anchor", function (d) { return d.children ? "start" : "end"; })
-	   .text(function (d) { return d.name; });
+	   .text(function (d) { return d.name.indexOf(',')==-1?d.name:""; });
 
-    var g = d3.select("svg").append("g")
+    var g = d3.select("#dendrogramm svg").append("g")
 	   .attr("transform", "translate(100,20)");
     g.append("line")
 	   .attr("x1", x(ymin))
 	   .attr("y1", 0)
 	   .attr("x2", x(ymax))
 	   .attr("y2", 0);
-    g.selectAll(".ticks")
+    g.selectAll("#dendrogramm .ticks")
 	   .data(x.ticks(20))
 	   .enter().append("line")
 	   .attr("class", "ticks")
@@ -110,7 +109,7 @@
 	   .attr("y1", -5)
 	   .attr("x2", function (d) { return x(d); })
 	   .attr("y2", 5);
-    g.selectAll(".label")
+    g.selectAll("#dendrogramm .label")
 	   .data(x.ticks(20))
 	   .enter().append("text")
 	   .attr("class", "label")
@@ -125,9 +124,8 @@
     }
 
 </script>
-
 @*
-    
+
     curve path line
 
     var json = @Model.SerializeObject();
