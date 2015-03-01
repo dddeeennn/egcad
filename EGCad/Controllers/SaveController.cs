@@ -16,7 +16,7 @@ namespace EGCad.Controllers
 			var now = DateTime.Now;
 			var path =
 				string.Format(Path.Combine(Server.MapPath("~/App_Data/store/"),
-				string.Format("egcad{0} {1}pm {2}.{3}.{4}.xml", now.Hour, now.Minute, now.Day, now.Month, now.Year)));
+				string.Format("egcad{0} {1}pm {2}.{3}.{4}.egc", now.Hour, now.Minute, now.Day, now.Month, now.Year)));
 
 			var formatter = new XmlSerializer(typeof(GeoData));
 

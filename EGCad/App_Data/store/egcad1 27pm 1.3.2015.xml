@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GeoData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Parameters />
+  <Points>
+    <ParameterTableEntry>
+      <Parameters />
+      <Id>0</Id>
+      <X>0</X>
+      <MinX>0</MinX>
+      <MaxX>0</MaxX>
+    </ParameterTableEntry>
+  </Points>
+  <AdditionalPointCount>0</AdditionalPointCount>
+  <ClusterCount>0</ClusterCount>
+  <Normilize>EuklideanAveraged</Normilize>
+  <StatCalculation>Euclead</StatCalculation>
+</GeoData>
