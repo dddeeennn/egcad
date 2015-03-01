@@ -1,31 +1,20 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Web.Mvc;
-using System.Xml.Serialization;
-using EGCad.Common.Model.Data;
+using EGCad.Core.IO;
 
 namespace EGCad.Controllers
 {
 	public class SaveController : InputBaseController
 	{
 		// GET: Save
-		public ActionResult Index()
+		public FileStreamResult Index()
 		{
 			Save();
 
-			var now = DateTime.Now;
-			var path =
-				string.Format(Path.Combine(Server.MapPath("~/App_Data/store/"),
-				string.Format("egcad{0} {1}pm {2}.{3}.{4}.egc", now.Hour, now.Minute, now.Day, now.Month, now.Year)));
+			string path;
+			SaveService.Save(InputModel, Server.MapPath("~/App_Data/store/"), out path);
 
-			var formatter = new XmlSerializer(typeof(GeoData));
-
-			using (var fs = new StreamWriter(path))
-			{
-				formatter.Serialize(fs, InputModel);
-			}
-			//todo send user
-			return View();
+			return File(new FileStream(path, FileMode.Open), "text/xml", Path.GetFileName(path));
 		}
 	}
 }

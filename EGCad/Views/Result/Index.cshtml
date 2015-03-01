@@ -9,7 +9,7 @@
 <h2>Результаты расчета</h2>
 <div class="form-horizontal">
     <div class="form-group col-sm-12">
-        <div><label>Масштаб карты  </label><span id="scaleLabel" style="margin-left: 10px"> - </span>  м.</div>
+        <canvas id="tip" width=100 height=25></canvas>
         <canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
             Здесь должна быть отображена загруженная карта.
             Для работы с приложением обновите браузер.
@@ -19,73 +19,160 @@
     </div>
 </div>
 
-<script>
-   
-    var canvas = $('#map-container');
-    var ctx = canvas[0].getContext('2d');
+@if (Model != null && Model.Map != null)
+{
+    <script>
 
-    var map = @Model.Map.SerializeObject();
-    var points =  @Model.Points.SerializeObject();
+        var container = $('#main');
+        var imgOffset = 45,
+            tipCanvas = document.getElementById('tip'),
+            tipCtx = tipCanvas.getContext('2d'),
+            pointRadius = 4,
+            canvas = $('#map-container'),
+            startPoint,
+            endPoint;
 
-    initCanvas(map);
+        var ctx = canvas[0].getContext('2d');
 
-    canvas.on('imgLoaded', function() {
-        drawPoints(points);
-    });
+        var map = @Model.Map.SerializeObject();
+        var points = pointAdapter(@Model.Points.SerializeObject());
 
-    function drawPoints(points) {
-        $.each(points,function(index, value) {
-            var color = value.isNew ? "#f99" : "#000";
-            drawPoint(ctx, value.x, value.y, 4, color);
+        initCanvas(map);
+
+        canvas.on('imgLoaded', function() {
+
+            drawPoints(points);
         });
-    }
 
-    function initCanvas(map) {
-        var width = map.width;
-        var height = map.height;
+        function drawPoints(points) {
+            $.each(points, function(index, value) {
+                var color = value.isNew ? "#f99" : "#000";
+                drawPoint(ctx, value.x, value.y, 4, color);
+            });
+        }
 
-        var img = new Image(width, height);
-        img.src = map.imgSrc;
-        img.onload = function () {
-            canvas[0].width = width;
-            canvas[0].height = height;
+        function initCanvas(map) {
+            var width = map.width;
+            var height = map.height;
 
-            ctx.drawImage(img, 0, 0, width, height);
+            var img = new Image(width, height);
+            img.src = map.imgSrc;
+            img.onload = function() {
+                canvas[0].width = width + 2 * imgOffset;
+                canvas[0].height = height + 2 * imgOffset;
 
-            if (map.scaleKoef > 0) drawScale(canvas[0], ctx, map.scaleKoef, 10, 20);
+                ctx.drawImage(img, imgOffset, imgOffset, width, height);
 
-            canvas.trigger("imgLoaded");
-        };
-    }
+                $(canvas).mousemove(function(e) { handleMouseMove(e, $(this)[0]); });
 
-    function drawPoint(context, centerX, centerY, radius, color) {
-        context.beginPath();
-        context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-        context.fillStyle = color;
-        context.fill();
-        context.lineWidth = 1;
-        context.strokeStyle = '#003300';
-        context.stroke();
-    }
+                drawScale(ctx, Math.ceil(width / 10), 10, 15, 30);
 
-    function drawScale(canvas, ctx, scale, tileCount, thickness) {
-        var tileLength = Math.ceil(canvas.width / tileCount);
+                if (map.scaleKoef > 0) drawScaleText(ctx, map.scaleKoef, Math.ceil(width / 10), 10, 15, 30);
 
-        var scaleText = Math.round(scale * tileLength);
+                drawFrontLine(ctx, map.start, map.end, map.k);
 
-        $('#scaleLabel').html(scaleText);
+                canvas.trigger("imgLoaded");
+            };
+        }
 
-        for (var i = 0; i < tileCount; i++) {
-            if (i % 2 == 0) {
-                ctx.fillRect(tileLength * i, 0, tileLength, thickness);
-            } else {
-                ctx.rect(tileLength * i, 0, tileLength, thickness - 1);
-                ctx.stroke();
+        function drawPoint(context, centerX, centerY, radius, color) {
+            context.beginPath();
+            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = color;
+            context.fill();
+            context.lineWidth = 1;
+            context.strokeStyle = '#003300';
+            context.stroke();
+        }
+
+        function drawScale(ctx, tileLength, tileCount, thickness, offset) {
+            for (var i = 0; i < tileCount; i++) {
+                if (i % 2 == 0) {
+                    ctx.fillRect(thickness + offset + tileLength * i, offset, tileLength, thickness);
+                    ctx.strokeRect(thickness + offset + tileLength * i, offset, tileLength, thickness);
+                    ctx.fillRect(offset, thickness + offset + tileLength * i, thickness, tileLength);
+                    ctx.strokeRect(offset, thickness + offset + tileLength * i, thickness, tileLength);
+                } else {
+                    ctx.rect(thickness + offset + tileLength * i, offset, tileLength, thickness);
+                    ctx.rect(offset, thickness + offset + tileLength * i, thickness, tileLength);
+                    ctx.stroke();
+                }
             }
         }
 
+        function drawScaleText(ctx, scale, tileLength, tileCount, thickness, offset) {
+            var scaleText = Math.round(scale * tileLength);
+            var alignKoef = thickness + offset; //align scale text
+            for (var i = 1; i < tileCount; i++) {
+                ctx.fillText(scaleText * (i - 1), alignKoef + tileLength * i, offset * 3 / 4);
+                ctx.fillText(scaleText * (i - 1), offset / 6, alignKoef + tileLength * i);
+            }
+        }
 
-    }
+        // show tooltip when mouse hovers over dot
+        function handleMouseMove(e, canvas) {
 
-</script>
+            var x = e.clientX - canvas.getBoundingClientRect().left,
+                y = e.clientY - canvas.getBoundingClientRect().top;
 
+            //   console.log(x + ', ' + y);
+
+            if (points) {
+                handleMouseMoveOnPoint(points, x, y);
+                return;
+            }
+        }
+
+        function handleMouseMoveOnPoint(dots, mouseX, mouseY) {
+            var hit = false;
+            for (var i = 0; i < dots.length; i++) {
+                var point = dots[i];
+                var dx = mouseX - point.x;
+                var dy = mouseY - point.y;
+                if (dx * dx + dy * dy < point.r * point.r) {
+                    tipCanvas.style.left = (point.x) + "px";
+                    tipCanvas.style.top = (point.y - 40) + "px";
+                    tipCtx.clearRect(0, 0, tipCanvas.width, tipCanvas.height);
+                    tipCtx.fillText(point.text, 5, 15);
+                    hit = true;
+                }
+                if (!hit) {
+                    tipCanvas.style.left = "-1200px";
+                }
+            }
+        }
+
+        function pointAdapter(points) {
+            return $.map(points, function(value) {
+                return {
+                    x:value.x,
+                    y:value.y,
+                    text:value.title,
+                    isNew:value.isNew,
+                    r:pointRadius
+                };
+            });
+        }
+
+        function drawFrontLine(ctx,start,end,k) {
+            var x1 = start.split(',')[0],
+                y1 = start.split(',')[1],
+                x2 = end.split(',')[0],
+                y2 = end.split(',')[1];
+
+            drawSegment(ctx,x1,y1,x2,y2,k);
+        }
+
+        function drawSegment(ctx,x1,y1,x2,y2) {
+            drawLine(ctx, x1, y1, x2, y2);
+        }
+
+        function drawLine(ctx, x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+    </script>
+}

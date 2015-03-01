@@ -1,6 +1,6 @@
 ﻿<svg id="saveActionPanel" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-     width="488.446px" height="488.446px" viewBox="0 0 488.446 488.446" style="enable-background:new 0 0 488.446 488.446;"
-     xml:space="preserve">
+	 width="488.446px" height="488.446px" viewBox="0 0 488.446 488.446" style="enable-background:new 0 0 488.446 488.446;"
+	 xml:space="preserve">
 <g>
 <g>
 <g>
@@ -51,9 +51,11 @@
 </g>
 </svg>
 
+<a id="save" href='@Url.Action("Index","Save")' class="hide"></a>
+
 
 <script type="text/javascript">
 	$('#saveActionPanel').on('click', function () {
-		$.get('@Url.Action("Index","Save")');
+		$('#action-panel a#save')[0].click();
 	});
 </script>

@@ -227,6 +227,17 @@ namespace EGCad.Controllers
 			InputModel = new GeoData(Map, AdditionalPointCount, Points, Parameters, Normilize, StatCalculation, ClusterCount);
 		}
 
+		protected void Load()
+		{
+			Map = InputModel.Map;
+			AdditionalPointCount = InputModel.AdditionalPointCount;
+			Points = InputModel.Points;
+			Parameters = InputModel.Parameters;
+			Normilize = InputModel.Normilize;
+			StatCalculation = InputModel.StatCalculation;
+			ClusterCount = InputModel.ClusterCount;
+		}
+
 		//private static List<Parameter> GetParameters(params  double[] values)
 		//{
 		//    return new List<Parameter>(new[]

@@ -65,7 +65,7 @@ namespace EGCad.Common.Model.Data
 				if (Image == null) return null;
 				using (var ms = new MemoryStream())
 				{
-					Image.Save(ms, ImageFormat.Bmp);
+					Image.Save(ms, ImageFormat.Jpeg);
 					return ms.ToArray();
 				}
 			}
@@ -79,7 +79,10 @@ namespace EGCad.Common.Model.Data
 				{
 					using (var ms = new MemoryStream(value))
 					{
-						Image = new Bitmap(ms);
+						using (var img  = Image.FromStream(ms))
+						{
+							Image = new Bitmap(img);	
+						}
 					}
 				}
 			}

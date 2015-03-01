@@ -1,5 +1,5 @@
 ﻿<svg id="loadActionPanel" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-     viewBox="0 0 373.591 373.591" style="enable-background:new 0 0 373.591 373.591;" xml:space="preserve">
+	 viewBox="0 0 373.591 373.591" style="enable-background:new 0 0 373.591 373.591;" xml:space="preserve">
 <g>
 <g id="Layer_5_56_">
 <g>
@@ -48,47 +48,50 @@
 </g>
 </svg>
 <div class="hiddenFile">
-    <form action='@Url.Action("index","Load")' id="load" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="map" accept=".egc" />
-    </form>
+	<form action='@Url.Action("index","Load")' id="load" method="post" enctype="multipart/form-data">
+		<input type="file" name="file" id="map" accept=".egc" />
+	</form>
 </div>
 
 
 <script type="text/javascript">
-    var sender = new egcad.Data.Sender();
-    var $modalBackdrop = $('#modal');
-    var $loadInput = $('form#load input[type="file"]');
+	var sender = new egcad.Data.Sender();
+	var $modalBackdrop = $('#modal');
+	var $loadInput = $('form#load input[type="file"]');
 
-    $loadInput.on('change', function () {
-        $('#load').submit(function (e) {
-            sender.post("UploadMap", '@Url.Action("index","Load")', {},
-                function (response) {
-                    $modalBackdrop.removeClass('show');
-                    $modalBackdrop.empty();
-                    if (response && response.statusCode == 0) {
-                        $('#load').find('input[type="file"]').val('');
-                        location.reload();
-                    }
-                    if (response.statusCode == 2) {
-                        alert('ошибка при загрузке файла!');
-                    }
-                },
-                function (request, status, error) {
-                    alert('ошибка при загрузке файла.Проверьте соединение с сервером.');
-                }, {
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
-                        var $loading = $('<span id="loading"><i class="fa fa-spinner fa-pulse"/></span>');
-                        $modalBackdrop.addClass('show');
-                        $modalBackdrop.append($loading);
-                    }
-                });
-            e.preventDefault();
-        });
-    });
-    $('#loadActionPanel').on('click', function () {
-        $loadInput.trigger('click');
-    });
+	$loadInput[0].onchange = function (e) {
+		$('#load').trigger('submit');
+	};
+
+	$('#load').submit(function (e) {
+		sender.post("UploadMap", '@Url.Action("index","Load")', {},
+			function (response) {
+				$modalBackdrop.removeClass('show');
+				$modalBackdrop.empty();
+				if (response && response.statusCode == 0) {
+					$('#load').find('input[type="file"]').val('');
+					location.reload();
+				}
+				if (response.statusCode == 2) {
+					alert('ошибка при загрузке файла!');
+				}
+			},
+			function (request, status, error) {
+				alert('ошибка при загрузке файла.Проверьте соединение с сервером.');
+			}, {
+				data: new FormData(this),
+				processData: false,
+				contentType: false,
+				beforeSend: function () {
+					var $loading = $('<span id="loading"><i class="fa fa-spinner fa-pulse"/></span>');
+					$modalBackdrop.addClass('show');
+					$modalBackdrop.append($loading);
+				}
+			});
+		e.preventDefault();
+	});
+
+	$('#loadActionPanel').on('click', function () {
+		$loadInput.trigger('click');
+	});
 </script>

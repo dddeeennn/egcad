@@ -103,10 +103,8 @@
 				        var form = container.find('#upload');
 				        form.find('.file-input-name').empty('');
 				        form.find('input[type="file"]').val('');
-
-				        var map = response.data.Map;
-
-				        refreshStatus(map);
+                        
+				        refreshStatus(response.data.Map);
 				    }
 
 				    if (response.statusCode == 2) {
@@ -114,7 +112,7 @@
 				        alert('Ошибка при загрузке карты!' + response.data.message);
 				    }
 				},
-				function (request, status, error) {
+				function (errorMessage) {
 				    setStatus("#loadMapStep", "error");
 				}, {
 				    data: new FormData(this),
