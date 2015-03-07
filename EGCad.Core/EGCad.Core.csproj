@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,9 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalculationSettings.cs" />
+    <Compile Include="Clasterize\ChebishevStatDistanceProvider.cs" />
     <Compile Include="Clasterize\ClusterCalculator.cs" />
     <Compile Include="Clasterize\EukleadDistanceProvider.cs" />
     <Compile Include="Clasterize\IStatDistanceProvider.cs" />
+    <Compile Include="Clasterize\LinearStatDistanceProvider.cs" />
+    <Compile Include="Clasterize\ManhattenStatDistanceProvider.cs" />
     <Compile Include="Clasterize\QuadEukleadDistanceProvider.cs" />
     <Compile Include="Clasterize\StatDistanceProviderBase.cs" />
     <Compile Include="Clasterize\StatDistanceProviderFactory.cs" />

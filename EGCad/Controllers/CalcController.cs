@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using EGCad.Common.Infrastructure;
 using EGCad.Common.Model.Data;
 using EGCad.Common.Model.VariabilityFunction;
 using EGCad.Core;

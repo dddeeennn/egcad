@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using EGCad.Infrastructure;
 using NLog;
 
 namespace EGCad
@@ -19,6 +20,8 @@ namespace EGCad
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+			ModelBinders.Binders.DefaultBinder = new DoubleArrayModelBinder();
+
 			logger.Error("app start");
 #if DEBUG
 			foreach (var bundle in BundleTable.Bundles)
@@ -29,43 +32,43 @@ namespace EGCad
 
 		}
 
-        public void Application_End()
-        {
+		public void Application_End()
+		{
 
-            var runtime = (HttpRuntime)typeof(HttpRuntime).InvokeMember("_theRuntime",
-                                                                        BindingFlags.NonPublic
-                                                                        | BindingFlags.Static
-                                                                        | BindingFlags.GetField,
-                                                                        null,
-                                                                        null,
-                                                                        null);
+			var runtime = (HttpRuntime)typeof(HttpRuntime).InvokeMember("_theRuntime",
+																		BindingFlags.NonPublic
+																		| BindingFlags.Static
+																		| BindingFlags.GetField,
+																		null,
+																		null,
+																		null);
 
-            if (runtime == null)
-                return;
+			if (runtime == null)
+				return;
 
-            var shutDownMessage = (string)runtime.GetType().InvokeMember("_shutDownMessage",
-                                                                             BindingFlags.NonPublic
-                                                                             | BindingFlags.Instance
-                                                                             | BindingFlags.GetField,
-                                                                             null,
-                                                                             runtime,
-                                                                             null);
+			var shutDownMessage = (string)runtime.GetType().InvokeMember("_shutDownMessage",
+																			 BindingFlags.NonPublic
+																			 | BindingFlags.Instance
+																			 | BindingFlags.GetField,
+																			 null,
+																			 runtime,
+																			 null);
 
-            var shutDownStack = (string)runtime.GetType().InvokeMember("_shutDownStack",
-                                                                           BindingFlags.NonPublic
-                                                                           | BindingFlags.Instance
-                                                                           | BindingFlags.GetField,
-                                                                           null,
-                                                                           runtime,
-                                                                           null);
+			var shutDownStack = (string)runtime.GetType().InvokeMember("_shutDownStack",
+																		   BindingFlags.NonPublic
+																		   | BindingFlags.Instance
+																		   | BindingFlags.GetField,
+																		   null,
+																		   runtime,
+																		   null);
 
-            logger.Error("\r\n\r\n_shutDownMessage={0}\r\n\r\n_shutDownStack={1}", shutDownMessage, shutDownStack);
-        }
+			logger.Error("\r\n\r\n_shutDownMessage={0}\r\n\r\n_shutDownStack={1}", shutDownMessage, shutDownStack);
+		}
 
 		protected void Session_OnEnd(object sender, EventArgs e)
 		{
 			logger.Error("session is expire!");
-			
+
 		}
 	}
 }

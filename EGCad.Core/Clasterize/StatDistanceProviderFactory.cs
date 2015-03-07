@@ -7,7 +7,10 @@ namespace EGCad.Core.Clasterize
         private static readonly IStatDistanceProvider[] StatDistanceProviders =
         {
               new EukleadDistanceProvider(),
-              new QuadEukleadDistanceProvider()
+              new QuadEukleadDistanceProvider(),
+			  new ChebishevStatDistanceProvider(), 
+			  new LinearStatDistanceProvider(), 
+			  new ManhattenStatDistanceProvider()
         };
 
         public static IStatDistanceProvider Create(CalculationSettings settings)

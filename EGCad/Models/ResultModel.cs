@@ -33,9 +33,34 @@ namespace EGCad.Models
 		/// <returns></returns>
 		private DrawPoint GetDrawPoint(double x, bool isNew)
 		{
-			var px = (int)(Map.Start.X + x / Map.ScaleKoef * Math.Cos(Map.K));
-			var py = (int)(Map.Start.Y + x / Map.ScaleKoef * Math.Sin(Map.K));
-			return new DrawPoint(px, py, GetTitle(x), isNew);
+			if (Map.End.X < Map.Start.X)
+			{
+				if (Map.End.Y < Map.Start.Y)
+				{
+					var px = (int) (Map.Start.X - x/Map.ScaleKoef*Math.Cos(Math.Atan(Map.K)));
+					var py = (int) (Map.Start.Y - x/Map.ScaleKoef*Math.Sin(Math.Atan(Map.K)));
+					return new DrawPoint(px, py, GetTitle(x), isNew);
+				}
+				else
+				{
+					var px = (int)(Map.Start.X - x / Map.ScaleKoef * Math.Cos(Math.Atan(Map.K)));
+					var py = (int)(Map.Start.Y - x / Map.ScaleKoef * Math.Sin(Math.Atan(Map.K)));
+					return new DrawPoint(px, py, GetTitle(x), isNew);
+				}
+
+			}
+			if (Map.End.Y < Map.Start.Y)
+			{
+				var px = (int)(Map.Start.X + x / Map.ScaleKoef * Math.Cos(Math.Atan(Map.K)));
+				var py = (int)(Map.Start.Y + x / Map.ScaleKoef * Math.Sin(Math.Atan(Map.K)));
+				return new DrawPoint(px, py, GetTitle(x), isNew);
+			}
+			else
+			{
+				var px = (int)(Map.Start.X + x / Map.ScaleKoef * Math.Cos(Math.Atan(Map.K)));
+				var py = (int)(Map.Start.Y + x / Map.ScaleKoef * Math.Sin(Math.Atan(Map.K)));
+				return new DrawPoint(px, py, GetTitle(x), isNew);
+			}
 		}
 
 		private string GetTitle(double x)

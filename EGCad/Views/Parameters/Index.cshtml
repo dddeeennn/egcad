@@ -31,7 +31,6 @@
 <div class="form-group">
 	<a href="@Url.Action("Index","TableParameters")" id="nextStep" class="btn btn-default inactive pull-right">Далее</a>
 </div>
-
 <script type="text/html" id="parameterTmpl">
 	<tr data-id="Id">
 		<td class="index"></td>
@@ -41,7 +40,6 @@
 		<td><a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a></td>
 	</tr>
 </script>
-
 <script type="text/javascript">
 	$(document).ready(function () {
 		var container = $('#main');
@@ -69,7 +67,7 @@
 
 		function removeHandler(self) {
 			var id = self.attr('id');
-			sender.get("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
+			sender.post("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
 				if (response && response.statusCode == 0) {
 					self.closest('tr').empty();
 					refreshState(response.data);
@@ -142,7 +140,7 @@
 				removeHandler($(this));
 			});
 			$tbody.find('tr').on('dblclick', function () {
-			    editHandler($(this).find('a.edit-action'));
+				editHandler($(this).find('a.edit-action'));
 			});
 			$tbody.find('tr').each(function () {
 				var self = $(this);
@@ -157,29 +155,31 @@
 		}
 
 		function saveHandler(parameterName, parameterUnit, id) {
-			sender.get("saveParam", '@Url.Action("Save")', { name: parameterName, unit: parameterUnit, id: id }, function (response) {
+			sender.post("saveParam", '@Url.Action("Save")', { name: parameterName, unit: parameterUnit, id: id }, function (response) {
 				if (response && response.statusCode == 0) {
 					refreshState(response.data);
 				} else {
 					alert('Ошибка при сохранении параметра!');
 				}
-			}, null, {});
+			});
 		};
 
 		function swapHandler(ids) {
-			sender.get("swap", '@Url.Action("Swap")?ids=' + ids.shift() + prepareUrl(ids), {}, function (response) {
+			sender.post("swap", '@Url.Action("Swap")', { ids: ids }, function (response) {
 				if (response && response.statusCode == 0) {
 					refreshState(response.data);
 				} else {
 					alert('Ошибка при сохранении параметра!');
 				}
-			}, null, {});
+			});
 		};
 
-		function prepareUrl(array) {
-			return array.map(function (v) {
-				return '&ids=' + v;
-			}).join('');
+		function errorHandler(errMessage) {
+
+//			var msg = errMessage || 'ошибка соединения с сервером. Попробуйте перезагрузить страницу';
+
+	//	var notifier = egcad.UI.Notifier();
+	//		notifier.addMessageWithCloseAction(msg);
 		}
 
 		function addHandler(parameterName, parameterUnit) {
@@ -187,9 +187,9 @@
 				if (response && response.statusCode == 0) {
 					refreshState(response.data);
 				} else {
-					alert('Ошибка при сохранении параметра!');
+					errorHandler('Ошибка при сохранении параметра!');
 				}
-			}, null, {});
+			}, errorHandler, {});
 		}
 
 		var fixHelperModified = function (e, tr) {
@@ -208,7 +208,7 @@
 		};
 
 		function validate() {
-			if ($tbody.find('tr').length<1) {
+			if ($tbody.find('tr').length < 1) {
 				$nextStep.addClass('btn-default inactive').removeClass('btn-success');
 			} else {
 				$nextStep.addClass('btn-success').removeClass('inactive btn-default');

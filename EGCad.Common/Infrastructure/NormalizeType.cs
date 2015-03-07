@@ -11,8 +11,8 @@ namespace EGCad.Common.Infrastructure
         [Display(Name = "Модульное расстояние")]
         Modular = 1,
         [Display(Name = "Модульное центрированное расстояние")]
-        ModularCentered = 2,
-        [Display(Name = "Приведенное по максимуму расстояние")]
-        CastToMax = 3
+        ModularCentered = 2
+		//[Display(Name = "Приведенное по максимуму расстояние")]
+		//CastToMax = 3
     }
 }
