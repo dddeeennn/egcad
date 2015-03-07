@@ -119,18 +119,9 @@ canvas {
     }
 
 #action-panel {
-    /*position: fixed;
-        background: #dfdfdf;
-        border:1px solid #ccc;
-        opacity: 0.3;
-        width: 100px;
-        height: 30px;
-        top: 80px;
-        right: 50px;
-        z-index: 1025;*/
     position: fixed;
-    opacity: 0.2;
-    background: #47a447;
+    opacity: 0.3;
+    background: #58a772;
     padding: 3px 15px;
     top: 60px;
     right: 5px;
@@ -145,7 +136,7 @@ canvas {
 }
 
     #action-panel:hover {
-        background: #398439;
+        background: #93C7A3;
         opacity: 1;
         transition: opacity 0.5s 0 linear;
     }
