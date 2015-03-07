@@ -73,3 +73,4 @@ C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\bin\Debug\System.Web.WebPages.
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\obj\Debug\EGCad.Common.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\obj\Debug\EGCad.Common.pdb
+C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\obj\Debug\EGCad.Common.csprojResolveAssemblyReference.cache

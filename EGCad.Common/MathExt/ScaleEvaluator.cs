@@ -18,7 +18,7 @@ namespace EGCad.Common.MathExt
 			_maxHeight = maxHeight;
 		}
 
-		public const double Precision = 0.0000001;
+		public const double Precision = 0.1;
 
 		/// <summary>
 		/// Validates specified img size.
@@ -67,6 +67,8 @@ namespace EGCad.Common.MathExt
 			{
 				var widthK = ComputeScaleKoef(imgSize.Width, _minWidth);
 				var heightK = ComputeScaleKoef(imgSize.Height, _minHeight);
+
+                if (widthK > Precision*100 || heightK > Precision*100) return 0;
 
 				k = Math.Max(widthK, heightK);
 
