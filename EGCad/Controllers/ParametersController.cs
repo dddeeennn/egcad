@@ -42,13 +42,13 @@ namespace EGCad.Controllers
 			return GetState();
 		}
 
-		public JsonResult Save(string name, string unit, int id)
+		public JsonResult Save(int id,string parameterName, string parameterUnit)
 		{
 			var parameters = Parameters;
 
 			var paramToEdit = Parameters.First(p => p.Id == id);
-			paramToEdit.Name = name;
-			paramToEdit.Unit = unit;
+			paramToEdit.Name = parameterName;
+			paramToEdit.Unit = parameterUnit;
 
 			Parameters = parameters;
 

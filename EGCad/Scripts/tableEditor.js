@@ -1,238 +1,221 @@
-﻿/*table editor
-need test and debug
+﻿/*
+* object element            is selector or Jquery function contains table element
+* object options            contains initialize properties 
+* string rowTmplSelector    selector table row for render 
+* string removeUrl          server remove row url
+* string onRefresh          callback which exected after table refresh state
+* string saveUrl            server save row url
+* string refreshUrl         server refresh table url
+* string swapUrl            server swap rows url
+* bool   isSortable         enable table row reordering
 */
+egcad.TableEditor = function (element, options) {
+    var $elem = $(element),
+        rowTmplSelector = options.rowTmplSelector,
+        removeUrl = options.removeUrl,
+        onRefreshCallback = options.onRefresh,
+        saveUrl = options.saveUrl,
+        refreshUrl = options.refreshUrl,
+        isSortable = options.isSortable || false,
+        swapUrl = options.swapUrl,
+        $tbody = null,
+        rowTmpl = null,
+        sender = new egcad.Data.Sender();
 
-egcad.TableEditor = function (options, element) {
-	var $elem = $(element),
-		removeUrl = options.removeUrl,
-		saveUrl = options.saveUrl,
-			swapUrl = options.swapUrl;
+    function init() {
+        if (!$elem.is("table")) {
+            $elem = $elem.find('table');
+            if (!$elem.length) throw new Exception('argument "element" must be table  or contain table element ');
+        }
 
-	function init() {
+        $tbody = $elem.find('tbody');
 
-	}
+        if (rowTmplSelector) {
+            rowTmpl = $(rowTmplSelector);
+        } else {
+            throw new Exception('rowTmplSelector is required parameter!');
+        }
 
-	function editRow(self) {
-		var curEditor = $(document).find('#editor');
+        refresh();
 
-		var parent = null;
+        if (isSortable) {
+            $tbody.sortable({
+                helper: fixHelperModified,
+                stop: updateIndex,
+                cancel: '.editor-mode'
+            }).disableSelection();
+        }
+    }
 
-		if (curEditor.length) {
-			parent = curEditor.closest('tr');
-			var x = parseFloat(curEditor.find('.pointX input').val()) || 0;
-			var paramValues = curEditor.find('.parameter input').map(function () {
-				return parseFloat($(this).val());
-			}).toArray();
-			completeEdit(x, paramValues, parent.find('a').first().attr('id'), parent);
-			container.on('editor-refresh', function () {
-				setupEditor(null, "tr#" + self.closest('tr').attr('id'));
-				container.off();
-			});
-		} else {
-			setupEditor(self.closest('tr'));
-		}
-	}
+    function editorHandler() {
+        editRow($(this));
+    }
 
-	function removeRow(self) {
-		var id = self.attr('id');
-		sender.get("removeEntry", '@Url.Action("Remove")', { id: id }, function (response) {
-			if (response && response.statusCode == 0) {
-				self.closest('tr').empty();
-				refreshState(response.data);
-			} else {
-				alert('Ошибка при удалении точки!');
-			}
-		});
-	}
+    function editRow(self) {
+        var curEditor = $elem.find('#editor');
 
+        var parent = null;
 
-	function getValue($container, selector) {
-		return parseFloat($container.find(selector).val());
-	}
+        if (curEditor.length) {
+            parent = curEditor.closest('tr');
+            completeEdit(parent);
+            $elem.on('tableEditor.stateRefreshed', function () {
+                setupEditor($elem.find("tr#" + self.closest('tr').attr('id')));
+                $elem.off();
+            });
+        } else {
+            setupEditor(self.closest('tr'));
+        }
+    }
 
-	function getValues($container, selector) {
-		return $container.find(selector).map(function () {
-			return parseFloat($(this).val()) || 0;
-		}).toArray();
-	}
+    function removeRow(id) {
+        sender.get("removeRow", removeUrl, { id: id }, function (response) {
+            if (response && response.statusCode == 0) {
+                refreshState(response.data);
+            } else {
+                alert('Ошибка при удалении');
+            }
+        }, function () {
+            alert('Ошибка при удалении');
+        });
+    }
 
-	function setupEditor(parent, selector) {
+    function setValues(cell, values) {
+        cell.each(function () {
+            var self = $(this);
+            self.closest('td').html(values[self.data('name')]);
+        });
+    }
 
-		if (selector) {
-			parent = $(selector, container);
-		}
-		$tbody.addClass('editor-mode');
-		var $pointXContainer = parent.find('.pointX');
-		if (IsSupportsHTML5Storage) {
-			var pointXMin = localStorage['XMin'];
-			var pointXMax = localStorage['XMax'];
-			$pointXContainer.html(createEditor(parent, '.pointX', null,
-			{
-				validate: function (value) {
-					return value.isBetween(pointXMin, pointXMax);
-				},
-				errorMessage: 'введите значение в диапазоне [' + pointXMin + ', ' + pointXMax + ']'
-			}));
-		} else {
-			$pointXContainer.html(createEditor(parent, '.pointX'));
-		}
+    function getValues(cells) {
+        var values = [];
+        cells.each(function () {
+            var self = $(this);
+            values[self.data('name')] = self.find('input').val();
+        });
+        return values;
+    }
 
-		$.each(parent.find('.parameter'), function () {
-			var self = $(this);
-			self.html(createEditor(parent, '.parameter', self));
-		});
+    function setupEditor(parent) {
+        $tbody.addClass('editor-mode');
 
-		parent.find('a.edit-action').off()
+        parent.find('.editable').each(function () {
+            var self = $(this);
+            self.html(createCellEditor(self));
+        });
+
+        parent.find('a.edit-action').off()
 									.on('click', function () {
-										var x = getValue(parent, '.pointX input');
-										var paramValues = getValues(parent, '.parameter input');
-										completeEdit(x, paramValues, parent.find('a').first().attr('id'), parent);
-										parent.attr('id', '');
-									}).removeClass('glyphicon-edit')
-									  .addClass('glyphicon-ok');
-		parent.attr('id', 'editor');
-	}
+									    completeEdit(parent);
+									})
+                                    .removeClass('glyphicon-edit')
+									.addClass('glyphicon-ok');
+        parent.attr('id', 'editor');
+    }
 
-	function createEditor(parent, selector, obj, validator) {
-		var oldValue = "";
-		if (obj) {
-			oldValue = obj.text();
-		} else {
-			oldValue = parent.find(selector).text();
-		}
+    function createCellEditor(cell) {
+        var oldValue = cell ? cell.text() : "";
 
-		var $editor = $("<div class='form-inline'/>");
-		var textarea = $("<input type='text' class='form-control' style='margin-right:5px;max-width:90px;min-width: 30px; width: auto;height:20px;'>").val(oldValue);
+        var $editor = $("<div class='form-inline'/>");
+        var textarea = $("<input type='text' class='form-control editor-input'>").val(oldValue);
 
-		if (validator) {
-			textarea.on('input', function () {
-				var self = $(this);
-				var value = self.val();
-				if ($.isNumeric(value)) {
-					if (!validator.validate(parseFloat(value))) {
-						$editor.addClass('has-error');
-						self.attr('title', validator.errorMessage);
-						self.tooltip('show');
-					} else {
-						$editor.removeClass('has-error');
-					}
-				} else {
-					$editor.addClass('has-error');
-					self.attr('title', validator.errorMessage);
-				}
-			});
-		}
+        $editor.append(textarea);
+        return $editor;
+    }
 
-		$editor.append(textarea);
-		return $editor;
-	}
+    function completeEdit(editorContainer) {
+        var cellsToEdit = editorContainer.find('.editable');
 
-	function completeEdit(pointX, paramValues, id, editorContainer) {
-		$tbody.removeClass('editor-mode');
+        var values = getValues(cellsToEdit),
+            id = editorContainer.find('a').first().attr('id');
 
-		editorContainer.find(".pointX").html(pointX);
+        $tbody.removeClass('editor-mode');
+        editorContainer.attr('id', '');
 
-		var newParameters = $tbody.find('.parameter input');
-		$.each(paramValues, function (i, v) {
-			$(newParameters[i]).closest('td.parameter').html(v);
-		});
-		saveHandler(pointX, paramValues, id);
-		editorContainer.find('a.edit-action').off()
-											.on('click', function () {
-												editHandler($(this));
-											}).removeClass('glyphicon-ok')
-											  .addClass('glyphicon-edit');
-	}
+        setValues(cellsToEdit, values);
 
-	function refreshState(state) {
-		$tbody.loadTemplate($('#parameterEntryTmpl'), state.items);
-		$tbody.find("a.edit-action").on("click", function () {
-			editHandler($(this));
-		});
-		$tbody.find('tr').on('dblclick', function () {
-			editHandler($(this).find('a.edit-action'));
-		});
-		$tbody.find("a.remove-action").on("click", function () {
-			removeHandler($(this));
-		});
-		$tbody.find('tr').each(function () {
-			var self = $(this);
-			var idx = self[0].rowIndex;
-			self.find('td.index').text(idx);
-		});
-		container.trigger('editor-refresh');
+        saveRow(id, values);
 
-		localStorage.setItem('XMin', state.XMin);
-		localStorage.setItem('XMax', state.XMax);
+        editorContainer.find('a.edit-action').off()
+											 .on('click', editorHandler)
+                                             .removeClass('glyphicon-ok')
+											 .addClass('glyphicon-edit');
+    }
 
-		validate();
-	}
+    function refreshState(state) {
+        $tbody.loadTemplate(rowTmpl, state.items);
+        $tbody.find("a.edit-action").on(' click', editorHandler);
+        $tbody.find(".editable").on('dblclick', editorHandler);
+        $tbody.find("a.remove-action").on("click", function () {
+            removeRow($(this).attr('id'));
+        });
+        $tbody.find('tr').each(function () {
+            var self = $(this);
+            var idx = self[0].rowIndex;
+            self.find('td.index').text(idx);
+        });
+        if (onRefreshCallback) onRefreshCallback();
+        $elem.trigger('tableEditor.stateRefreshed');
+    }
 
-	function saveHandler(pointX, paramValues, id) {
-		sender.get("SavePoint", '@Url.Action("Save")?x=' + pointX + '&' + 'id=' + id + prepareUrl(paramValues),
-			{}, function (response) {
-				if (response && response.statusCode == 0) {
-					refreshState(response.data);
-				} else {
-					alert('Ошибка при сохранении параметра!');
-				}
-			}, null, {});
-	};
+    function saveRow(id, values) {
+        sender.post("SaveRow", saveUrl, $.extend({ id: id }, values),
+            function (response) {
+                if (response && response.statusCode == 0) {
+                    refreshState(response.data);
+                } else {
+                    alert('Ошибка при сохранении параметров!');
+                }
+            });
+    };
 
-	function swapHandler(ids) {
-		sender.get("swap", '@Url.Action("Swap")?ids=' + ids.shift() + prepareIdsUrl(ids), {}, function (response) {
-			if (response && response.statusCode == 0) {
-				refreshState(response.data);
-			} else {
-				alert('Ошибка при сохранении параметра!');
-			}
-		}, null, {});
-	};
+    function swapRow(ids) {
+        sender.post("SwapRow", swapUrl, { ids: ids }, function (response) {
+            if (response && response.statusCode == 0) {
+                refreshState(response.data);
+            } else {
+                alert('Ошибка при обновлении таблицы');
+            }
+        }, null, {});
+    };
 
-	function prepareIdsUrl(array) {
-		return array.map(function (v) {
-			return '&ids=' + v;
-		}).join('');
-	}
+    var fixHelperModified = function (e, tr) {
+        var $originals = tr.children();
+        var $helper = tr.clone();
+        $helper.children().each(function (index) {
+            $(this).width($originals.eq(index).width());
+        });
+        return $helper;
+    };
+    var updateIndex = function () {
+        var ids = $tbody.find('tr').map(function () {
+            return parseInt($(this).attr('id'));
+        }).toArray();
+        swapRow(ids);
+    };
 
-	function prepareUrl(array) {
-		return array.map(function (v) {
-			return '&values=' + v;
-		}).join('');
-	}
+    function destroy() {
+        $elem.off();
 
-	sender.get("loadState", '@Url.Action("GetState")', {}, function (response) {
-		if (response && response.statusCode == 0) {
-			refreshState(response.data);
-		}
-	});
+        $tbody = null;
+        $elem = null;
+    }
 
-	var fixHelperModified = function (e, tr) {
-		var $originals = tr.children();
-		var $helper = tr.clone();
-		$helper.children().each(function (index) {
-			$(this).width($originals.eq(index).width());
-		});
-		return $helper;
-	};
-	var updateIndex = function () {
-		var ids = $tbody.find('tr').map(function () {
-			return parseInt($(this).attr('id'));
-		}).toArray();
-		swapHandler(ids);
-	};
+    function refresh() {
+        sender.get("load", refreshUrl, {}, function (response) {
+            if (response && response.statusCode == 0) {
+                refreshState(response.data);
+            }
+        });
+    }
 
-	$("#sortable tbody").sortable({
-		helper: fixHelperModified,
-		stop: updateIndex,
-		cancel: '.editor-mode'
-	}).disableSelection();
+    function isEmpty() {
+        return $tbody.find('tr').length > 1;
+    }
 
-	function destroy() {
-	
-	}
+    init();
 
-	init();
-
-	this.destroy = destroy;
+    this.isEmpty = isEmpty;
+    this.refresh = refresh;
+    this.destroy = destroy;
 };

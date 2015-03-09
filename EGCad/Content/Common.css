@@ -72,6 +72,20 @@ a.remove-action:hover {
     text-decoration: none;
 }
 
+input.editor-input.sm {
+    max-width: 90px;
+}
+
+input.editor-input {
+    margin-right: 5px;
+    -moz-min-width: 30px;
+    -ms-min-width: 30px;
+    -o-min-width: 30px;
+    -webkit-min-width: 30px;
+    min-width: 30px;
+    height: 20px;
+}
+
 .node circle {
     fill: #fff;
     stroke: steelblue;
@@ -128,7 +142,6 @@ canvas {
     border-radius: 8px;
     right: 0px;
     z-index: 1025;
-
     -moz-transition: background 0.5s 0 linear;
     -o-transition: background 0.5s 0 linear;
     -webkit-transition: background 0.5s 0 linear;
@@ -155,4 +168,3 @@ canvas {
         opacity: 1;
         fill: #ffffff;
     }
-
