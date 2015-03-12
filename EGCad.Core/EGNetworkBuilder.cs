@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using EGCad.Common.Infrastructure;
 using EGCad.Common.Model.Data;
 using EGCad.Core.PointPosition;
 using EGCad.Core.VairiabilityCalc;
@@ -12,18 +11,9 @@ namespace EGCad.Core
         private readonly VariabilityCalculator _variabilityCalculator = new VariabilityCalculator();
         private readonly PointProvider _pointProvider;
 
-        private readonly CalculationSettings _settings = new CalculationSettings(2, NormalizeType.EuklideanAveraged,
-            StatCalculationType.Euclead, 3);
-
-        public EGNetworkBuilder()
-        {
-            _pointProvider = new PointProvider(_settings);
-        }
-
         public EGNetworkBuilder(CalculationSettings settings)
         {
-            _settings = settings;
-            _pointProvider = new PointProvider(_settings);
+            _pointProvider = new PointProvider(settings);
         }
 
         public EGNetwork Calculate(Data sourceData)

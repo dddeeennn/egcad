@@ -10,69 +10,72 @@ using EGCad.Models;
 
 namespace EGCad.Controllers
 {
-	public class CalcController : InputBaseController
-	{
-		// GET: Calc
-		public ActionResult Index()
-		{
-			Save();
-			return View(InputModel);
-		}
+    public class CalcController : InputBaseController
+    {
+        // GET: Calc
+        public ActionResult Index()
+        {
+            Save();
+            return View(InputModel);
+        }
 
-		public ActionResult DisplayNormalizedData()
-		{
-			var normalizer = NormalizerFactory.Create(Settings);
-			var data = normalizer.Normalize(new Data(InputModel.PointsToCalc));
-			TempData["normalizedData"] = data;
-			return RedirectToAction("Index", "Normalize");
-		}
+        public ActionResult DisplayNormalizedData()
+        {
+            var normalizer = NormalizerFactory.Create(Settings);
+            var data = normalizer.Normalize(new Data(InputModel.PointsToCalc));
+            TempData["normalizedData"] = data;
+            return RedirectToAction("Index", "Normalize");
+        }
 
-		public ActionResult DisplayClusterizedData()
-		{
-			var clusterizer = new ClusterCalculator(Settings);
+        public ActionResult DisplayClusterizedData()
+        {
+            var clusterizer = new ClusterCalculator(Settings);
 
-			var data = clusterizer.Clusterize(new Data(InputModel.PointsToCalc));
-			TempData["clusterizedData"] = data;
-			return RedirectToAction("Index", "Clusterize");
-		}
+            var data = clusterizer.Clusterize(new Data(InputModel.PointsToCalc));
+            TempData["clusterizedData"] = data;
+            return RedirectToAction("Index", "Clusterize");
+        }
 
-		public ActionResult DisplayVariabilityFunctionData()
-		{
-			var sourceData = new Data(InputModel.PointsToCalc);
+        public ActionResult DisplayVariabilityFunctionData()
+        {
+            var sourceData = new Data(InputModel.PointsToCalc);
 
-			var variabilityFuncCalc = new VariabilityCalculator();
+            var variabilityFuncCalc = new VariabilityCalculator();
 
-			var pointProvider = new PointProvider(Settings);
+            var pointProvider = new PointProvider(Settings);
 
-			var old = variabilityFuncCalc.GetVariabilityFunction(sourceData);
-			var newPoints = pointProvider.AllocationPoint(sourceData);
+            var old = variabilityFuncCalc.GetVariabilityFunction(sourceData);
+            var newPoints = pointProvider.AllocationPoint(sourceData);
 
-			TempData["variabilityFuncData"] = new VariabilityFunction(old, newPoints);
-			return RedirectToAction("Index", "VariabilityFunction");
+            TempData["variabilityFuncData"] = new VariabilityFunction(old, newPoints);
+            return RedirectToAction("Index", "VariabilityFunction");
 
-		}
+        }
 
-		public ActionResult DisplayResult()
-		{
-			// !!! work around !!! for position point between cluster
-			var settings = new CalculationSettings(Settings.AdditionalPointCount, Settings.Normilize, Settings.StatCalculation,
-				Settings.AdditionalPointCount + 1);
+        public ActionResult DisplayResult()
+        {
+            // !!! work around !!! for position point between cluster
+            var settings = new CalculationSettings(Settings.AdditionalPointCount, Settings.Normilize, Settings.StatCalculation,
+                Settings.AdditionalPointCount + 1);
 
-			var networkBuilder = new EGNetworkBuilder(settings);
+            var clusterCalculator = new ClusterCalculator(Settings);
+            var clusterizedData = clusterCalculator.Clusterize(new Data(InputModel.PointsToCalc));
 
-			var points = networkBuilder.Calculate(new Data(InputModel.PointsToCalc));
+            var networkBuilder = new EGNetworkBuilder(settings);
 
-			TempData["resultData"] = new ResultModel(InputModel.Map, points);
-			return RedirectToAction("Index", "Result");
-		}
+            var points = networkBuilder.Calculate(new Data(InputModel.PointsToCalc));
 
-		private CalculationSettings Settings
-		{
-			get
-			{
-				return new CalculationSettings(InputModel.AdditionalPointCount, InputModel.Normilize,
-				InputModel.StatCalculation, InputModel.ClusterCount);
-			}
-		}
-	}
+            TempData["resultData"] = new ResultModel(InputModel.Map, points, clusterizedData);
+            return RedirectToAction("Index", "Result");
+        }
+
+        private CalculationSettings Settings
+        {
+            get
+            {
+                return new CalculationSettings(InputModel.AdditionalPointCount, InputModel.Normilize,
+                InputModel.StatCalculation, InputModel.ClusterCount);
+            }
+        }
+    }
 }
