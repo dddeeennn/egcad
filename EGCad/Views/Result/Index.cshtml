@@ -34,8 +34,10 @@
 
         var ctx = canvas[0].getContext('2d');
 
+        var colors = getColours(@Model.ClusterCount);
         var map = @Model.Map.SerializeObject();
         var points = pointAdapter(@Model.Points.SerializeObject());
+
 
         initCanvas(map);
 
@@ -46,7 +48,7 @@
 
         function drawPoints(points) {
             $.each(points, function(index, value) {
-                var color = value.isNew ? "#f99" : "#000";
+                var color = value.isNew ? "#000" : value.color;
                 drawPoint(ctx, value.x, value.y, 4, color);
             });
         }
@@ -115,8 +117,6 @@
             var x = e.clientX - canvas.getBoundingClientRect().left,
                 y = e.clientY - canvas.getBoundingClientRect().top;
 
-            //   console.log(x + ', ' + y);
-
             if (points) {
                 handleMouseMoveOnPoint(points, x, y);
                 return;
@@ -149,6 +149,7 @@
                     y:value.y,
                     text:value.title,
                     isNew:value.isNew,
+                    color:colors[value.clusterIndex],
                     r:pointRadius
                 };
             });
@@ -172,6 +173,20 @@
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
             ctx.stroke();
+        }
+
+        function getColours(numberOfColours) {
+            var colors = [];
+
+            for(var i = 0; i < numberOfColours;i++){
+
+                var r = (Math.round(Math.random()* 127 + 127)).toString(16);
+                var g = (Math.round(Math.random()* 127 + 127)).toString(16);
+                var b = (Math.round(Math.random()* 127 + 127)).toString(16);
+                colors.push( '#' + r + g + b);
+            }
+
+            return colors;
         }
 
     </script>

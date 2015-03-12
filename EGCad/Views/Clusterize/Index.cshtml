@@ -92,7 +92,8 @@
 	   .attr("dx", function (d) { return d.children ? 8 : -8; })
 	   .attr("dy", 3)
 	   .style("text-anchor", function (d) { return d.children ? "start" : "end"; })
-	   .text(function (d) { return d.name.indexOf(',')==-1?d.name:""; });
+	   .text(function (d) { return d.name.indexOf(',')==-1?
+           parseInt(d.name)+1:""; }); // work around: set point indexes same as in table, remove labels for joined clusters 
 
     var g = d3.select("#dendrogramm svg").append("g")
 	   .attr("transform", "translate(100,20)");
