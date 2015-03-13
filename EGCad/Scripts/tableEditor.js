@@ -54,10 +54,8 @@ egcad.TableEditor = function (element, options) {
     function editRow(self) {
         var curEditor = $elem.find('#editor');
 
-        var parent = null;
-
         if (curEditor.length) {
-            parent = curEditor.closest('tr');
+            var parent = curEditor.closest('tr');
             completeEdit(parent);
             $elem.on('tableEditor.stateRefreshed', function () {
                 setupEditor($elem.find("tr#" + self.closest('tr').attr('id')));
@@ -81,19 +79,45 @@ egcad.TableEditor = function (element, options) {
     }
 
     function setValues(cell, values) {
-        cell.each(function () {
-            var self = $(this);
-            self.closest('td').html(values[self.data('name')]);
-        });
+        var key = 0;
+        for (var value in values) {
+            if (values.hasOwnProperty(value)) {
+                for (var i = 0; i < value.length; i++) {
+                    var self = $(cell[key + i]);
+                    self.closest('td').html(values[value][i]);
+                }
+                key++;
+            }
+        }
     }
 
     function getValues(cells) {
         var values = [];
         cells.each(function () {
             var self = $(this);
-            values[self.data('name')] = self.find('input').val();
+            var key = self.data('name'),
+                value = self.find('input').val();
+
+            if (values.hasOwnProperty(key)) {
+                var old = values[key];
+                old.push(value);
+                values[key] = old;
+            } else {
+                values[key] = [value];
+            }
         });
         return values;
+    }
+
+    function parameterAdapter(id, values) {
+        for (var value in values) {
+            if (values.hasOwnProperty(value)) {
+                if (values[value].length == 1) {
+                    values[value] = values[value][0];
+                }
+            }
+        }
+        return $.extend({ id: id }, values);
     }
 
     function setupEditor(parent) {
@@ -159,7 +183,7 @@ egcad.TableEditor = function (element, options) {
     }
 
     function saveRow(id, values) {
-        sender.post("SaveRow", saveUrl, $.extend({ id: id }, values),
+        sender.post("SaveRow", saveUrl, parameterAdapter(id, values),
             function (response) {
                 if (response && response.statusCode == 0) {
                     refreshState(response.data);
@@ -194,11 +218,9 @@ egcad.TableEditor = function (element, options) {
         swapRow(ids);
     };
 
-    function destroy() {
-        $elem.off();
+    function editModeLastRow() {
 
-        $tbody = null;
-        $elem = null;
+        $tbody.find('tr:last-child a.edit-action').click();
     }
 
     function refresh() {
@@ -213,8 +235,21 @@ egcad.TableEditor = function (element, options) {
         return $tbody.find('tr').length > 1;
     }
 
+    function destroy() {
+        $elem.off();
+
+        $tbody = null;
+        $elem = null;
+    }
+
+    function completeEditRow() {
+        $tbody.find('a.edit-action.glyphicon-ok').click();
+    }
+
     init();
 
+    this.completeEditRow = completeEditRow;
+    this.editModeLastRow = editModeLastRow;
     this.isEmpty = isEmpty;
     this.refresh = refresh;
     this.destroy = destroy;

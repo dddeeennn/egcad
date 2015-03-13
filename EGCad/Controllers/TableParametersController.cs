@@ -51,6 +51,8 @@ namespace EGCad.Controllers
 
         public JsonResult Swap(int[] ids)
         {
+            if (ids == null) return GetState();
+           
             var points = Points;
 
             for (var i = 0; i < ids.Length; i++)
