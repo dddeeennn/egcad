@@ -92,8 +92,10 @@
   <ItemGroup>
     <Compile Include="MathExt\MathExtensionTests.cs" />
     <Compile Include="MathExt\ScaleEvaluatorTests.cs" />
+    <Compile Include="Normalizer\NormalizerFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="Sample\CalculationSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -108,6 +110,10 @@
     <ProjectReference Include="..\EGCad.Common\EGCad.Common.csproj">
       <Project>{D45404B0-D5D1-4A4E-8DEB-1E3346348227}</Project>
       <Name>EGCad.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EGCad.Core\EGCad.Core.csproj">
+      <Project>{D3D86C6B-B4DA-4F00-A31F-46F019131794}</Project>
+      <Name>EGCad.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\EGCad\EGCad.csproj">
       <Project>{EADBB5E9-2DC6-4130-A95E-1863725774F2}</Project>
