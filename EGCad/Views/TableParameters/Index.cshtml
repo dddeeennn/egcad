@@ -30,14 +30,14 @@
 <script type="text/html" id="parameterEntryTmpl">
     <tr data-id="Id">
         <td class="index"></td>
-        <td data-content="X" data-toggle="tooltip" data-placement="left" data-name="X" class="editable"></td>
+		<td data-content="X" data-toggle="tooltip" data-placement="left" data-type="number"  data-name="X" class="editable"></td>
         <td class="hidden" data-content="Parameters" data-format="nestedTemplateFormatter" data-format-options='{"template": "#paramTmpl"}'></td>
         <td><a data-id="Id" class="action edit-action btn-link glyphicon glyphicon-edit"></a></td>
         <td><a data-id="Id" class="action remove-action btn-link glyphicon glyphicon-remove error"></a></td>
     </tr>
 </script>
 <script type="text/html" id="paramTmpl">
-    <td data-content="Value" data-id="Id" data-name="values" class="editable"></td>
+    <td data-content="Value" data-id="Id" data-type="number" data-name="values" class="editable"></td>
 </script>
 <script type="text/javascript">
 
@@ -60,7 +60,8 @@
             editor.completeEditRow();
             sender.post("CreatePoint", '@Url.Action("CreatePoint")', {}, function (response) {
                 if (response && response.statusCode == 0) {
-                    editor.refresh();
+                	editor.refresh();
+	                editor.editModeLastRow();
                 }
             });
         });

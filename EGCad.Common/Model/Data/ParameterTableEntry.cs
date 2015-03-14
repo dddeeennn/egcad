@@ -8,13 +8,13 @@ namespace EGCad.Common.Model.Data
     {
         public static int Counter;
 
-        public List<Parameter> Parameters { get; set; }
+        public IList<Parameter> Parameters { get; set; }
 
         public int Id { get; set; }
 
         public double X { get; set; }
 
-        public ParameterTableEntry(int id, double x,  List<Parameter> parameters)
+        public ParameterTableEntry(int id, double x,  IList<Parameter> parameters)
         {
             Id = id;
             X = x;
