@@ -6,9 +6,9 @@ namespace EGCad.Common.Model.Data
     {
         public ParameterTableEntry[] Points { get; private set; }
 
-        public IList<Parameter> Parameters { get; private set; }
+        public List<Parameter> Parameters { get; private set; }
 
-        public Data(ParameterTableEntry[] sourcePoints, IList<Parameter> parameters)
+        public Data(ParameterTableEntry[] sourcePoints, List<Parameter> parameters)
         {
             Points = sourcePoints;
             Parameters = parameters;

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using EGCad.Common.Infrastructure;
 using EGCad.Common.Extensions;
+using Newtonsoft.Json;
 
 namespace EGCad.Common.Model.Data
 {
@@ -15,6 +17,8 @@ namespace EGCad.Common.Model.Data
 
 		public List<ParameterTableEntry> Points { get; set; }
 
+        [JsonIgnore]
+        [XmlIgnore]
 		public ParameterTableEntry[] PointsToCalc
 		{
 			get { return ObjectExtensions.DeepCopy(Points.ToArray()); }

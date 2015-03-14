@@ -105,9 +105,9 @@ namespace EGCad.Tests.Sample
 			}
 		}
 
-		private static IList<Parameter> GetParameters(params double[] values)
+		private static List<Parameter> GetParameters(params double[] values)
 		{
-			return values.Select(value => new Parameter((int)value, value + " name", value + " unit", value)).ToArray();
+			return values.Select(value => new Parameter((int)value, value + " name", value + " unit", value)).ToList();
 		}
 	}
 }

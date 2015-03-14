@@ -19,7 +19,7 @@ namespace EGCad.Common.Model.Data
             VariabilityFuncValue = variability;
         }
 
-        public EGNetworkPoint(IList<Parameter> parameters, VariabilityFuncItem variability, bool isNew) :
+        public EGNetworkPoint(List<Parameter> parameters, VariabilityFuncItem variability, bool isNew) :
             this(new ParameterTableEntry(variability.PointId, variability.X, parameters), variability, isNew)
         {
         }
