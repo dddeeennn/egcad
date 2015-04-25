@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EGCad.Core.CalculationSettings">
+    <Position X="17" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAQAEAAAA=</HashCode>
+      <FileName>CalculationSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.EGNetworkBuilder">
+    <Position X="16.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQCAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>EGNetworkBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.ChebishevStatDistanceProvider">
+    <Position X="5.75" Y="4.75" Width="2.5" />
+    <InheritanceLine Type="EGCad.Core.Clasterize.StatDistanceProviderBase" ManuallyRouted="true">
+      <Path>
+        <Point X="7.375" Y="2.247" />
+        <Point X="7.375" Y="2.872" />
+        <Point X="8.403" Y="2.872" />
+        <Point X="8.403" Y="4.558" />
+        <Point X="7" Y="4.558" />
+        <Point X="7" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\ChebishevStatDistanceProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.ClusterCalculator">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACgAAAAAAAAEgAAAAAAAAAAAAAAAAAAEAIAAAAA=</HashCode>
+      <FileName>Clasterize\ClusterCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.EukleadDistanceProvider">
+    <Position X="8.5" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\EukleadDistanceProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.LinearStatDistanceProvider">
+    <Position X="8.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\LinearStatDistanceProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.ManhattenStatDistanceProvider">
+    <Position X="5.75" Y="3" Width="2.5" />
+    <InheritanceLine Type="EGCad.Core.Clasterize.StatDistanceProviderBase" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="2.247" />
+        <Point X="7.375" Y="2.872" />
+        <Point X="7.104" Y="2.872" />
+        <Point X="7.104" Y="3" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\ManhattenStatDistanceProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.QuadEukleadDistanceProvider">
+    <Position X="8.5" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\QuadEukleadDistanceProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.StatDistanceProviderBase">
+    <Position X="6.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\StatDistanceProviderBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="1.547" />
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.StatDistanceProviderFactory">
+    <Position X="21" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Clasterize\StatDistanceProviderFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Clasterize.StatDistanceTableProvider">
+    <Position X="18.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAgAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Clasterize\StatDistanceTableProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.IO.LoadService">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IO\LoadService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.IO.SaveService">
+    <Position X="13.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>IO\SaveService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Normalize.DataNormalizerBase">
+    <Position X="2.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAQAAAQgAAAA=</HashCode>
+      <FileName>Normalize\DataNormalizerBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="1.775" />
+  </Class>
+  <Class Name="EGCad.Core.Normalize.EukleadAveragedNormalizer">
+    <Position X="0.5" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAA=</HashCode>
+      <FileName>Normalize\EukleadAveragedNormalizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Normalize.ModularCenteredNormalizer">
+    <Position X="3.25" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAA=</HashCode>
+      <FileName>Normalize\ModularCenteredNormalizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Normalize.ModularNormalizer">
+    <Position X="2" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQgAAAA=</HashCode>
+      <FileName>Normalize\ModularNormalizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.Normalize.NormalizerFactory">
+    <Position X="15" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Normalize\NormalizerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.PointPosition.PointProvider">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAiAA=</HashCode>
+      <FileName>PointPosition\PointProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.VairiabilityCalc.EngineerGeoParameterDistributionProvider">
+    <Position X="15" Y="5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VairiabilityCalc\EngineerGeoParameterDistributionProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EGCad.Core.VairiabilityCalc.VariabilityCalculator">
+    <Position X="20.25" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAABAAAAAAAAAAAAAAJAAAAAAAAAAAAA=</HashCode>
+      <FileName>VairiabilityCalc\VariabilityCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="EGCad.Core.Clasterize.IStatDistanceProvider">
+    <Position X="4.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAg=</HashCode>
+      <FileName>Clasterize\IStatDistanceProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EGCad.Core.Normalize.IDataNormalizer">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Normalize\IDataNormalizer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

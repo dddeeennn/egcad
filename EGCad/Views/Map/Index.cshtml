@@ -95,7 +95,7 @@
         };
 
         $('#upload').submit(function (e) {
-            sender.post("UploadMap", '@Url.Action("Load","Map")', {},
+            sender.post("UploadMap", '@Url.Action("Load","Map")', {width:800},
 				function (response) {
 				    if (response && response.statusCode == 0) {
 				        // clear form and initialize

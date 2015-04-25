@@ -1,6 +1,30 @@
 ﻿@{
 	Layout = "_baseLayout.cshtml";
 }
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href='@Url.Action("Index","Home")' class="navbar-brand">
+                <span>EGCad</span>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Расчет сгущения опробации сети", "Index", "Map")</li>
+                @*<li>@Html.ActionLink("О проекте", "About", "Home")</li>*@
+            </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.Partial("_LoginPartial")
+            }
+        </div>
+    </div>
+</div>
 
 <div id="nav">
 	<a class="btn btn-navbar">
