@@ -1,30 +1,27 @@
 ﻿@using EGCad.Common.Infrastructure.MVC
 @model EGCad.Models.ResultModel
-
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Результаты расчета</h2>
 <div class="form-horizontal">
-    <div class="form-group col-sm-12">
-        <canvas id="tip" width=100 height=25></canvas>
-        <canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
-            Здесь должна быть отображена загруженная карта.
-            Для работы с приложением обновите браузер.
-            Минимальная поддерживаемая версия браузеров:
-            Internet Explorer 10+, 	Google Chrome 38+, FireFox
-        </canvas>
-    </div>
+	<div class="form-group col-sm-12">
+		<canvas id="tip" width=100 height=25></canvas>
+		<canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
+			Здесь должна быть отображена загруженная карта.
+			Для работы с приложением обновите браузер.
+			Минимальная поддерживаемая версия браузеров:
+			Internet Explorer 10+, 	Google Chrome 38+, FireFox
+		</canvas>
+	</div>
 </div>
-
 @if (Model != null && Model.Map != null)
 {
-    <script>
+	<script>
 
-        var container = $('#main');
-        var imgOffset = 45,
+		var container = $('#main');
+		var imgOffset = 45,
             tipCanvas = document.getElementById('tip'),
             tipCtx = tipCanvas.getContext('2d'),
             pointRadius = 4,
@@ -32,162 +29,164 @@
             startPoint,
             endPoint;
 
-        var ctx = canvas[0].getContext('2d');
+		var ctx = canvas[0].getContext('2d');
 
-        var colors = getColours(@Model.ClusterCount);
-        var map = @Model.Map.SerializeObject();
-        var points = pointAdapter(@Model.Points.SerializeObject());
+		var colors = getColours(@Model.ClusterCount);
+		var map = @Model.Map.SerializeObject();
+		var points = pointAdapter(@Model.Points.SerializeObject());
 
 
-        initCanvas(map);
+		initCanvas(map);
 
-        canvas.on('imgLoaded', function() {
+		canvas.on('imgLoaded', function() {
 
-            drawPoints(points);
-        });
+			drawPoints(points);
+		});
 
-        function drawPoints(points) {
-            $.each(points, function(index, value) {
-                var color = value.isNew ? "#000" : value.color;
-                drawPoint(ctx, value.x, value.y, 4, color);
-            });
-        }
+		function drawPoints(points) {
+			$.each(points, function(index, value) {
+				var color = value.isNew ? "#000" : value.color;
+				drawPoint(ctx, value.x, value.y, 4, color);
+			});
+		}
 
-        function initCanvas(map) {
-            var width = map.width;
-            var height = map.height;
+		function initCanvas(map) {
+			var width = map.width;
+			var height = map.height;
 
-            var img = new Image(width, height);
-            img.src = map.imgSrc;
-            img.onload = function() {
-                canvas[0].width = width + 2 * imgOffset;
-                canvas[0].height = height + 2 * imgOffset;
+			var img = new Image(width, height);
+			img.src = map.imgSrc;
+			img.onload = function() {
+				canvas[0].width = width + 2 * imgOffset;
+				canvas[0].height = height + 2 * imgOffset;
 
-                ctx.drawImage(img, imgOffset, imgOffset, width, height);
+				ctx.drawImage(img, imgOffset, imgOffset, width, height);
 
-                $(canvas).mousemove(function(e) { handleMouseMove(e, $(this)[0]); });
+				canvas[0].addEventListener('mousemove',function(e) { handleMouseMove(e, canvas[0]); },false);
 
-                drawScale(ctx, Math.ceil(width / 10), 10, 15, 30);
+				drawScale(ctx, Math.ceil(width / 10), 10, 15, 30);
 
-                if (map.scaleKoef > 0) drawScaleText(ctx, map.scaleKoef, Math.ceil(width / 10), 10, 15, 30);
+				if (map.scaleKoef > 0) drawScaleText(ctx, map.scaleKoef, Math.ceil(width / 10), 10, 15, 30);
 
-                drawFrontLine(ctx, map.start, map.end, map.k);
+				drawFrontLine(ctx, map.start, map.end, map.k);
 
-                canvas.trigger("imgLoaded");
-            };
-        }
+				canvas.trigger("imgLoaded");
+			};
+		}
 
-        function drawPoint(context, centerX, centerY, radius, color) {
-            context.beginPath();
-            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-            context.fillStyle = color;
-            context.fill();
-            context.lineWidth = 1;
-            context.strokeStyle = '#003300';
-            context.stroke();
-        }
+		function drawPoint(context, centerX, centerY, radius, color) {
+			context.beginPath();
+			context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+			context.fillStyle = color;
+			context.fill();
+			context.lineWidth = 1;
+			context.strokeStyle = '#003300';
+			context.stroke();
+		}
 
-        function drawScale(ctx, tileLength, tileCount, thickness, offset) {
-            for (var i = 0; i < tileCount; i++) {
-                if (i % 2 == 0) {
-                    ctx.fillRect(thickness + offset + tileLength * i, offset, tileLength, thickness);
-                    ctx.strokeRect(thickness + offset + tileLength * i, offset, tileLength, thickness);
-                    ctx.fillRect(offset, thickness + offset + tileLength * i, thickness, tileLength);
-                    ctx.strokeRect(offset, thickness + offset + tileLength * i, thickness, tileLength);
-                } else {
-                    ctx.rect(thickness + offset + tileLength * i, offset, tileLength, thickness);
-                    ctx.rect(offset, thickness + offset + tileLength * i, thickness, tileLength);
-                    ctx.stroke();
-                }
-            }
-        }
+		function drawScale(ctx, tileLength, tileCount, thickness, offset) {
+			for (var i = 0; i < tileCount; i++) {
+				if (i % 2 == 0) {
+					ctx.fillRect(thickness + offset + tileLength * i, offset, tileLength, thickness);
+					ctx.strokeRect(thickness + offset + tileLength * i, offset, tileLength, thickness);
+					ctx.fillRect(offset, thickness + offset + tileLength * i, thickness, tileLength);
+					ctx.strokeRect(offset, thickness + offset + tileLength * i, thickness, tileLength);
+				} else {
+					ctx.rect(thickness + offset + tileLength * i, offset, tileLength, thickness);
+					ctx.rect(offset, thickness + offset + tileLength * i, thickness, tileLength);
+					ctx.stroke();
+				}
+			}
+		}
 
-        function drawScaleText(ctx, scale, tileLength, tileCount, thickness, offset) {
-            var scaleText = Math.round(scale * tileLength);
-            var alignKoef = thickness + offset; //align scale text
-            for (var i = 1; i < tileCount; i++) {
-                ctx.fillText(scaleText * (i - 1), alignKoef + tileLength * i, offset * 3 / 4);
-                ctx.fillText(scaleText * (i - 1), offset / 6, alignKoef + tileLength * i);
-            }
-        }
+		function drawScaleText(ctx, scale, tileLength, tileCount, thickness, offset) {
+			var scaleText = Math.round(scale * tileLength);
+			var alignKoef = thickness + offset; //align scale text
+			for (var i = 1; i < tileCount; i++) {
+				ctx.fillText(scaleText * (i - 1), alignKoef + tileLength * i, offset * 3 / 4);
+				ctx.fillText(scaleText * (i - 1), offset / 6, alignKoef + tileLength * i);
+			}
+		}
 
-        // show tooltip when mouse hovers over dot
-        function handleMouseMove(e, canvas) {
+		// show tooltip when mouse hovers over dot
+		function handleMouseMove(e, canvas) {
 
-            var x = e.clientX - canvas.getBoundingClientRect().left,
+			debugger;
+
+			var x = e.clientX - canvas.getBoundingClientRect().left,
                 y = e.clientY - canvas.getBoundingClientRect().top;
 
-            if (points) {
-                handleMouseMoveOnPoint(points, x, y);
-                return;
-            }
-        }
+			if (points) {
+				handleMouseMoveOnPoint(points, x, y);
+				return;
+			}
+		}
 
-        function handleMouseMoveOnPoint(dots, mouseX, mouseY) {
-            var hit = false;
-            for (var i = 0; i < dots.length; i++) {
-                var point = dots[i];
-                var dx = mouseX - point.x;
-                var dy = mouseY - point.y;
-                if (dx * dx + dy * dy < point.r * point.r) {
-                    tipCanvas.style.left = (point.x) + "px";
-                    tipCanvas.style.top = (point.y - 40) + "px";
-                    tipCtx.clearRect(0, 0, tipCanvas.width, tipCanvas.height);
-                    tipCtx.fillText(point.text, 5, 15);
-                    hit = true;
-                }
-                if (!hit) {
-                    tipCanvas.style.left = "-1200px";
-                }
-            }
-        }
+		function handleMouseMoveOnPoint(dots, mouseX, mouseY) {
+			var hit = false;
+			for (var i = 0; i < dots.length; i++) {
+				var point = dots[i];
+				var dx = mouseX - point.x;
+				var dy = mouseY - point.y;
+				if (dx * dx + dy * dy < point.r * point.r) {
+					tipCanvas.style.left = (point.x) + "px";
+					tipCanvas.style.top = (point.y - 40) + "px";
+					tipCtx.clearRect(0, 0, tipCanvas.width, tipCanvas.height);
+					tipCtx.fillText(point.text, 5, 15);
+					hit = true;
+				}
+				if (!hit) {
+					tipCanvas.style.left = "-1200px";
+				}
+			}
+		}
 
-        function pointAdapter(points) {
-            return $.map(points, function(value) {
-                return {
-                    x:value.x,
-                    y:value.y,
-                    text:value.title,
-                    isNew:value.isNew,
-                    color:colors[value.clusterIndex],
-                    r:pointRadius
-                };
-            });
-        }
+		function pointAdapter(points) {
+			return $.map(points, function(value) {
+				return {
+					x:value.x,
+					y:value.y,
+					text:value.title,
+					isNew:value.isNew,
+					color:colors[value.clusterIndex],
+					r:pointRadius
+				};
+			});
+		}
 
-        function drawFrontLine(ctx,start,end,k) {
-            var x1 = start.split(',')[0],
+		function drawFrontLine(ctx,start,end,k) {
+			var x1 = start.split(',')[0],
                 y1 = start.split(',')[1],
                 x2 = end.split(',')[0],
                 y2 = end.split(',')[1];
 
-            drawSegment(ctx,x1,y1,x2,y2,k);
-        }
+			drawSegment(ctx,x1,y1,x2,y2,k);
+		}
 
-        function drawSegment(ctx,x1,y1,x2,y2) {
-            drawLine(ctx, x1, y1, x2, y2);
-        }
+		function drawSegment(ctx,x1,y1,x2,y2) {
+			drawLine(ctx, x1, y1, x2, y2);
+		}
 
-        function drawLine(ctx, x1, y1, x2, y2) {
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.stroke();
-        }
+		function drawLine(ctx, x1, y1, x2, y2) {
+			ctx.beginPath();
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
+		}
 
-        function getColours(numberOfColours) {
-            var colors = [];
+		function getColours(numberOfColours) {
+			var colors = [];
 
-            for(var i = 0; i < numberOfColours;i++){
+			for(var i = 0; i < numberOfColours;i++){
 
-                var r = (Math.round(Math.random()* 127 + 127)).toString(16);
-                var g = (Math.round(Math.random()* 127 + 127)).toString(16);
-                var b = (Math.round(Math.random()* 127 + 127)).toString(16);
-                colors.push( '#' + r + g + b);
-            }
+				var r = (Math.round(Math.random()* 127 + 127)).toString(16);
+				var g = (Math.round(Math.random()* 127 + 127)).toString(16);
+				var b = (Math.round(Math.random()* 127 + 127)).toString(16);
+				colors.push( '#' + r + g + b);
+			}
 
-            return colors;
-        }
+			return colors;
+		}
 
-    </script>
+	</script>
 }

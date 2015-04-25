@@ -110,6 +110,7 @@ line {
     font-weight: bold;
 }
 
+
 canvas {
     box-shadow: 2px 3px 9px 3px rgba(0,0,0,0.12);
 }
@@ -121,6 +122,11 @@ canvas {
         left: -200px;
         top: 100px;
     }
+
+	canvas#map-container {
+		height: 60vh;
+
+	}
 
 .btn.inactive {
     opacity: 0.6;

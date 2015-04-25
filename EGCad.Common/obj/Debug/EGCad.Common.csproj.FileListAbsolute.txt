@@ -72,3 +72,23 @@ C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\bin\Debug\System.Web.WebPages.
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\obj\Debug\EGCad.Common.dll
 C:\Users\161\Documents\GitRepo\EGCad\EGCad.Common\obj\Debug\EGCad.Common.pdb
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\EGCad.Common.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\EGCad.Common.pdb
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.Helpers.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.Mvc.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.Razor.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.WebPages.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.Helpers.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.Mvc.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.Razor.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.WebPages.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\obj\Debug\EGCad.Common.csprojResolveAssemblyReference.cache
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\obj\Debug\EGCad.Common.dll
+C:\Users\Chudinov_D\Documents\Visual Studio 2013\Projects\egcad-dev\EGCad.Common\obj\Debug\EGCad.Common.pdb
