@@ -16,7 +16,7 @@ namespace EGCad.Models
         {
             get
             {
-                var pointWithMaxClusterIndex = Points.OrderByDescending(x => x.ClusterIndex).FirstOrDefault();
+                var pointWithMaxClusterIndex = Points.Where(p=>!p.IsNew).OrderByDescending(x => x.ClusterIndex).FirstOrDefault();
                 return pointWithMaxClusterIndex != null ? pointWithMaxClusterIndex.ClusterIndex : 0;
             }
         }

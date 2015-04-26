@@ -10,15 +10,15 @@
 
         public bool IsNew { get; private set; }
 
-        public byte ClusterIndex { get; private set; }
+        public int ClusterIndex { get; private set; }
 
-        public DrawPoint(int x, int y, string title, byte clusterIndex, bool isNew)
+        public DrawPoint(int x, int y, string title, int clusterIndex, bool isNew)
         {
             X = x;
             Y = y;
             IsNew = isNew;
             Title = title;
-            ClusterIndex = IsNew ? (byte)255:clusterIndex;
+            ClusterIndex = IsNew ? 255:clusterIndex;
         }
     }
 }

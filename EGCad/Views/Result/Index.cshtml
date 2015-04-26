@@ -8,7 +8,7 @@
 <div class="form-horizontal">
 	<div class="form-group col-sm-12">
 		<canvas id="tip" width=100 height=25></canvas>
-		<canvas width="300px" height="300px" id="map-container" style="border: 1px solid #ccc">
+		<canvas width="300px" height="300px" id="result-map-container" style="border: 1px solid #ccc">
 			Здесь должна быть отображена загруженная карта.
 			Для работы с приложением обновите браузер.
 			Минимальная поддерживаемая версия браузеров:
@@ -25,13 +25,13 @@
             tipCanvas = document.getElementById('tip'),
             tipCtx = tipCanvas.getContext('2d'),
             pointRadius = 4,
-            canvas = $('#map-container'),
+            canvas = $('#result-map-container'),
             startPoint,
             endPoint;
 
 		var ctx = canvas[0].getContext('2d');
 
-		var colors = getColours(@Model.ClusterCount);
+		var colors = getColours(@Model.ClusterCount*2);
 		var map = @Model.Map.SerializeObject();
 		var points = pointAdapter(@Model.Points.SerializeObject());
 
@@ -39,7 +39,6 @@
 		initCanvas(map);
 
 		canvas.on('imgLoaded', function() {
-
 			drawPoints(points);
 		});
 
@@ -62,7 +61,7 @@
 
 				ctx.drawImage(img, imgOffset, imgOffset, width, height);
 
-				canvas[0].addEventListener('mousemove',function(e) { handleMouseMove(e, canvas[0]); },false);
+				canvas[0].addEventListener('mousemove',function(e) { handleMouseMove(e, $(this)[0]); },false);
 
 				drawScale(ctx, Math.ceil(width / 10), 10, 15, 30);
 
@@ -111,14 +110,16 @@
 		// show tooltip when mouse hovers over dot
 		function handleMouseMove(e, canvas) {
 
-			debugger;
+			var x = event.clientX;
+			var y = event.clientY;
 
-			var x = e.clientX - canvas.getBoundingClientRect().left,
-                y = e.clientY - canvas.getBoundingClientRect().top;
+			x -= canvas.getBoundingClientRect().left;
+			y -= canvas.getBoundingClientRect().top;
 
-			if (points) {
+			if (x.isBetween(imgOffset, canvas.width - imgOffset) &&
+				y.isBetween(imgOffset, canvas.height - imgOffset) &&
+				points) {
 				handleMouseMoveOnPoint(points, x, y);
-				return;
 			}
 		}
 
@@ -174,18 +175,93 @@
 			ctx.stroke();
 		}
 
+		function componentToHex(c) {
+			var hex = c.toString(16);
+			return hex.length == 1 ? "0" + hex : hex;
+		}
+
+		function rgbToHex(r, g, b) {
+			return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+		}
+
 		function getColours(numberOfColours) {
 			var colors = [];
+			var i = 360 / (numberOfColours - 1); // distribute the colors evenly on the hue range
+			for (var x=0; x<numberOfColours; x++) {
+				var color = (hsvToRgb(i * x, 100, 100)); // you can also alternate the saturation and value for even more contrast between the colors
+				colors.push(rgbToHex(color[0],color[1],color[2]));
+			}
+			return colors;
+		}
 
-			for(var i = 0; i < numberOfColours;i++){
+		function hsvToRgb(h,s,v) {
+			var r, g, b;
+			var i;
+			var f, p, q, t;
 
-				var r = (Math.round(Math.random()* 127 + 127)).toString(16);
-				var g = (Math.round(Math.random()* 127 + 127)).toString(16);
-				var b = (Math.round(Math.random()* 127 + 127)).toString(16);
-				colors.push( '#' + r + g + b);
+			// Make sure our arguments stay in-range
+			h = Math.max(0, Math.min(360, h));
+			s = Math.max(0, Math.min(100, s));
+			v = Math.max(0, Math.min(100, v));
+
+			// We accept saturation and value arguments from 0 to 100 because that's
+			// how Photoshop represents those values. Internally, however, the
+			// saturation and value are calculated from a range of 0 to 1. We make
+			// That conversion here.
+			s /= 100;
+			v /= 100;
+
+			if(s == 0) {
+				// Achromatic (grey)
+				r = g = b = v;
+				return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 			}
 
-			return colors;
+			h /= 60; // sector 0 to 5
+			i = Math.floor(h);
+			f = h - i; // factorial part of h
+			p = v * (1 - s);
+			q = v * (1 - s * f);
+			t = v * (1 - s * (1 - f));
+
+			switch(i) {
+				case 0:
+					r = v;
+					g = t;
+					b = p;
+					break;
+
+				case 1:
+					r = q;
+					g = v;
+					b = p;
+					break;
+
+				case 2:
+					r = p;
+					g = v;
+					b = t;
+					break;
+
+				case 3:
+					r = p;
+					g = q;
+					b = v;
+					break;
+
+				case 4:
+					r = t;
+					g = p;
+					b = v;
+					break;
+
+				default: // case 5:
+					r = v;
+					g = p;
+					b = q;
+			}
+
+			return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 		}
 
 	</script>

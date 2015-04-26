@@ -196,6 +196,16 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\img\1.jpg" />
+    <Content Include="Content\img\step0.jpg" />
+    <Content Include="Content\img\step1.jpg" />
+    <Content Include="Content\img\step2.jpg" />
+    <Content Include="Content\img\step3.jpg" />
+    <Content Include="Content\img\step4.jpg" />
+    <Content Include="Content\img\step5.jpg" />
+    <Content Include="Content\img\step6.jpg" />
+    <Content Include="Content\img\step7.jpg" />
+    <Content Include="Content\img\step8.jpg" />
+    <Content Include="Content\img\step9.jpg" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

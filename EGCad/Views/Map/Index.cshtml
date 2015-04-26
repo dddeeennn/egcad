@@ -7,66 +7,55 @@
 </div>
 <div class="form-horizontal">
 	<div class="form-group">
-		<div class="col-sm-7 col-lg-5">
-			<form action='@Url.Action("load")' id="upload" method="post" enctype="multipart/form-data">
-				<div class="form-group">
-					<div style="display: table;margin-left: 10px;">
-						<span class=" bold" style="display: table-cell; padding: 7px;">Расстояние между точками :</span>
-						<span style="display: table-cell; padding: 7px;">
-							<span id="editable" class="input-group">
-								<input id="endPoint" placeholder="100" type="number" class="form-control">
-								<span id="save" class="input-group-addon btn glyphicon glyphicon-ok"></span>
-							</span>
-						</span>
-						<span style="display: table-cell;padding: 7px;"> метров.</span>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-5">
-						<span style="margin-right:10px; ">
-							<input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" />
-							<input type="hidden" name="width" id="width" />
-							<input type="hidden" name="height" id="height" />
-						</span>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div class="col-sm-1 pull-right">
-			<a href="@Url.Action("Index","Parameters")" id="nextStep" class="btn btn-default inactive pull-right">Далее</a>
-		</div>
-		<div class="col-sm-4 pull-right">
-			<div class="well">
-				<div class="h4">Выполните следующие действия:</div>
-				<div id="loadMapStep">
-					<i class="fa fa-check "></i><span>Загрузите изображение</span>
-				</div>
-				<div id="specifyStartStep">
-					<i class="fa fa-check "></i><span>Укажите на карте стартовую точку (обозначена зеленым)</span>
-				</div>
-				<div id="specifyEndStep">
-					<i class="fa fa-check "></i><span>Укажите на карте конечную точку (обозначена красным)</span>
-				</div>
-				<div id="specifyLengthStep">
-					<i class="fa fa-check "></i><span>Введите n  в поле и сохраните</span>
-				</div>
-				<div>
-					<div class="progress ">
-						<div class="progress-bar active" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">
-						</div>
-					</div>
-				</div>
+		<form action='@Url.Action("load")'  id="upload" class="clearfix" method="post" enctype="multipart/form-data">
+			<div class="form-group input-container col-sm-11">
+				<span>
+					<input type="file" name="map" id="map" accept="image/*" title="Загрузите карту *.jpg / *.png" />
+					<input type="hidden" name="width" id="width" />
+					<input type="hidden" name="height" id="height" />
+				</span>
+				<span class="bold">Расстояние между точками :</span>
+				<span>
+					<span id="editable" class="input-group">
+						<input id="endPoint" placeholder="100" type="number" class="form-control">
+						<span id="save" class="input-group-addon btn glyphicon glyphicon-ok"></span>
+					</span>
+				</span>
+				<span> метров.</span>
+				<span><a href="@Url.Action("Index", "Parameters")" id="nextStep" class="btn btn-default inactive pull-right">Далее</a></span>
 			</div>
+		</form>
+		<div class="map-wrapper">
+			<canvas id="tip" width=100 height=25></canvas>
+			<canvas id="map-container">
+				Здесь должна быть отображена загруженная карта.
+				Для работы с приложением обновите браузер.
+				Минимальная поддерживаемая версия браузеров:
+				Internet Explorer 10+, Google Chrome 38+
+			</canvas>
 		</div>
 	</div>
-	<div class="form-group col-sm-12 map-wrapper">
-		<canvas id="tip" width=100 height=25></canvas>
-		<canvas id="map-container">
-			Здесь должна быть отображена загруженная карта.
-			Для работы с приложением обновите браузер.
-			Минимальная поддерживаемая версия браузеров:
-			Internet Explorer 10+, 	Google Chrome 38+
-		</canvas>
+	
+</div>
+<div id="status-panel">
+	<div class="h4">Выполните следующие действия:</div>
+	<div id="loadMapStep">
+		<i class="fa fa-check "></i><span>Загрузите изображение</span>
+	</div>
+	<div id="specifyStartStep">
+		<i class="fa fa-check "></i><span>Укажите на карте стартовую точку (обозначена зеленым)</span>
+	</div>
+	<div id="specifyEndStep">
+		<i class="fa fa-check "></i><span>Укажите на карте конечную точку (обозначена красным)</span>
+	</div>
+	<div id="specifyLengthStep">
+		<i class="fa fa-check "></i><span>Введите n  в поле и сохраните</span>
+	</div>
+	<div>
+		<div class="progress ">
+			<div class="progress-bar active" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -150,7 +139,6 @@
 				canvas.height = height + 2 * imgOffset;
 				container.find('canvas#map-container').height(canvas.height);
 				container.find('canvas#map-container').width(canvas.width);
-
 
 				var ctx = canvas.getContext('2d');
 				ctx.drawImage(img, imgOffset, imgOffset, width, height);
@@ -364,8 +352,8 @@
 			container.find('#specifyEndStep').attr('class', !map.End.IsEmpty ? 'ok' : 'error');
 			container.find('#specifyLengthStep').attr('class', !map.EndT.IsEmpty ? 'ok' : 'error');
 
-			var $progressBar = $('.progress-bar');
-			var $completeState = (($('.ok', '.well')).length / 4) * 100;
+			var $progressBar = $('#status-panel .progress-bar');
+			var $completeState = (($('.ok', '#status-panel')).length / 4) * 100;
 
 			if ($completeState > 99) {
 				$progressBar.addClass('progress-bar-success').removeClass('progress-bar-danger');

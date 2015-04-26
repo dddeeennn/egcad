@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Таблица нормализваонных значений</h2>
+<h2>Таблица нормированных значений</h2>
 <table class="table table-condensed table-bordered table-striped">
     <thead>
         <tr>
@@ -23,7 +23,7 @@
         @foreach (var row in Model.Rows)
         {
             <tr>
-                <td>@row.RowIdx.ToStr()</td>
+                <td>@(int.Parse(row.RowIdx.ToStr())+1)</td>
                 @if (row.Values.Any())
                 {
                     foreach (var value in row.Values)
