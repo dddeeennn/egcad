@@ -1,175 +1,185 @@
 ﻿body {
-	padding-top: 50px;
-	padding-bottom: 20px;
-	color: #676a6c;
-	background: #fefefe;
-	clear: both;
-	overflow: auto;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: #676a6c;
+    background: #fefefe;
+    clear: both;
+    overflow: auto;
 }
 
 header {
-	position: absolute;
-	z-index: 10;
+    position: absolute;
+    z-index: 10;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-	padding-left: 15px;
-	padding-right: 15px;
-	clear: both;
-	overflow: hidden;
+    padding-left: 15px;
+    padding-right: 15px;
+    clear: both;
+    overflow: hidden;
 }
 
 div.hiddenFile {
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
 }
 
 div#modal {
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-	background: #000;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -1;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
 div#home {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
-	div#home div.page-header h1 {
-		font-family: 'Gloria Hallelujah', cursive;
-		position: absolute;
-	}
+    div#home div.page-header h1 {
+        font-family: 'Gloria Hallelujah', cursive;
+        position: absolute;
+    }
 
-	div#home div.page-header {
-		margin-left: 40px;
-	}
+    div#home div.page-header {
+        margin-left: 40px;
+    }
 
-	div#home button.start-btn {
-		position: absolute;
-		width: 250px;
-		margin-left: 10px;
-		height: 40px;
-		right: 50%;
-		top: 8px;
-		font-size: 14pt;
-		border: 2px solid #676a6c;
-		-ms-border-radius: 4px;
-		border-radius: 4px;
-		background: transparent;
-		color: #676a6c;
-		-webkit-transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;
+    div#home button.start-btn {
+        position: absolute;
+        width: 250px;
+        margin-left: 10px;
+        height: 40px;
+        right: 50%;
+        top: 8px;
+        font-size: 14pt;
+        border: 2px solid #676a6c;
+        -ms-border-radius: 4px;
+        border-radius: 4px;
+        background: transparent;
+        color: #676a6c;
+        /*-webkit-transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;
 		-moz-transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;
 		-ms-transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;
 		-o-transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;
-		transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;
-		z-index: 10;
-	}
+		transition: opacity 0.5s linear, border-color 0.5s  linear, color 0.5s  linear;*/
+        z-index: 10;
+    }
 
-div#home button.start-btn a {
-			text-decoration: none;
-			color: #676a6c;
-		}
+        div#home button.start-btn a {
+            text-decoration: none;
+            color: #676a6c;
+            z-index: 100;
+        }
 
-		div#home button.start-btn:hover,
-		div#home button.start-btn:focus,
-		div#home button.start-btn:hover #startUrl,
-		div#home button.start-btn:focus #startUrl {
-			border-color: #93C7A3;
-			color: #93C7A3;
-			-webkit-transition: opacity 0.5s  linear, border-color 0.5s  linear, color 0.5s  linear;
-			-moz-transition: opacity 0.5s  linear, border-color 0.5s  linear, color 0.5s  linear;
-			-ms-transition: opacity 0.5s  linear, border-color 0.5s  linear, color 0.5s  linear;
-			-o-transition: opacity 0.5s  linear, border-color 0.5s  linear, color 0.5s  linear;
-			transition: opacity 0.5s  linear, border-color 0.5s  linear, color 0.5s  linear;
-		}
-
-.slider-wrapper {
-	position: absolute;
-	width: 100%;
+#startUrl:hover,
+#startUrl:focus {
+    border-color: #93C7A3;
+    color: #93C7A3;
+    text-decoration: none;
+    -webkit-transition: opacity 0.5s linear, border-color 0.5s linear, color 0.5s linear;
+    -moz-transition: opacity 0.5s linear, border-color 0.5s linear, color 0.5s linear;
+    -ms-transition: opacity 0.5s linear, border-color 0.5s linear, color 0.5s linear;
+    -o-transition: opacity 0.5s linear, border-color 0.5s linear, color 0.5s linear;
+    transition: opacity 0.5s linear, border-color 0.5s linear, color 0.5s linear;
 }
 
-#home > div{
-	overflow: hidden;
+#startUrl {
+    border-color: #93C7A3;
+    color: #93C7A3;
+    z-index: 100;
+    margin: 10px 50%;
+    position: absolute;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.slider-wrapper {
+    position: absolute;
+    width: 100%;
+}
+
+#home > div {
+    overflow: hidden;
 }
 
 div#modal.show {
-	opacity: 0.5;
-	z-index: 1055;
+    opacity: 0.5;
+    z-index: 1055;
 }
 
 .display-label {
-	font-weight: 800;
+    font-weight: 800;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
-	white-space: normal;
+    white-space: normal;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-	max-width: 300px;
+    max-width: 300px;
 }
 
 footer {
-	position: static;
-	bottom: 0;
-	width: 100%;
+    position: static;
+    bottom: 0;
+    width: 100%;
 }
 
-	footer p {
-		display: table;
-		margin-left: auto;
-		margin-right: auto;
-		margin-top: 10px;
-		margin-bottom: -10px;
-	}
+    footer p {
+        display: table;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: -10px;
+    }
 
-	footer hr {
-		margin-bottom: 0;
-	}
+    footer hr {
+        margin-bottom: 0;
+    }
 
 .navbar-inverse {
-	background: #181818;
+    background: #181818;
 }
 
-	.navbar-inverse .navbar-brand {
-		color: #fff;
-	}
+    .navbar-inverse .navbar-brand {
+        color: #fff;
+    }
 
-	.navbar-inverse ul#nav.navbar-nav li {
-		color: #bfbfbf;
-	}
+    .navbar-inverse ul#nav.navbar-nav li {
+        color: #bfbfbf;
+    }
 
 .page-header {
-	border-bottom: none;
+    border-bottom: none;
 }
 
 ul {
-	list-style: none;
-	padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 i {
-	margin-right: 5px;
+    margin-right: 5px;
 }
 
 .well .progress {
-	background: #fff;
-	margin: 0;
+    background: #fff;
+    margin: 0;
 }

@@ -75,15 +75,29 @@ namespace EGCad.Common.MathExt
 				return Validate(GetScaledSize(imgSize, k, 2)) ? k : 0;
 			}
 
-			if (imgSize.Width < _minWidth || imgSize.Width > _maxWidth)
+			if (imgSize.Width < _minWidth)
 			{
 				k = ComputeScaleKoef(imgSize.Width, _minWidth);
+                return Validate(GetScaledSize(imgSize, k, 2)) ? k : 0;
 			}
 
-			if (imgSize.Height < _minHeight || imgSize.Height > _maxHeight)
+            if (imgSize.Width > _maxWidth)
+            {
+                k = ComputeScaleKoef(imgSize.Width, _maxWidth);
+                return Validate(GetScaledSize(imgSize, k, -2)) ? k : 0;
+            }
+
+			if (imgSize.Height < _minHeight)
 			{
 				k = ComputeScaleKoef(imgSize.Height, _minHeight);
+                return Validate(GetScaledSize(imgSize, k, 2)) ? k : 0;
 			}
+
+            if ( imgSize.Height > _maxHeight)
+            {
+                k = ComputeScaleKoef(imgSize.Height, _maxHeight);
+                return Validate(GetScaledSize(imgSize, k, -2)) ? k : 0;
+            }
 
 			return Validate(GetScaledSize(imgSize, k, 2)) ? k : 0;
 		}

@@ -127,7 +127,13 @@ canvas#tip {
 
 	canvas#map-container {
 		height: 75vh;
+	    width: 75vw;
 	}
+
+    canvas#map-container:hover {
+        background: white;
+        z-index: 15000;
+    }
 
 	.map-wrapper {
 		  padding-left: 15px;
@@ -146,8 +152,8 @@ canvas#tip {
 
 #action-panel {
 	position: fixed;
-	-ms-opacity: 0.3;
-	opacity: 0.3;
+	-ms-opacity: 0.2;
+	opacity: 0.2;
 	background: #58a772;
 	padding: 3px 15px;
 	top: 60px;
@@ -230,4 +236,5 @@ canvas#tip {
 		-ms-transition: opacity 1s linear;
 		-o-transition: opacity 1s linear;
 		transition: opacity 1s linear;
+	    background-color: white; 
 	}
