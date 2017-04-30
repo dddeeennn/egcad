@@ -32,7 +32,7 @@ namespace EGCad.Common.Extensions
             {
                 for (var j = 0; j < rowLength; j++)
                 {
-                    result[i, j] = sourceData.Points[i].Parameters[j].Value;
+                    result[i, j] = sourceData.Points[j].Parameters[i].Value;
                 }
             }
 

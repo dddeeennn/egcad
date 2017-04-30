@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EGCad.Common.Extensions;
 using EGCad.Common.Infrastructure;
@@ -23,6 +24,7 @@ namespace EGCad.Core.Normalize
             if (!sourceData.Points.Any()) return new NormalizeData(new NormalizeDataRow[0]);
 
             var dataTable = sourceData.TableData();
+            var originalValues = sourceData.ValueArray(sourceData.Points.Length, sourceData.Parameters.Count);
 
             foreach (var point in sourceData.Points)
             {
@@ -36,16 +38,18 @@ namespace EGCad.Core.Normalize
                     p.Value = (p.Value - z) / v;
                     normalizedParameters.Add(p);
                 }
-                result.Add(new ParameterTableEntry(point.Id, point.X,normalizedParameters));
+                result.Add(new ParameterTableEntry(point.Id, point.X, normalizedParameters));
             }
 
-            var rows =
-               result.Select(
-                   point =>
-                       new NormalizeDataRow(new[] { point.Id },
-                                            point.Parameters.Select(param => param.Value).ToArray()))
-                   .ToArray();
+            var rows = result.Select(BuildNormalizeDataRow(originalValues)).ToArray();
             return new NormalizeData(rows);
+        }
+
+        private static Func<ParameterTableEntry, int, NormalizeDataRow> BuildNormalizeDataRow(double[,] originalValues)
+        {
+            return (point, idx) => new NormalizeDataRow(new[] { point.Id },
+                                                        point.Parameters.Select(param => param.Value).ToArray(),
+                                                        Enumerable.Range(0, point.Parameters.Count).Select(x => originalValues[x, idx]).ToArray());
         }
 
         protected abstract double GetZeroLevelFactor(double[] data);//натуральное значение нулевого уровня j-фактора 

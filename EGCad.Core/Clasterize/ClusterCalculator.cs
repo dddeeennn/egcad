@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using EGCad.Common.Extensions;
 using EGCad.Common.Model.Clusterize;
 using EGCad.Common.Model.Data;
@@ -30,16 +32,20 @@ namespace EGCad.Core.Clasterize
         public ClusterTree Clusterize(NormalizeData normalizedData)
         {
             var result = new List<ClusterNode>();
+            var statDistanceTables = new Queue<StatDistanceTable>();
+            var statDistanceQualityKoef = new List<double>();
+
             var statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
 
             result.AddRange(normalizedData.Rows.Select(row => new ClusterNode(row.RowIdx, 0)));
 
             while (normalizedData.Rows.Count() > _settings.ClusterCount)
             {
-                ClusterizeIterate(ref normalizedData, ref statDistanceTable, result);
+                statDistanceTables.Enqueue(statDistanceTable);
+                ClusterizeIterate(ref normalizedData, ref statDistanceTable, result, statDistanceQualityKoef);
             }
 
-            return new ClusterTree(result);
+            return new ClusterTree(result, statDistanceTables, statDistanceQualityKoef.ToArray());
         }
 
         /// <summary>
@@ -50,7 +56,9 @@ namespace EGCad.Core.Clasterize
         /// <param name="normalizedData"></param>
         /// <param name="statDistanceTable"></param>
         /// <param name="result"></param>
-        private void ClusterizeIterate(ref NormalizeData normalizedData, ref StatDistanceTable statDistanceTable, List<ClusterNode> result)
+        /// <param name="statDistanceQualityKoefs"></param>
+        private void ClusterizeIterate(ref NormalizeData normalizedData, ref StatDistanceTable statDistanceTable,
+            List<ClusterNode> result, List<double> statDistanceQualityKoefs)
         {
             var min = statDistanceTable.Min();
 
@@ -62,7 +70,7 @@ namespace EGCad.Core.Clasterize
 
             result.Add(new ClusterNode(min.I.Concat(min.J), min.Value, new[] { leftLeaf, rightLeaf }));
 
-            normalizedData = JoinCluster(normalizedData,  normalizedData.RowIdx(min.I), normalizedData.RowIdx(min.J));
+            normalizedData = JoinCluster(normalizedData, normalizedData.RowIdx(min.I), normalizedData.RowIdx(min.J), statDistanceQualityKoefs);
             statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
         }
 
@@ -72,7 +80,8 @@ namespace EGCad.Core.Clasterize
         /// <param name="normalizeData">source normalize data</param>
         /// <param name="oldIdx">old cluster</param>
         /// <param name="newIdx">cluster for join</param>
-        private NormalizeData JoinCluster(NormalizeData normalizeData, int[] oldIdx, int[] newIdx)
+        /// <param name="statDistanceKoefs"></param>
+        private NormalizeData JoinCluster(NormalizeData normalizeData, int[] oldIdx, int[] newIdx, List<double> statDistanceKoefs)
         {
             var idxs = oldIdx.Concat(newIdx);
             var row1 = normalizeData.Rows.First(x => x.RowIdx.ToStr() == oldIdx.ToStr());
@@ -80,13 +89,17 @@ namespace EGCad.Core.Clasterize
 
             var valueCount = row1.Values.Length;
             var values = new double[valueCount];
+            var sorceValues = new double[valueCount];
 
             for (var i = 0; i < valueCount; i++)
             {
                 values[i] = (row1.Values[i] + row2.Values[i]) / 2;
+                sorceValues[i] = (row1.SourceValues[i] + row2.SourceValues[i]) / 2;
             }
 
-            var newRow = new NormalizeDataRow(idxs, values);
+            var newRow = new NormalizeDataRow(idxs, values, sorceValues);
+
+            statDistanceKoefs.Add(GetStatDistanceKoefByCluster(row1.SourceValues, row2.SourceValues, newRow.SourceValues));
 
             var rowList = normalizeData.Rows.ToList();
             rowList.Remove(row1);
@@ -94,6 +107,19 @@ namespace EGCad.Core.Clasterize
             rowList.Add(newRow);
 
             return new NormalizeData(rowList.ToArray());
+        }
+
+        private double GetStatDistanceKoefByCluster(double[] previousLeftData, double[] previousRightData, double[] currentData)
+        {
+            var parametersLength = previousLeftData.Length;
+            Double result = 0;
+
+            for (var i = 0; i < parametersLength; i++)
+            {
+                result += Math.Abs(currentData[i] - previousLeftData[i]) / (previousLeftData[i] + previousRightData[i]);
+            }
+
+            return result / parametersLength;
         }
     }
 }

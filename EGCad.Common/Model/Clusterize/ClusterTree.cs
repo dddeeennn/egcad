@@ -5,29 +5,26 @@ namespace EGCad.Common.Model.Clusterize
 {
 	public class ClusterTree
 	{
-		public string Name { get; set; }
 		public double StatDistance { get; set; }
 		public List<ClusterNode> Children { get; set; }
+        public Queue<StatDistanceTable> StatDistanceTables { get; set; }
+        public double[] StatDistanceQualityKoef { get; set; }
 
 		public ClusterTree()
 		{
-			Name = "root";
-			StatDistance =10;
+			StatDistance = 10;
 			Children = new List<ClusterNode>();
+            StatDistanceTables = new Queue<StatDistanceTable>();
+            StatDistanceQualityKoef = new double[0];
 		}
 
-		public ClusterTree(List<ClusterNode> children)
+		public ClusterTree(List<ClusterNode> children, Queue<StatDistanceTable> statDistanceTables, double[] statDistanceQualityKoefs)
 			: this()
 		{
 			Children = children.ToList();
+		    StatDistanceTables = statDistanceTables;
 			StatDistance = children.Select(node => node.StatDistance).Max();
-		}
-
-		public ClusterTree(string name, double y, List<ClusterNode> children)
-		{
-			Name = name;
-			StatDistance = y;
-			Children = children;
+		    StatDistanceQualityKoef = statDistanceQualityKoefs;
 		}
 	}
 }

@@ -170,6 +170,7 @@
     <Compile Include="Controllers\NormalizeController.cs" />
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\SaveController.cs" />
+    <Compile Include="Controllers\StatDistanceController.cs" />
     <Compile Include="Controllers\VariabilityFunctionController.cs" />
     <Compile Include="Infrastructure\DoubleArrayModelBinder.cs" />
     <Compile Include="Models\DrawPoint.cs" />
@@ -403,6 +404,7 @@
     <Folder Include="Views\InputBase\" />
     <Folder Include="Views\Load\" />
     <Folder Include="Views\Save\" />
+    <Folder Include="Views\StatDistance\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

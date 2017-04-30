@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Text;
+using System.Web.Mvc;
+using EGCad.Common.Model.Clusterize;
 using EGCad.Common.Model.Data;
 using EGCad.Common.Model.VariabilityFunction;
 using EGCad.Core;
@@ -7,6 +11,7 @@ using EGCad.Core.Normalize;
 using EGCad.Core.PointPosition;
 using EGCad.Core.VairiabilityCalc;
 using EGCad.Models;
+using WebGrease.Css.Extensions;
 
 namespace EGCad.Controllers
 {
@@ -67,6 +72,33 @@ namespace EGCad.Controllers
 
             TempData["resultData"] = new ResultModel(InputModel.Map, points, clusterizedData);
             return RedirectToAction("Index", "Result");
+        }
+
+        public ActionResult DownloadStatDistance()
+        {
+            var clusterizer = new ClusterCalculator(Settings);
+
+            var data = clusterizer.Clusterize(new Data(InputModel.PointsToCalc));
+            var builder = new StringBuilder();
+
+            while (data.StatDistanceTables.Any())
+            {
+                var table = data.StatDistanceTables.Dequeue();
+                builder.AppendLine();
+                var tableDimentions = table.Rows[0].Cells.Count();
+                //  builder.AppendLine(string.Join(";", Enumerable.Range(1, tableDimentions)));
+                builder.AppendLine(tableDimentions + " x " + tableDimentions);
+                table.Rows.ForEach(x => builder.AppendLine(string.Join(",", x.Cells.Select(cell => Math.Round(cell.Value, 3)))));
+            }
+
+            builder.AppendLine("e ," + string.Join(",", data.StatDistanceQualityKoef));
+
+            var now = DateTime.Now;
+            var filename = string.Format("statDistance{0}{1}{2}-{3}{4}{5}.csv",
+                now.Day, now.Month, now.Year, now.Hour, now.Minute, now.Second);
+
+            var fileContent = builder.ToString();
+            return File(Encoding.UTF8.GetBytes(fileContent), "text/csv", filename);
         }
 
         private CalculationSettings Settings
