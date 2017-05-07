@@ -5,6 +5,7 @@ namespace EGCad.Common.Model.Clusterize
 {
 	public class ClusterTree
 	{
+        public string Name { get; set; }
 		public double StatDistance { get; set; }
 		public List<ClusterNode> Children { get; set; }
         public Queue<StatDistanceTable> StatDistanceTables { get; set; }
@@ -12,6 +13,7 @@ namespace EGCad.Common.Model.Clusterize
 
 		public ClusterTree()
 		{
+		    Name = "root";
 			StatDistance = 10;
 			Children = new List<ClusterNode>();
             StatDistanceTables = new Queue<StatDistanceTable>();
