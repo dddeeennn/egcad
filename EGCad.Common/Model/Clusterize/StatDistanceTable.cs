@@ -17,7 +17,7 @@ namespace EGCad.Common.Model.Clusterize
         public StatDistanceCell Min()
         {
             var cells = Rows.SelectMany(row => row.Cells).ToArray();
-            var min = cells.Select(cell => cell.Value).Min();
+            var min = cells.Where(cell => cell.Value > 0).Select(cell => cell.Value).Min();
             return cells.First(c => Math.Abs(c.Value - min) < Tolerance);
         }
     }

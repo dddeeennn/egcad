@@ -16,9 +16,8 @@ namespace EGCad.Core.Clasterize
 
         public StatDistanceTable Get(NormalizeData normalizedData)
         {
-            return new StatDistanceTable(normalizedData.Rows.Select((row, rowIdx) => 
-                   new StatDistanceRow(normalizedData.Rows.Where((col, colIdx) => colIdx > rowIdx)  //select rows (rowIdx ,columnIdx) above the main diagonal
-                                                       .Select(col => GetStatDistanceCell(normalizedData, row.RowIdx, col.RowIdx)) //compute cells 
+            return new StatDistanceTable(normalizedData.Rows.Select(row => 
+                   new StatDistanceRow(normalizedData.Rows.Select(col => GetStatDistanceCell(normalizedData, row.RowIdx, col.RowIdx))
                                     )).ToArray());
         }
 

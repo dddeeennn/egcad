@@ -7,6 +7,7 @@ using EGCad.Common.Model.Clusterize;
 using EGCad.Common.Model.Data;
 using EGCad.Common.Model.Normalize;
 using EGCad.Core.Normalize;
+using Newtonsoft.Json;
 
 namespace EGCad.Core.Clasterize
 {
@@ -36,6 +37,7 @@ namespace EGCad.Core.Clasterize
             var statDistanceQualityKoef = new List<double>();
             var clusterOuterDistance = new List<double>();
             var clusterInnerDistance = new List<double>();
+            var sourceNormalizedData = JsonConvert.DeserializeObject<NormalizeData>(JsonConvert.SerializeObject(normalizedData));
 
             var statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
 
@@ -44,33 +46,41 @@ namespace EGCad.Core.Clasterize
             while (normalizedData.Rows.Count() > _settings.ClusterCount)
             {
                 statDistanceTables.Enqueue(statDistanceTable);
-                ClusterizeIterate(ref normalizedData, ref statDistanceTable, result, statDistanceQualityKoef, clusterOuterDistance, clusterInnerDistance);
+                ClusterizeIterate(ref normalizedData,
+                sourceNormalizedData,
+                ref statDistanceTable,
+                result,
+                statDistanceQualityKoef,
+                clusterOuterDistance,
+                clusterInnerDistance);
             }
 
             return new ClusterTree(result,
-                statDistanceTables,
-                statDistanceQualityKoef.ToArray(),
-                clusterOuterDistance.ToArray(),
-                clusterInnerDistance.ToArray());
+            statDistanceTables,
+            statDistanceQualityKoef.ToArray(),
+            clusterOuterDistance.ToArray(),
+            clusterInnerDistance.ToArray());
         }
 
         /// <summary>
-        /// 1. Find cell of statistic distance table   
-        /// 2. Remove rows that row's index and column's  index equal cell coords
+        /// 1. Find cell of statistic distance table 
+        /// 2. Remove rows that row's index and column's index equal cell coords
         /// 3. Join removed rows and insert in statistic table 
         /// </summary>
         /// <param name="normalizedData"></param>
+        /// <param name="sourceNormalizeData"></param>
         /// <param name="statDistanceTable"></param>
         /// <param name="result"></param>
         /// <param name="statDistanceQualityKoefs"></param>
         /// <param name="clusterOuterDistance"></param>
         /// <param name="clusterInnerDistance"></param>
         private void ClusterizeIterate(ref NormalizeData normalizedData,
-            ref StatDistanceTable statDistanceTable,
-            List<ClusterNode> result,
-            List<double> statDistanceQualityKoefs,
-            List<double> clusterOuterDistance,
-            List<double> clusterInnerDistance)
+        NormalizeData sourceNormalizeData,
+        ref StatDistanceTable statDistanceTable,
+        List<ClusterNode> result,
+        List<double> statDistanceQualityKoefs,
+        List<double> clusterOuterDistance,
+        List<double> clusterInnerDistance)
         {
             var min = statDistanceTable.Min();
 
@@ -82,12 +92,11 @@ namespace EGCad.Core.Clasterize
 
             result.Add(new ClusterNode(min.I.Concat(min.J), min.Value, new[] { leftLeaf, rightLeaf }));
 
-           
-
             normalizedData = JoinCluster(normalizedData, normalizedData.RowIdx(min.I), normalizedData.RowIdx(min.J), statDistanceQualityKoefs);
             statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
 
-           // clusterOuterDistance.Add(GetClusterOuterDistance(normalizedData));
+            clusterOuterDistance.Add(GetClusterOuterDistance(statDistanceTable));
+            clusterInnerDistance.Add(GetClusterInnerDistance(normalizedData, sourceNormalizeData));
         }
 
         /// <summary>
@@ -129,6 +138,25 @@ namespace EGCad.Core.Clasterize
         {
             var sum = previousLeftData.Select((t, i) => Math.Pow(t - currentData[i], 2)).Sum();
             return Math.Sqrt(sum);
+        }
+
+        private double GetClusterOuterDistance(StatDistanceTable statDistanceTable)
+        {
+            return statDistanceTable.Rows.Sum(row => row.Cells.Sum(x => x.Value) / (row.Cells.Length - 1)) / statDistanceTable.Rows.Length;
+        }
+
+        private double GetClusterInnerDistance(NormalizeData current, NormalizeData source)
+        {
+            var clusterCount = current.Rows.Length;
+            return current.Rows.Sum(x => GetInnerDistance(x, source)) / clusterCount;
+        }
+
+        private double GetInnerDistance(NormalizeDataRow row, NormalizeData source)
+        {
+            var joinedPoints = row.RowIdx;
+            return joinedPoints.Select(joinedPoint => row.Values.Select((v, idx) => Math.Sqrt(Math.Pow(v - source.Rows[joinedPoint].Values[idx], 2)))
+            .Sum() / row.Values.Length)
+            .Sum() / joinedPoints.Length;
         }
     }
 }

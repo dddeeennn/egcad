@@ -61,7 +61,7 @@ namespace EGCad.Controllers
         {
             // !!! work around !!! for position point between cluster
             var settings = new CalculationSettings(Settings.AdditionalPointCount, Settings.Normilize, Settings.StatCalculation,
-                Settings.AdditionalPointCount + 1);
+            Settings.AdditionalPointCount + 1);
 
             var clusterCalculator = new ClusterCalculator(Settings);
             var clusterizedData = clusterCalculator.Clusterize(new Data(InputModel.PointsToCalc));
@@ -86,16 +86,18 @@ namespace EGCad.Controllers
                 var table = data.StatDistanceTables.Dequeue();
                 builder.AppendLine();
                 var tableDimentions = table.Rows[0].Cells.Count();
-                //  builder.AppendLine(string.Join(";", Enumerable.Range(1, tableDimentions)));
+                // builder.AppendLine(string.Join(";", Enumerable.Range(1, tableDimentions)));
                 builder.AppendLine(tableDimentions + " x " + tableDimentions);
-                table.Rows.ForEach(x => builder.AppendLine(string.Join(",", x.Cells.Select(cell => Math.Round(cell.Value, 3)))));
+                table.Rows.ForEach(x => builder.AppendLine(string.Join(";", x.Cells.Select(cell => Math.Round(cell.Value, 3)))));
             }
 
-            builder.AppendLine("e ," + string.Join(",", data.StatDistanceQualityKoef));
+            builder.AppendLine("e ;" + string.Join(";", data.StatDistanceQualityKoef));
+            builder.AppendLine("outer distance;" + string.Join(";", data.ClusterOuterDistance));
+            builder.AppendLine("inner distance'" + string.Join(";", data.ClusterInnerDistance));
 
             var now = DateTime.Now;
             var filename = string.Format("statDistance{0}{1}{2}-{3}{4}{5}.csv",
-                now.Day, now.Month, now.Year, now.Hour, now.Minute, now.Second);
+            now.Day, now.Month, now.Year, now.Hour, now.Minute, now.Second);
 
             var fileContent = builder.ToString();
             return File(Encoding.UTF8.GetBytes(fileContent), "text/csv", filename);
