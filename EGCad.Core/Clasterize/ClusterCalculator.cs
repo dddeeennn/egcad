@@ -34,6 +34,8 @@ namespace EGCad.Core.Clasterize
             var result = new List<ClusterNode>();
             var statDistanceTables = new Queue<StatDistanceTable>();
             var statDistanceQualityKoef = new List<double>();
+            var clusterOuterDistance = new List<double>();
+            var clusterInnerDistance = new List<double>();
 
             var statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
 
@@ -42,10 +44,14 @@ namespace EGCad.Core.Clasterize
             while (normalizedData.Rows.Count() > _settings.ClusterCount)
             {
                 statDistanceTables.Enqueue(statDistanceTable);
-                ClusterizeIterate(ref normalizedData, ref statDistanceTable, result, statDistanceQualityKoef);
+                ClusterizeIterate(ref normalizedData, ref statDistanceTable, result, statDistanceQualityKoef, clusterOuterDistance, clusterInnerDistance);
             }
 
-            return new ClusterTree(result, statDistanceTables, statDistanceQualityKoef.ToArray());
+            return new ClusterTree(result,
+                statDistanceTables,
+                statDistanceQualityKoef.ToArray(),
+                clusterOuterDistance.ToArray(),
+                clusterInnerDistance.ToArray());
         }
 
         /// <summary>
@@ -57,8 +63,14 @@ namespace EGCad.Core.Clasterize
         /// <param name="statDistanceTable"></param>
         /// <param name="result"></param>
         /// <param name="statDistanceQualityKoefs"></param>
-        private void ClusterizeIterate(ref NormalizeData normalizedData, ref StatDistanceTable statDistanceTable,
-            List<ClusterNode> result, List<double> statDistanceQualityKoefs)
+        /// <param name="clusterOuterDistance"></param>
+        /// <param name="clusterInnerDistance"></param>
+        private void ClusterizeIterate(ref NormalizeData normalizedData,
+            ref StatDistanceTable statDistanceTable,
+            List<ClusterNode> result,
+            List<double> statDistanceQualityKoefs,
+            List<double> clusterOuterDistance,
+            List<double> clusterInnerDistance)
         {
             var min = statDistanceTable.Min();
 
@@ -70,8 +82,12 @@ namespace EGCad.Core.Clasterize
 
             result.Add(new ClusterNode(min.I.Concat(min.J), min.Value, new[] { leftLeaf, rightLeaf }));
 
+           
+
             normalizedData = JoinCluster(normalizedData, normalizedData.RowIdx(min.I), normalizedData.RowIdx(min.J), statDistanceQualityKoefs);
             statDistanceTable = _statDistanceTableProvider.Get(normalizedData);
+
+           // clusterOuterDistance.Add(GetClusterOuterDistance(normalizedData));
         }
 
         /// <summary>
@@ -99,7 +115,7 @@ namespace EGCad.Core.Clasterize
 
             var newRow = new NormalizeDataRow(idxs, values, sorceValues);
 
-            statDistanceKoefs.Add(GetStatDistanceKoefByCluster(row1.SourceValues, row2.SourceValues, newRow.SourceValues));
+            statDistanceKoefs.Add(GetStatDistanceKoefByCluster(row1.Values, row2.Values, newRow.Values));
 
             var rowList = normalizeData.Rows.ToList();
             rowList.Remove(row1);
@@ -111,15 +127,8 @@ namespace EGCad.Core.Clasterize
 
         private double GetStatDistanceKoefByCluster(double[] previousLeftData, double[] previousRightData, double[] currentData)
         {
-            var parametersLength = previousLeftData.Length;
-            Double result = 0;
-
-            for (var i = 0; i < parametersLength; i++)
-            {
-                result += Math.Abs(currentData[i] - previousLeftData[i]) / (previousLeftData[i] + previousRightData[i]);
-            }
-
-            return result / parametersLength;
+            var sum = previousLeftData.Select((t, i) => Math.Pow(t - currentData[i], 2)).Sum();
+            return Math.Sqrt(sum);
         }
     }
 }
