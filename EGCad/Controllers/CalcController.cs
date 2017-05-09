@@ -86,14 +86,16 @@ namespace EGCad.Controllers
                 var table = data.StatDistanceTables.Dequeue();
                 builder.AppendLine();
                 var tableDimentions = table.Rows[0].Cells.Count();
-                // builder.AppendLine(string.Join(";", Enumerable.Range(1, tableDimentions)));
                 builder.AppendLine(tableDimentions + " x " + tableDimentions);
                 table.Rows.ForEach(x => builder.AppendLine(string.Join(";", x.Cells.Select(cell => Math.Round(cell.Value, 3)))));
             }
+            builder.AppendLine();
 
-            builder.AppendLine("e ;" + string.Join(";", data.StatDistanceQualityKoef));
+            // builder.AppendLine("e ;" + string.Join(";", data.StatDistanceQualityKoef)); 
+            builder.AppendLine("inner distance;" + string.Join(";", data.ClusterInnerDistance));
+            builder.AppendLine("inner distance normalized;" + string.Join(";", data.ClusterInnerDistanceNormalized));
             builder.AppendLine("outer distance;" + string.Join(";", data.ClusterOuterDistance));
-            builder.AppendLine("inner distance'" + string.Join(";", data.ClusterInnerDistance));
+            // builder.AppendLine("cluster dispersion;" + string.Join(";", data.ClusterDispersion));
 
             var now = DateTime.Now;
             var filename = string.Format("statDistance{0}{1}{2}-{3}{4}{5}.csv",
